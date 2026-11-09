@@ -499,28 +499,28 @@ activity_logs
 
 # PHASE 5 — Kepanitiaan dan Tugas (FR-15…FR-19)
 
-### [ ] T5.1 Struktur Kepanitiaan (S14, S14-V, hal. 27–28; FR-15, FR-16)
+### [x] T5.1 Struktur Kepanitiaan (S14, S14-V, hal. 27–28; FR-15, FR-16)
 - **Depends**: T4.6
 - Kartu per divisi (nama, jumlah anggota/tugas, progres, daftar anggota + peran), **+ Divisi**, **+ Anggota**, kartu "Tambah divisi". Panel "Rekomendasi template: n/5 divisi ditambahkan" dengan aksi **Tambahkan semua rekomendasi** (D-10).
 - Aturan (Process Spec 4.1/4.2): nama divisi unik per acara; tambah anggota via **email akun terdaftar**, belum jadi anggota (Leader tidak bisa ditambahkan sebagai anggota); pilih divisi & peran; kirim notifikasi `undangan` + catat log. Pindah divisi / ubah peran / keluarkan anggota (anggota yang punya tugas aktif: peringatkan, tugas tetap tetapi `division_id` null atau tanya Leader → pilih sederhana & catat).
 - Hapus divisi yang punya tugas → ditolak dengan pesan.
 - **Acceptance**: test duplikasi divisi, email tak ditemukan, anggota ganda, notifikasi undangan terkirim.
 
-### [ ] T5.2 Tugas Acara — Kelola Jobdesk (S15, S15-V, hal. 29–30; FR-17)
+### [x] T5.2 Tugas Acara — Kelola Jobdesk (S15, S15-V, hal. 29–30; FR-17)
 - **Depends**: T5.1
 - Chip ringkasan status (Belum n · Sedang n · Selesai n · Terlewat n), toggle **Tabel | Papan** (kanban 3 kolom; drag untuk status hanya jika Leader = penerima, selain itu tampil saja), filter Divisi/Penerima/Status + cari, pagination (8/halaman), **+ Buat Tugas**.
 - Form Buat/Edit Tugas (modal S15-V): judul*, deskripsi, divisi, **penerima** (hanya peserta acara), deadline*, dan pemilih **"Dari rekomendasi jobdesk"** (mengisi judul/deskripsi dari `template_items` jenis jobdesk sesuai divisi).
 - Aturan (Process Spec 4.3): penerima harus peserta acara; `deadline <= tanggal_acara`; status awal `belum_dikerjakan`; kirim notifikasi `penugasan`; catat `activity_logs`.
 - **Acceptance**: penerima non-peserta ditolak; deadline melewati tanggal acara ditolak; notifikasi & log tercipta; badge "Terlewat (n)" benar.
 
-### [ ] T5.3 Tugas Saya dan Detail Tugas (S16, S17, hal. 31–32; mobile 69; FR-18, FR-19)
+### [x] T5.3 Tugas Saya dan Detail Tugas (S16, S17, hal. 31–32; mobile 69; FR-18, FR-19)
 - **Depends**: T5.2
 - **Tugas Saya**: seluruh tugas di mana user = penerima lintas acara; kelompok/urut berdasarkan deadline; filter status & acara.
 - **Detail Tugas**: info tugas, deadline (merah + ikon bila terlewat), pemilih status (3 pilihan) hanya untuk penerima, riwayat singkat. Leader: tombol edit/hapus.
 - Aturan (Process Spec 4.4 + D-14): `updateStatus` hanya penerima → selain itu 403; update `status`, set/clear `completed_at`, catat aktivitas anggota, notifikasi `status_tugas` ke Leader.
 - **Acceptance**: Member A tidak bisa mengubah status tugas Member B (403); update status langsung terlihat di progres (NFR-P4).
 
-### [ ] T5.4 ActivityLogger
+### [x] T5.4 ActivityLogger
 - **Depends**: T1.2
 - Service `ActivityLogger::log(Event, User, aksi, deskripsi, meta)` dipakai di T5.1–T5.3. Teks mengikuti gaya wireframe: "**Rina Astuti** mengubah status "Membuat rundown acara" → Sedang dikerjakan".
 - **Acceptance**: log tercipta pada: tugas dibuat/ditugaskan, status berubah, anggota ditambahkan.

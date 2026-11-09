@@ -11,7 +11,10 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\ChecklistController;
+use App\Http\Controllers\Event\DivisionController;
 use App\Http\Controllers\Event\EventWizardController;
+use App\Http\Controllers\Event\MyTaskController;
+use App\Http\Controllers\Event\TaskController;
 use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
@@ -85,6 +88,26 @@ Route::middleware('auth')->group(function () {
     Route::post('/acara/{event}/timeline', [TimelineController::class, 'store'])->name('acara.timeline.store');
     Route::put('/acara/{event}/timeline/{timeline}', [TimelineController::class, 'update'])->name('acara.timeline.update');
     Route::delete('/acara/{event}/timeline/{timeline}', [TimelineController::class, 'destroy'])->name('acara.timeline.destroy');
+
+    // Struktur Kepanitiaan (T5.1)
+    Route::get('/acara/{event}/kepanitiaan', [DivisionController::class, 'index'])->name('acara.kepanitiaan.index');
+    Route::post('/acara/{event}/kepanitiaan/divisi', [DivisionController::class, 'storeDivision'])->name('acara.kepanitiaan.divisi.store');
+    Route::post('/acara/{event}/kepanitiaan/rekomendasi', [DivisionController::class, 'storeAllRecommendations'])->name('acara.kepanitiaan.rekomendasi');
+    Route::delete('/acara/{event}/kepanitiaan/divisi/{division}', [DivisionController::class, 'destroyDivision'])->name('acara.kepanitiaan.divisi.destroy');
+    Route::post('/acara/{event}/kepanitiaan/anggota', [DivisionController::class, 'storeMember'])->name('acara.kepanitiaan.anggota.store');
+    Route::put('/acara/{event}/kepanitiaan/anggota/{member}', [DivisionController::class, 'updateMember'])->name('acara.kepanitiaan.anggota.update');
+    Route::delete('/acara/{event}/kepanitiaan/anggota/{member}', [DivisionController::class, 'destroyMember'])->name('acara.kepanitiaan.anggota.destroy');
+
+    // Tugas Acara — Kelola Jobdesk (T5.2)
+    Route::get('/acara/{event}/tugas', [TaskController::class, 'index'])->name('acara.tugas.index');
+    Route::post('/acara/{event}/tugas', [TaskController::class, 'store'])->name('acara.tugas.store');
+    Route::put('/acara/{event}/tugas/{task}', [TaskController::class, 'update'])->name('acara.tugas.update');
+    Route::delete('/acara/{event}/tugas/{task}', [TaskController::class, 'destroy'])->name('acara.tugas.destroy');
+
+    // Tugas Saya & Detail Tugas (T5.3)
+    Route::get('/tugas-saya', [MyTaskController::class, 'index'])->name('tugas.saya');
+    Route::get('/tugas/{task}', [MyTaskController::class, 'show'])->name('tugas.show');
+    Route::patch('/tugas/{task}/status', [MyTaskController::class, 'updateStatus'])->name('tugas.status');
 
     // Rute Khusus Admin (FR-04 ... FR-08)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {

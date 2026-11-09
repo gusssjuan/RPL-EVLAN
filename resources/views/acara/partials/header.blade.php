@@ -92,14 +92,14 @@
             </a>
 
             <a
-                href="{{ url('/acara/'.$event->id.'/kepanitiaan') }}"
+                href="{{ route('acara.kepanitiaan.index', $event->id) }}"
                 class="px-5 py-3 transition-colors {{ $activeTab === 'kepanitiaan' ? 'text-indigo-600 bg-indigo-50/40 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}"
             >
                 Kepanitiaan
             </a>
 
             <a
-                href="{{ url('/acara/'.$event->id.'/tugas') }}"
+                href="{{ route('acara.tugas.index', $event->id) }}"
                 class="px-5 py-3 transition-colors {{ $activeTab === 'tugas' ? 'text-indigo-600 bg-indigo-50/40 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50' }}"
             >
                 Tugas Tim
