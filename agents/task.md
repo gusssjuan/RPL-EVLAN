@@ -446,18 +446,18 @@ activity_logs
 
 # PHASE 4 — Perencanaan Acara (FR-09…FR-13, FR-22 sebagian)
 
-### [ ] T4.1 Wizard 1/3 — Pilih Kategori dan Pratinjau Template (S10, hal. 18; mobile 65; FR-09)
+### [x] T4.1 Wizard 1/3 — Pilih Kategori dan Pratinjau Template (S10, hal. 18; mobile 65; FR-09)
 - **Depends**: T3.4, T2.2
 - Stepper 3 langkah (Kategori — Detail Acara — Rancangan). Kartu kategori dari DB (ikon + nama); panel kanan **Pratinjau template** (ringkasan kebutuhan, timeline, divisi, jobdesk) dari template aktif. Simpan `category_id` ke session (D-25).
 - **Acceptance**: ganti kategori memperbarui pratinjau; kategori tanpa template aktif ditampilkan nonaktif dengan penjelasan.
 
-### [ ] T4.2 Wizard 2/3 — Detail Acara (S11, S11-V, hal. 19–20; mobile 66; FR-10)
+### [x] T4.2 Wizard 2/3 — Detail Acara (S11, S11-V, hal. 19–20; mobile 66; FR-10)
 - **Depends**: T4.1
 - Field: nama acara*, tujuan*, tanggal*, waktu mulai/selesai (opsional), lokasi*, target peserta*, jumlah peserta* (integer ≥ 1). Error muncul di bawah field dengan ikon (lihat hal. 20).
 - Validasi: wajib; `tanggal >= hari_ini` (D-26) dengan pesan "Tanggal tidak boleh sebelum hari ini."
 - **Acceptance**: FormRequest test untuk semua aturan; data tersimpan di session dan tetap ada saat kembali dari langkah 3.
 
-### [ ] T4.3 Wizard 3/3 — Rancangan dan Pembuatan Acara (S11A, S11A-V, S11A-N, hal. 21–23; mobile 67; FR-11, FR-12, FR-15, NFR-P2)
+### [x] T4.3 Wizard 3/3 — Rancangan dan Pembuatan Acara (S11A, S11A-V, S11A-N, hal. 21–23; mobile 67; FR-11, FR-12, FR-15, NFR-P2)
 - **Depends**: T4.2
 - Pratinjau **belum disimpan** (badge "Belum disimpan"): ringkasan informasi, 4 stat (jumlah kebutuhan, agenda timeline + hari H, divisi rekomendasi, jobdesk rekomendasi), kartu Checklist (14 item), Timeline persiapan (H-n + tanggal, badge "Hari ini" bila relevan), Struktur kepanitiaan, Rekomendasi jobdesk; tautan "Ganti kategori", "Ubah detail", "Tinjau rancangan lengkap" (modal S11A-V).
 - Tombol **Buat Acara** → `EventPlanningService::createFromTemplate()` dalam **satu DB transaction**:
