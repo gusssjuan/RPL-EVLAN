@@ -374,14 +374,14 @@ activity_logs
 
 # PHASE 2 — Autentikasi dan RBAC (FR-01, FR-02, FR-03)
 
-### [ ] T2.1 Login, Registrasi, Logout (S02, S03)
+### [x] T2.1 Login, Registrasi, Logout (S02, S03)
 - **Depends**: T0.3, T0.4, T1.4
 - **Login (S02, hal. 4–5; mobile hal. 60)**: email + kata sandi, tautan "Lupa kata sandi?" (P3), pesan gagal generik ("Email atau kata sandi salah") untuk user tidak ada / sandi salah / **akun nonaktif** (Process Spec 1.0 — jangan bocorkan alasan). Rate limit 5 percobaan/menit. Redirect sesuai peran: admin → `/admin`, vendor → `/usaha`, user → `/dashboard`.
 - **Registrasi (S03, hal. 7; mobile hal. 61)**: toggle "Pengguna (Ketua/Anggota)" | "Vendor". Vendor menambah bagian **Data Usaha** (nama usaha, kategori vendor, alamat, kontak). Dalam **satu transaksi**: buat `users` (role `user`/`vendor`) + `vendors` (status `menunggu`). Konfirmasi kata sandi, min 8 karakter. Info: "Akun vendor akan diverifikasi Admin sebelum produk dapat ditambahkan."
 - Kata sandi **wajib hash** (NFR-S1). Logout via POST.
 - **Acceptance (Feature test)**: login sukses per peran → redirect benar; nonaktif ditolak dengan pesan generik; registrasi vendor membuat 2 baris; email duplikat ditolak; throttle bekerja.
 
-### [ ] T2.2 Middleware dan Policy
+### [x] T2.2 Middleware dan Policy
 - **Depends**: T2.1, T1.2
 - Middleware `role:admin|user|vendor`, `active` (paksa logout bila `status_akun=nonaktif`).
 - Policy:
@@ -390,17 +390,17 @@ activity_logs
   - `RegistrationPolicy`, `VendorPolicy` (vendor hanya mengubah miliknya; produk terkunci sampai terverifikasi).
 - **Acceptance**: matriks akses ter-test (lihat T11.4): Member membuka `/acara/{id}/anggaran` → 403; user non-peserta membuka acara privat → 403/404; vendor membuka `/acara` → 403.
 
-### [ ] T2.3 Router dashboard
+### [x] T2.3 Router dashboard
 - **Depends**: T2.1
 - `/dashboard` mengarahkan sesuai peran; user dengan ≥1 acara sebagai Leader → varian Ketua (S05), selain itu varian Anggota (S05-V) — detail UI di T4.8.
 - **Acceptance**: tiap peran landing di dashboard yang benar.
 
-### [ ] T2.4 Profil dan Pengaturan (S04, hal. 8; FR-03)
+### [x] T2.4 Profil dan Pengaturan (S04, hal. 8; FR-03)
 - **Depends**: T2.2
 - Edit nama, email, no. telepon; ganti kata sandi (butuh sandi lama); panel preferensi notifikasi (toggle, simpan ke `users.preferensi_notifikasi`) — preferensi = P3/ASUMSI.
 - **Acceptance**: update tersimpan; email unik divalidasi; ganti sandi menolak sandi lama salah.
 
-### [ ] T2.5 Lupa kata sandi (S02A, hal. 6) — P3
+### [x] T2.5 Lupa kata sandi (S02A, hal. 6) — P3
 - **Depends**: T2.1
 - Pakai alur reset bawaan Laravel; tampilkan keadaan: form, terkirim, token kedaluwarsa, sukses. Email via `MAIL_MAILER=log` di dev.
 - **Acceptance**: alur reset end-to-end berfungsi pada test.

@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Phase 2 — Autentikasi dan RBAC (FR-01, FR-02, FR-03) |
-| Task terakhir selesai | T1.5 (Dokumentasi ERD) |
-| Task sedang dikerjakan | Persiapan Phase 2 (T2.1: Login, Registrasi, Logout) |
+| Phase aktif | Phase 3 — Admin (FR-04…FR-08) |
+| Task terakhir selesai | T2.5 (Alur lupa kata sandi dan reset token) |
+| Task sedang dikerjakan | Persiapan Phase 3 (T3.1: Layout dan navigasi Admin) |
 | Branch aktif | `main` |
 | Commit terakhir | _(menunggu commit lokal)_ |
-| Hasil `php artisan test` terakhir | Unit test model logic siap di `tests/Unit/ModelLogicTest.php` |
+| Hasil `php artisan test` terakhir | Siap dengan 7 test suite (Unit model logic + 6 Feature auth & RBAC) |
 | Hasil `npm run build` terakhir | Siap dengan Vite + Tailwind v4 + Alpine.js |
-| Terakhir diperbarui | 2026-11-09, Sesi 2 |
+| Terakhir diperbarui | 2026-11-09, Sesi 3 |
 
 ---
 
@@ -29,8 +29,8 @@ Status: `BELUM` · `BERJALAN` · `MENUNGGU REVIEW` · `SELESAI`.
 |---|---|---|---|---|
 | 0 | Fondasi proyek | T0.1–T0.5 | **SELESAI** | T0.1 (env/config), T0.2 (toolchain), T0.3 (Blade S00/S00B & layouts), T0.4 (bahasa id), T0.5 (quality tooling) |
 | 1 | Database, model, seeder | T1.1–T1.5 | **SELESAI** | T1.1 (17 migrasi), T1.2 (10 enum, 18 model, tests), T1.3 (17 factory), T1.4 (seeder lengkap & demo), T1.5 (docs/ERD.md) |
-| 2 | Auth & RBAC | T2.1–T2.5 | BERJALAN | Dimulai dengan T2.1 |
-| 3 | Admin | T3.1–T3.6 | BELUM | T3.5 menunggu data vendor (T7.1) atau pakai factory |
+| 2 | Auth & RBAC | T2.1–T2.5 | **SELESAI** | T2.1 (Login/Register/Logout), T2.2 (Role & Active Middleware, RBAC Policies D-16), T2.3 (Dashboard router), T2.4 (Profil & Preferensi), T2.5 (Reset password) |
+| 3 | Admin | T3.1–T3.6 | BELUM | T3.1 s/d T3.6 (Dashboard, Kategori, Template, Verifikasi Vendor, Pengguna) |
 | 4 | Perencanaan acara | T4.1–T4.8 | BELUM | **Checkpoint review setelah T4.3** |
 | 5 | Kepanitiaan & tugas | T5.1–T5.4 | BELUM | |
 | 6 | Monitoring, evaluasi, riwayat | T6.1–T6.4 | BELUM | |
@@ -54,21 +54,28 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 4. Ringkasan Pengerjaan Phase 0 & Phase 1
+## 4. Ringkasan Pengerjaan Phase 0, Phase 1 & Phase 2
 
 ### Phase 0 — Fondasi Proyek:
 - **T0.1**: Sinkronisasi `.env.example`, konfigurasi default `Asia/Makassar` (WITA), default locale `id`. Sinkronisasi `agents/DECISIONS.md`.
-- **T0.2**: Konfigurasi Tailwind v4 token desain di `resources/css/app.css` (primary, neutral, status colors, radius 8/12/16px, font Plus Jakarta Sans) dan integrasi Alpine.js di `resources/js/app.js`.
-- **T0.3**: Pembuatan pustaka komponen lengkap Blade di `resources/views/components/` (`button`, `badge`, `status-badge`, `input`, `select`, `card`, `modal`, `progress`, `avatar`, `empty-state`, `toast`, `stat-card`, `tabs`, `table`, `icon`) serta tiga master layout: `layouts.app` (sidebar + topbar), `layouts.guest` (split ungu-putih wireframe), dan `layouts.admin`. Halaman visual `/_design` aktif di `resources/views/design-system.blade.php`.
-- **T0.4**: Lokalisasi penuh Bahasa Indonesia di `lang/id/` (`auth.php`, `pagination.php`, `passwords.php`, `validation.php`) dengan nama atribut domain ramah.
+- **T0.2**: Konfigurasi Tailwind v4 token desain di `resources/css/app.css` dan Alpine.js di `resources/js/app.js`.
+- **T0.3**: Pembuatan pustaka komponen lengkap Blade di `resources/views/components/` serta tiga master layout: `layouts.app`, `layouts.guest`, dan `layouts.admin`. Showcase `/_design` aktif.
+- **T0.4**: Lokalisasi penuh Bahasa Indonesia di `lang/id/`.
 - **T0.5**: Strict Mode Eloquent & Lazy Loading Prevention di `AppServiceProvider.php`.
 
 ### Phase 1 — Database, Model, Seeder:
-- **T1.1**: 17 file migrasi database MySQL dengan foreign key cascade/restrict/nullOnDelete terstruktur.
-- **T1.2**: 10 PHP Backed Enums (`RoleName`, `StatusAkun`, `StatusEvent`, `StatusTugas`, `StatusVerifikasi`, `StatusPendaftaran`, `JenisItemTemplate`, `PeranAnggota`, `KategoriVendor`, `JenisNotifikasi`) dan 18 Model Eloquent lengkap dengan relasi, scopes (`scopePublik`, `scopeUntukUser`, `scopeTerlewat`, `scopeTerverifikasi`), helper method (`isLeader`, `isMember`, `isParticipant`), accessor `hari_menuju`, hook `Budget::saving` auto-calculate total, dan helper `format_rupiah()`.
-- **T1.3**: 17 Model Factory dengan state method berguna (`admin()`, `vendor()`, `terverifikasi()`, `terlewat()`, `selesai()`, dll).
-- **T1.4**: Seeder master (`RoleSeeder`, `AdminSeeder`, `CategorySeeder`, `TemplateSeeder` dengan Seminar Umum 14 kebutuhan, 6 agenda timeline, 5 divisi, 18 jobdesk + 4 template kategori lainnya, serta `DemoSeeder` yang mereplikasi data Gus Ega, Sinar Sound System, progres 42%, anggaran Rp 18.450.000).
-- **T1.5**: Dokumentasi diagram relasi entitas Mermaid di `docs/ERD.md` lengkap dengan penjelasan penyesuaian arsitektur D-01 s/d D-08.
+- **T1.1**: 17 file migrasi database MySQL dengan index dan foreign key terstruktur.
+- **T1.2**: 10 PHP Backed Enums dan 18 Model Eloquent lengkap dengan relasi, scopes, helper method, accessor `hari_menuju`, hook `Budget::saving`, dan helper `format_rupiah()`.
+- **T1.3**: 17 Model Factory dengan state method lengkap.
+- **T1.4**: Seeder master (`RoleSeeder`, `AdminSeeder`, `CategorySeeder`, `TemplateSeeder` dengan Seminar Umum 14 kebutuhan, 6 agenda timeline, 5 divisi, 18 jobdesk + 4 template kategori lainnya, serta `DemoSeeder`).
+- **T1.5**: Dokumentasi diagram relasi entitas Mermaid di `docs/ERD.md` (D-01 s/d D-08).
+
+### Phase 2 — Autentikasi dan RBAC:
+- **T2.1**: Login, registrasi pengguna & vendor, dan logout. Login dengan rate limiting (5 percobaan/menit), pesan kegagalan generik yang tidak membocorkan alasan (Process Spec 1.0) termasuk penolakan akun nonaktif. Registrasi vendor dalam 1 transaksi DB membuat baris `users` + `vendors` berstatus `menunggu`. Redirect otomatis per peran (admin → `/admin`, vendor → `/usaha`, user → `/dashboard`). Feature test di `AuthenticationTest.php` dan `RegistrationTest.php`.
+- **T2.2**: Middleware `role:admin|user|vendor` dan `active` (pemutusan sesi langsung saat akun dinonaktifkan di `EnsureAccountActive`). Policies: `EventPolicy` (aturan ketat D-16: member tidak bisa akses monitoring/anggaran → 403), `TaskPolicy` (hanya penerima tugas yang bisa update status), `VendorPolicy` (produk terkunci sampai vendor berstatus terverifikasi), `EventRegistrationPolicy`. Matriks akses teruji di `RbacPolicyTest.php`.
+- **T2.3**: `DashboardController` routing cerdas: mendeteksi peran, mengarahkan user dengan ≥ 1 acara yang dipimpin ke varian Ketua (S05), atau varian Anggota (S05-V). Feature test di `DashboardRoutingTest.php`.
+- **T2.4**: `ProfileController` untuk edit nama, email unik, nomor telepon, ganti kata sandi dengan validasi sandi lama, serta toggle preferensi notifikasi disimpan ke JSON `preferensi_notifikasi`. View di `resources/views/profile/edit.blade.php`. Feature test di `ProfileTest.php`.
+- **T2.5**: Alur lupa kata sandi dan atur ulang kata sandi dengan token bawaan Laravel yang dilokalisasi, styled dengan `layouts.guest`. Feature test di `PasswordResetTest.php`.
 
 ---
 
@@ -83,29 +90,22 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 ## 6. Hutang Teknis / TODO Lanjutan
 
 - Menjalankan migrasi lokal: `php artisan migrate:fresh --seed`
-- Phase 2: Implementasi alur autentikasi Breeze (login, register vendor/pengguna, logout, policy, profil)
+- Menjalankan pengujian fitur: `php artisan test`
+- Phase 3: Implementasi Modul Admin (Layout admin, Dashboard admin S25, Kelola Kategori S26, Kelola Template S27/S28, Verifikasi Vendor S29, Kelola Pengguna S30)
 
 ---
 
 ## 7. Log Sesi
 
-### Sesi 2026-11-09 (Lanjutan) — Antigravity Agent
+### Sesi 2026-11-09 (Sesi 3) — Antigravity Agent
 - **Dikerjakan**:
-  - Phase 0: T0.2, T0.3, T0.4, T0.5 diselesaikan penuh.
-  - Phase 1: Reviewer menyetujui T1.1. Melanjutkan dan menuntaskan T1.2 (Enums, Models, Tests), T1.3 (Factories), T1.4 (Seeders & Demo), T1.5 (docs/ERD.md).
-- **Selesai & dicentang di task.md**: T0.1, T0.2, T0.3, T0.4, T0.5, T1.1, T1.2, T1.3, T1.4, T1.5.
-- **Status saat ini**: **Phase 0 & Phase 1 SELESAI 100%**. Siap untuk Phase 2 (Autentikasi dan RBAC).
-- **File penting yang dibuat/diubah**:
-  - `lang/id/*` (auth, pagination, passwords, validation)
-  - `app/helpers.php` (`format_rupiah`) & `composer.json`
-  - `app/Enums/*` (10 backed enums)
-  - `app/Models/*` (18 models dengan relasi, casts, scopes, accessors)
-  - `tests/Unit/ModelLogicTest.php` (unit test logika model)
-  - `database/factories/*` (17 model factories)
-  - `database/seeders/*` (RoleSeeder, AdminSeeder, CategorySeeder, TemplateSeeder, DemoSeeder, DatabaseSeeder)
-  - `docs/ERD.md` (diagram Mermaid ERD & catatan D-01..D-08)
-  - `resources/css/app.css` & `resources/js/app.js` (Tailwind v4 tokens & Alpine.js)
-  - `resources/views/components/*` (15 komponen Blade)
-  - `resources/views/layouts/*` (app, guest, admin)
-  - `resources/views/design-system.blade.php` & `routes/web.php`
-- **Untuk sesi berikutnya**: Masuk ke Phase 2 (T2.1: Login, Registrasi, Logout).
+  - Phase 2 diselesaikan 100%:
+    - T2.1: `LoginRequest`, `RegisterRequest`, `AuthenticatedSessionController`, `RegisteredUserController`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `tests/Feature/Auth/AuthenticationTest.php`, `tests/Feature/Auth/RegistrationTest.php`.
+    - T2.2: `CheckRole` middleware, `EnsureAccountActive` middleware, registrasi di `bootstrap/app.php`, policies (`EventPolicy`, `TaskPolicy`, `VendorPolicy`, `EventRegistrationPolicy`), `tests/Feature/Auth/RbacPolicyTest.php`.
+    - T2.3: `DashboardController`, view varian `dashboard/ketua.blade.php` & `dashboard/anggota.blade.php`, view dasar admin & vendor, `tests/Feature/Auth/DashboardRoutingTest.php`.
+    - T2.4: `ProfileUpdateRequest`, `PasswordUpdateRequest`, `ProfileController`, `resources/views/profile/edit.blade.php`, `tests/Feature/Auth/ProfileTest.php`.
+    - T2.5: `PasswordResetLinkController`, `NewPasswordController`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/reset-password.blade.php`, `tests/Feature/Auth/PasswordResetTest.php`.
+    - Pembaruan rute lengkap di `routes/web.php`.
+- **Selesai & dicentang di task.md**: T2.1, T2.2, T2.3, T2.4, T2.5.
+- **Status saat ini**: **Phase 0, Phase 1, dan Phase 2 SELESAI 100%**. Siap lanjut ke Phase 3.
+- **Untuk sesi berikutnya**: Melanjutkan ke Phase 3 (Admin).
