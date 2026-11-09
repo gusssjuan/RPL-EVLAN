@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Event\EventDetailRequest;
 use App\Models\Event;
+use App\Services\ProgressService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -115,7 +116,17 @@ class EventController extends Controller
     {
         $this->authorize('viewMonitoring', $event); // D-16: Leader only
 
-        return view('acara.monitoring', compact('event'));
+        $event->load(['category', 'divisions']);
+
+        $monitoring = ProgressService::forEvent($event);
+
+        $aktivitasAnggota = $event->activityLogs()
+            ->with('user')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('acara.monitoring', compact('event', 'monitoring', 'aktivitasAnggota'));
     }
 
     public function anggaran(Event $event): View
