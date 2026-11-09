@@ -179,4 +179,3 @@ return [
         'alasan_penolakan' => 'Alasan penolakan',
     ],
 ];
-

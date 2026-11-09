@@ -80,4 +80,3 @@ class Task extends Model
             ->whereDate('deadline', '<', Carbon::today());
     }
 }
-

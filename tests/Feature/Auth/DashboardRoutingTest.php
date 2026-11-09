@@ -76,4 +76,3 @@ class DashboardRoutingTest extends TestCase
         $response->assertSee('Dashboard Kepanitiaan');
     }
 }
-

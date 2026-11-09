@@ -76,4 +76,3 @@ class EventPolicy
         return $event->isLeader($user);
     }
 }
-

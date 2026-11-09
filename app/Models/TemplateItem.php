@@ -35,4 +35,3 @@ class TemplateItem extends Model
         return $this->belongsTo(Template::class);
     }
 }
-

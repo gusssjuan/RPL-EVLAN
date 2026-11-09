@@ -37,4 +37,3 @@ class VendorProduct extends Model
         return $this->hasMany(Budget::class);
     }
 }
-

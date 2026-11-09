@@ -50,4 +50,3 @@ class ActivityLoggerTest extends TestCase
         $this->assertEquals('sedang_dikerjakan', $log->meta['status']);
     }
 }
-

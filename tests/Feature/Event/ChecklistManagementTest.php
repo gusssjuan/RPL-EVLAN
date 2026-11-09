@@ -17,7 +17,9 @@ class ChecklistManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -117,4 +119,3 @@ class ChecklistManagementTest extends TestCase
         $deleteResponse->assertStatus(403);
     }
 }
-

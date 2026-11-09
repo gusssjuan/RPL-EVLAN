@@ -18,7 +18,9 @@ class TimelineManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -126,4 +128,3 @@ class TimelineManagementTest extends TestCase
         $editResponse->assertStatus(403);
     }
 }
-

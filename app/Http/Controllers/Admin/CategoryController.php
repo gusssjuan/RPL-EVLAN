@@ -48,4 +48,3 @@ class CategoryController extends Controller
             ->with('status', 'Kategori berhasil dihapus.');
     }
 }
-

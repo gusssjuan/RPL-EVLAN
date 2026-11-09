@@ -35,4 +35,3 @@ class PasswordResetLinkController extends Controller
         ]);
     }
 }
-

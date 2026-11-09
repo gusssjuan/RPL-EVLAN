@@ -25,5 +25,9 @@ enum StatusVerifikasi: string
             self::Ditolak => 'danger',
         };
     }
-}
 
+    public function isVerified(): bool
+    {
+        return $this === self::Terverifikasi;
+    }
+}

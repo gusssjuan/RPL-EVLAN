@@ -19,4 +19,3 @@ class TemplateFactory extends Factory
         ];
     }
 }
-

@@ -27,4 +27,3 @@ class PasswordUpdateRequest extends FormRequest
         ];
     }
 }
-

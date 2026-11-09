@@ -95,4 +95,3 @@ class PasswordResetTest extends TestCase
         $this->assertTrue(Hash::check('password123', $user->fresh()->password));
     }
 }
-

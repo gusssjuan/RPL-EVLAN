@@ -95,10 +95,10 @@ class ProgressService
             ->get();
 
         // 4. Checklist kebutuhan
-        $checklistCounts = $event->checklists()->selectRaw("
+        $checklistCounts = $event->checklists()->selectRaw('
             COUNT(*) as total,
             SUM(CASE WHEN status_selesai = 1 THEN 1 ELSE 0 END) as terpenuhi
-        ")->first();
+        ')->first();
 
         $totalChecklist = (int) ($checklistCounts->total ?? 0);
         $checklistTerpenuhi = (int) ($checklistCounts->terpenuhi ?? 0);
@@ -124,4 +124,3 @@ class ProgressService
         ];
     }
 }
-

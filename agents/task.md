@@ -554,23 +554,23 @@ activity_logs
 
 # PHASE 7 — Vendor dan Anggaran (FR-14, FR-25, FR-26)
 
-### [ ] T7.1 Area Vendor (S31, S31-V, S32, S33, S33-V, hal. 54–58; FR-26, FR-03)
+### [x] T7.1 Area Vendor (S31, S31-V, S32, S33, S33-V, hal. 54–58; FR-26, FR-03)
 - **Depends**: T2.2, T3.5
 - Dashboard vendor: status verifikasi (Menunggu/Ditolak dengan alasan/Terverifikasi), jumlah produk, ringkasan. **Profil Usaha** (nama usaha, kategori, alamat, kota, kontak, deskripsi).
 - **Kelola Produk/Jasa**: CRUD (nama, harga, deskripsi, aktif) — **terkunci sebelum terverifikasi** (ikon gembok, wireframe S33). Vendor tidak melihat menu acara/tugas/pencarian.
 - **Acceptance**: vendor `menunggu` → POST produk 403; setelah disetujui Admin → berhasil.
 
-### [ ] T7.2 Pencarian Vendor (S20, hal. 36; mobile 71; FR-25)
+### [x] T7.2 Pencarian Vendor (S20, hal. 36; mobile 71; FR-25)
 - **Depends**: T7.1
 - Hanya vendor **terverifikasi** (batasan SRS 2.4). Kotak cari (nama vendor/produk), chip kategori (Semua, Catering, Dekorasi, Dokumentasi, Sound System, Perlengkapan Acara), filter kota, tab **Semua | Tersimpan**, kartu: ikon kategori, nama, badge Terverifikasi, kota, "Mulai Rp …". Tombol simpan (bookmark) → `saved_vendors`. Banner: "Transaksi dilakukan di luar EVLAN."
 - **Acceptance**: vendor tidak terverifikasi tidak pernah muncul; simpan/batal simpan bekerja; filter kombinasi benar.
 
-### [ ] T7.3 Detail Vendor (S21, S21-V, hal. 37–38; FR-25, FR-14)
+### [x] T7.3 Detail Vendor (S21, S21-V, hal. 37–38; FR-25, FR-14)
 - **Depends**: T7.2
 - Profil vendor, kontak, daftar produk/jasa + harga. Tombol **Hubungi** (tautan `tel:`/`mailto:`/WhatsApp dari kontak) dan **Simpan**. **Tambahkan ke Anggaran** (pilih acara, produk, jumlah) — **Leader saja** (Member tidak melihat tombolnya).
 - **Acceptance**: menambah ke anggaran membuat `budgets` dengan `vendor_product_id` & harga produk; hanya Leader acara terkait.
 
-### [ ] T7.4 Estimasi Anggaran (S22, S22-V, hal. 39–40; FR-14, NFR-P4)
+### [x] T7.4 Estimasi Anggaran (S22, S22-V, hal. 39–40; FR-14, NFR-P4)
 - **Depends**: T7.3, T4.4
 - Stat: total estimasi, jumlah item, dari produk vendor, item manual. Filter Semua/Dari vendor/Manual + cari. Tabel: item & kebutuhan terkait (checklist), sumber (chip vendor/Manual), jumlah, harga satuan, subtotal; baris total keseluruhan; **+ Tambah Item**, **Tambah dari Vendor**; edit/hapus. Banner: "Anggaran ini adalah estimasi (jumlah × harga satuan). EVLAN tidak memproses pembayaran."
 - Aturan (Process Spec 6.0): `total = jumlah × harga_satuan`; `total_keseluruhan = Σ total`; diperbarui seketika. `BudgetService` + Unit test. Jumlah ≥ 1, harga ≥ 0 (integer rupiah).

@@ -58,4 +58,3 @@ class AppNotification extends Model
         return $query->whereNotNull('dibaca_at');
     }
 }
-

@@ -31,4 +31,3 @@ class Division extends Model
         return $this->hasMany(Task::class);
     }
 }
-

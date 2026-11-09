@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'no_telepon' => '08' . fake()->numerify('##########'),
+            'no_telepon' => '08'.fake()->numerify('##########'),
             'status_akun' => StatusAkun::Aktif,
             'preferensi_notifikasi' => null,
             'remember_token' => Str::random(10),

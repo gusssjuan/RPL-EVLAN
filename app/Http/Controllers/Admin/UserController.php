@@ -79,4 +79,3 @@ class UserController extends Controller
         return back()->with('status', 'Akun "'.$user->nama.'" berhasil '.$statusLabel.'.');
     }
 }
-

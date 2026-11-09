@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Event\BudgetController;
 use App\Http\Controllers\Event\ChecklistController;
 use App\Http\Controllers\Event\DivisionController;
 use App\Http\Controllers\Event\EvaluationController;
@@ -20,6 +21,10 @@ use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventHistoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Vendor\ProdukController;
+use App\Http\Controllers\Vendor\ProfilUsahaController;
+use App\Http\Controllers\Vendor\VendorDashboardController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -76,7 +81,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/acara/{event}/edit', [EventController::class, 'edit'])->name('acara.edit');
     Route::put('/acara/{event}', [EventController::class, 'update'])->name('acara.update');
     Route::get('/acara/{event}/monitoring', [EventController::class, 'monitoring'])->name('acara.monitoring');
-    Route::get('/acara/{event}/anggaran', [EventController::class, 'anggaran'])->name('acara.anggaran');
+
+    // Estimasi Anggaran (T7.4) — menggantikan placeholder
+    Route::get('/acara/{event}/anggaran', [BudgetController::class, 'index'])->name('acara.anggaran.index');
+    Route::post('/acara/{event}/anggaran', [BudgetController::class, 'store'])->name('acara.anggaran.store');
+    Route::put('/acara/{event}/anggaran/{budget}', [BudgetController::class, 'update'])->name('acara.anggaran.update');
+    Route::delete('/acara/{event}/anggaran/{budget}', [BudgetController::class, 'destroy'])->name('acara.anggaran.destroy');
+    Route::post('/acara/{event}/anggaran/dari-vendor/{produk}', [BudgetController::class, 'storeFromVendor'])->name('acara.anggaran.dari-vendor');
 
     // Evaluasi & Penutupan Acara (T6.3)
     Route::get('/acara/{event}/evaluasi', [EvaluationController::class, 'show'])->name('acara.evaluasi');
@@ -154,10 +165,23 @@ Route::middleware('auth')->group(function () {
 
     // Rute Khusus Vendor
     Route::middleware('role:vendor')->prefix('usaha')->name('usaha.')->group(function () {
-        Route::get('/', function () {
-            return view('vendor.dashboard');
-        })->name('dashboard');
+        Route::get('/', [VendorDashboardController::class, 'index'])->name('dashboard');
+
+        // Profil Usaha (S32, FR-26, FR-03)
+        Route::get('/profil', [ProfilUsahaController::class, 'edit'])->name('profil');
+        Route::put('/profil', [ProfilUsahaController::class, 'update'])->name('profil.update');
+
+        // Kelola Produk/Jasa (S33, FR-26)
+        Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+        Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
+        Route::put('/produk/{produk}', [ProdukController::class, 'update'])->name('produk.update');
+        Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
     });
+
+    // Pencarian Vendor (S20, S21; T7.2, T7.3; FR-25) — untuk user & semua peran
+    Route::get('/vendor', [VendorController::class, 'index'])->name('vendor.index');
+    Route::get('/vendor/{vendor}', [VendorController::class, 'show'])->name('vendor.show');
+    Route::post('/vendor/{vendor}/simpan', [VendorController::class, 'toggleSave'])->name('vendor.toggle-save');
 });
 
 // Design System Showcase (Hanya Lingkungan Lokal)

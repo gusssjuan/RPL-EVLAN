@@ -17,7 +17,7 @@ class EventFactory extends Factory
         return [
             'leader_id' => User::factory(),
             'category_id' => Category::factory(),
-            'nama_event' => 'Acara ' . fake()->words(2, true),
+            'nama_event' => 'Acara '.fake()->words(2, true),
             'tujuan' => fake()->paragraph(),
             'tanggal' => fake()->dateTimeBetween('+1 week', '+6 months')->format('Y-m-d'),
             'waktu_mulai' => '08:00',
@@ -55,4 +55,3 @@ class EventFactory extends Factory
         ]);
     }
 }
-

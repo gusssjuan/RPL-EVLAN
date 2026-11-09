@@ -26,4 +26,3 @@ class BudgetFactory extends Factory
         ];
     }
 }
-

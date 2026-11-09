@@ -58,4 +58,3 @@ class EvaluationController extends Controller
             ->with('status', 'Acara berhasil ditutup dan dievaluasi. Data acara kini dikunci (read-only).');
     }
 }
-

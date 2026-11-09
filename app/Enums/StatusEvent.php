@@ -23,4 +23,3 @@ enum StatusEvent: string
         };
     }
 }
-

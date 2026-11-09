@@ -16,6 +16,7 @@ class TemplateManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -134,4 +135,3 @@ class TemplateManagementTest extends TestCase
         $this->assertFalse($templateLama->fresh()->is_aktif);
     }
 }
-

@@ -19,10 +19,15 @@ class MyTasksTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $memberA;
+
     protected User $memberB;
+
     protected User $stranger;
+
     protected Event $event;
+
     protected Task $taskA;
 
     protected function setUp(): void
@@ -78,7 +83,7 @@ class MyTasksTest extends TestCase
 
     public function test_anggota_dapat_melihat_detail_tugas(): void
     {
-        $response = $this->actingAs($this->memberA)->get('/tugas/' . $this->taskA->id);
+        $response = $this->actingAs($this->memberA)->get('/tugas/'.$this->taskA->id);
 
         $response->assertStatus(200);
         $response->assertSee('Tugas Khusus Rina');
@@ -87,11 +92,11 @@ class MyTasksTest extends TestCase
 
     public function test_penerima_dapat_mengubah_status_tugas(): void
     {
-        $response = $this->actingAs($this->memberA)->patch('/tugas/' . $this->taskA->id . '/status', [
+        $response = $this->actingAs($this->memberA)->patch('/tugas/'.$this->taskA->id.'/status', [
             'status' => 'sedang_dikerjakan',
         ]);
 
-        $response->assertRedirect('/tugas/' . $this->taskA->id);
+        $response->assertRedirect('/tugas/'.$this->taskA->id);
 
         $this->taskA->refresh();
         $this->assertEquals(StatusTugas::SedangDikerjakan, $this->taskA->status);
@@ -105,7 +110,7 @@ class MyTasksTest extends TestCase
         ]);
 
         // Ubah ke selesai
-        $this->actingAs($this->memberA)->patch('/tugas/' . $this->taskA->id . '/status', [
+        $this->actingAs($this->memberA)->patch('/tugas/'.$this->taskA->id.'/status', [
             'status' => 'sudah_diselesaikan',
         ]);
 
@@ -117,7 +122,7 @@ class MyTasksTest extends TestCase
     public function test_anggota_lain_tidak_bisa_mengubah_status_tugas_d14(): void
     {
         // Member B mencoba mengubah tugas milik Member A
-        $response = $this->actingAs($this->memberB)->patch('/tugas/' . $this->taskA->id . '/status', [
+        $response = $this->actingAs($this->memberB)->patch('/tugas/'.$this->taskA->id.'/status', [
             'status' => 'sudah_diselesaikan',
         ]);
 
@@ -126,9 +131,8 @@ class MyTasksTest extends TestCase
 
     public function test_bukan_peserta_tidak_bisa_melihat_detail_tugas(): void
     {
-        $response = $this->actingAs($this->stranger)->get('/tugas/' . $this->taskA->id);
+        $response = $this->actingAs($this->stranger)->get('/tugas/'.$this->taskA->id);
 
         $response->assertStatus(403);
     }
 }
-

@@ -56,4 +56,3 @@ class Budget extends Model
         return $this->vendor_product_id ? 'Vendor' : 'Manual';
     }
 }
-

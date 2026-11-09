@@ -18,7 +18,9 @@ class EventHistoryTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected User $stranger;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -113,4 +115,3 @@ class EventHistoryTest extends TestCase
         $resPerencanaan->assertDontSee('Acara Selesai A');
     }
 }
-

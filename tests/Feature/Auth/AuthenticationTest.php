@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth;
 
 use App\Enums\RoleName;
-use App\Enums\StatusAkun;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -138,4 +137,3 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect('/');
     }
 }
-

@@ -22,4 +22,3 @@ class ChecklistFactory extends Factory
         ];
     }
 }
-

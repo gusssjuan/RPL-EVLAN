@@ -62,4 +62,3 @@ class Template extends Model
             ->orderBy('urutan');
     }
 }
-

@@ -20,10 +20,15 @@ class TaskManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected User $outsider;
+
     protected Category $category;
+
     protected Event $event;
+
     protected Division $division;
 
     protected function setUp(): void
@@ -69,7 +74,7 @@ class TaskManagementTest extends TestCase
             'judul' => 'Menyusun Rundown Acara',
         ]);
 
-        $response = $this->actingAs($this->leader)->get('/acara/' . $this->event->id . '/tugas');
+        $response = $this->actingAs($this->leader)->get('/acara/'.$this->event->id.'/tugas');
 
         $response->assertStatus(200);
         $response->assertSee('Menyusun Rundown Acara');
@@ -78,7 +83,7 @@ class TaskManagementTest extends TestCase
 
     public function test_ketua_dapat_membuat_tugas_baru(): void
     {
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/tugas', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/tugas', [
             'judul' => 'Konfirmasi Narasumber Utama',
             'deskripsi' => 'Hubungi narasumber via email dan telepon.',
             'division_id' => $this->division->id,
@@ -86,7 +91,7 @@ class TaskManagementTest extends TestCase
             'deadline' => '2026-11-20',
         ]);
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/tugas');
+        $response->assertRedirect('/acara/'.$this->event->id.'/tugas');
 
         $this->assertDatabaseHas('tasks', [
             'event_id' => $this->event->id,
@@ -111,7 +116,7 @@ class TaskManagementTest extends TestCase
 
     public function test_penerima_bukan_peserta_acara_ditolak(): void
     {
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/tugas', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/tugas', [
             'judul' => 'Tugas Ilegal',
             'penerima_id' => $this->outsider->id,
             'deadline' => '2026-11-20',
@@ -122,7 +127,7 @@ class TaskManagementTest extends TestCase
 
     public function test_deadline_melewati_tanggal_acara_ditolak(): void
     {
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/tugas', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/tugas', [
             'judul' => 'Tugas Terlambat',
             'penerima_id' => $this->member->id,
             'deadline' => '2026-12-15', // Acara 12 Des 2026
@@ -142,13 +147,13 @@ class TaskManagementTest extends TestCase
             'deadline' => '2026-11-20',
         ]);
 
-        $response = $this->actingAs($this->leader)->put('/acara/' . $this->event->id . '/tugas/' . $task->id, [
+        $response = $this->actingAs($this->leader)->put('/acara/'.$this->event->id.'/tugas/'.$task->id, [
             'judul' => 'Judul Baru yang Diperbarui',
             'penerima_id' => $this->member->id,
             'deadline' => '2026-11-25',
         ]);
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/tugas');
+        $response->assertRedirect('/acara/'.$this->event->id.'/tugas');
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
             'judul' => 'Judul Baru yang Diperbarui',
@@ -166,10 +171,9 @@ class TaskManagementTest extends TestCase
             'deadline' => '2026-11-20',
         ]);
 
-        $response = $this->actingAs($this->leader)->delete('/acara/' . $this->event->id . '/tugas/' . $task->id);
+        $response = $this->actingAs($this->leader)->delete('/acara/'.$this->event->id.'/tugas/'.$task->id);
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/tugas');
+        $response->assertRedirect('/acara/'.$this->event->id.'/tugas');
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 }
-

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\KategoriVendor;
 use App\Enums\StatusVerifikasi;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -81,4 +80,3 @@ class Vendor extends Model
         return $query->where('status_verifikasi', StatusVerifikasi::Terverifikasi);
     }
 }
-

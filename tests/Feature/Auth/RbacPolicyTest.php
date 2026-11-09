@@ -160,4 +160,3 @@ class RbacPolicyTest extends TestCase
         $response->assertRedirect('/login');
     }
 }
-

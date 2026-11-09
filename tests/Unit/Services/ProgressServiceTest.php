@@ -21,6 +21,7 @@ class ProgressServiceTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -157,4 +158,3 @@ class ProgressServiceTest extends TestCase
         $this->assertEquals(75, $data['persen_checklist']);
     }
 }
-

@@ -22,4 +22,3 @@ class ActivityLogFactory extends Factory
         ];
     }
 }
-

@@ -18,9 +18,13 @@ class EventOverviewTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected User $otherUser;
+
     protected Category $category;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -72,7 +76,7 @@ class EventOverviewTest extends TestCase
 
     public function test_ketua_dapat_melihat_ringkasan_acara(): void
     {
-        $response = $this->actingAs($this->leader)->get('/acara/' . $this->event->id);
+        $response = $this->actingAs($this->leader)->get('/acara/'.$this->event->id);
 
         $response->assertStatus(200);
         $response->assertSee('Seminar Teknologi 2026');
@@ -82,7 +86,7 @@ class EventOverviewTest extends TestCase
 
     public function test_anggota_dapat_melihat_ringkasan_varian_anggota(): void
     {
-        $response = $this->actingAs($this->member)->get('/acara/' . $this->event->id);
+        $response = $this->actingAs($this->member)->get('/acara/'.$this->event->id);
 
         $response->assertStatus(200);
         $response->assertSee('Seminar Teknologi 2026');
@@ -92,31 +96,31 @@ class EventOverviewTest extends TestCase
 
     public function test_pengguna_luar_tidak_dapat_melihat_acara_privat(): void
     {
-        $response = $this->actingAs($this->otherUser)->get('/acara/' . $this->event->id);
+        $response = $this->actingAs($this->otherUser)->get('/acara/'.$this->event->id);
 
         $response->assertStatus(403);
     }
 
     public function test_anggota_dilarang_mengakses_tab_monitoring_d16(): void
     {
-        $response = $this->actingAs($this->member)->get('/acara/' . $this->event->id . '/monitoring');
+        $response = $this->actingAs($this->member)->get('/acara/'.$this->event->id.'/monitoring');
 
         $response->assertStatus(403);
     }
 
     public function test_anggota_dilarang_mengakses_tab_anggaran_d16(): void
     {
-        $response = $this->actingAs($this->member)->get('/acara/' . $this->event->id . '/anggaran');
+        $response = $this->actingAs($this->member)->get('/acara/'.$this->event->id.'/anggaran');
 
         $response->assertStatus(403);
     }
 
     public function test_ketua_dapat_mengakses_tab_monitoring_dan_anggaran(): void
     {
-        $resMonitoring = $this->actingAs($this->leader)->get('/acara/' . $this->event->id . '/monitoring');
+        $resMonitoring = $this->actingAs($this->leader)->get('/acara/'.$this->event->id.'/monitoring');
         $resMonitoring->assertStatus(200);
 
-        $resAnggaran = $this->actingAs($this->leader)->get('/acara/' . $this->event->id . '/anggaran');
+        $resAnggaran = $this->actingAs($this->leader)->get('/acara/'.$this->event->id.'/anggaran');
         $resAnggaran->assertStatus(200);
     }
 
@@ -124,7 +128,7 @@ class EventOverviewTest extends TestCase
     {
         $newDate = Carbon::tomorrow()->addDays(90)->toDateString(); // e.g. 90 days from tomorrow
 
-        $response = $this->actingAs($this->leader)->put('/acara/' . $this->event->id, [
+        $response = $this->actingAs($this->leader)->put('/acara/'.$this->event->id, [
             'nama_event' => 'Seminar Teknologi 2026 Update',
             'tujuan' => 'Tujuan seminar yang diperbarui',
             'tanggal' => $newDate,
@@ -133,7 +137,7 @@ class EventOverviewTest extends TestCase
             'jumlah_peserta' => 350,
         ]);
 
-        $response->assertRedirect('/acara/' . $this->event->id);
+        $response->assertRedirect('/acara/'.$this->event->id);
 
         $this->event->refresh();
         $this->assertEquals($newDate, $this->event->tanggal->toDateString());
@@ -147,4 +151,3 @@ class EventOverviewTest extends TestCase
         $this->assertEquals($newDate, $timelineHariH->tanggal->toDateString());
     }
 }
-

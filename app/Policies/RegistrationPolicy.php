@@ -32,4 +32,3 @@ class RegistrationPolicy
         return $registration->user_id === $user->id;
     }
 }
-

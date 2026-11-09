@@ -386,7 +386,7 @@ class DemoSeeder extends Seeder
                     'division_id' => $td['div']->id,
                     'penerima_id' => $td['user']->id,
                     'created_by' => $gusEga->id,
-                    'deskripsi' => 'Deskripsi penugasan untuk ' . $td['judul'],
+                    'deskripsi' => 'Deskripsi penugasan untuk '.$td['judul'],
                     'deadline' => Carbon::parse($td['dl']),
                     'status' => $td['status'],
                     'completed_at' => $td['status'] === StatusTugas::SudahDiselesaikan ? now() : null,
@@ -493,20 +493,20 @@ class DemoSeeder extends Seeder
 
         // 10. Notifikasi Contoh
         AppNotification::firstOrCreate(
-            ['dedupe_key' => 'undangan:' . $event->id . ':' . $rina->id],
+            ['dedupe_key' => 'undangan:'.$event->id.':'.$rina->id],
             [
                 'user_id' => $rina->id,
                 'event_id' => $event->id,
                 'jenis' => JenisNotifikasi::Undangan,
                 'pesan' => 'Anda telah ditambahkan sebagai Koordinator Divisi Acara pada acara "Seminar Teknologi 2026".',
-                'tautan' => '/acara/' . $event->id . '/kepanitiaan',
+                'tautan' => '/acara/'.$event->id.'/kepanitiaan',
                 'dibaca_at' => null,
                 'waktu_kirim' => now()->subDays(2),
             ]
         );
 
         AppNotification::firstOrCreate(
-            ['dedupe_key' => 'penugasan:' . $event->id . ':1'],
+            ['dedupe_key' => 'penugasan:'.$event->id.':1'],
             [
                 'user_id' => $rina->id,
                 'event_id' => $event->id,
@@ -530,4 +530,3 @@ class DemoSeeder extends Seeder
         );
     }
 }
-

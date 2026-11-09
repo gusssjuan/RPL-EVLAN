@@ -5,7 +5,6 @@ namespace Tests\Feature\Admin;
 use App\Enums\JenisNotifikasi;
 use App\Enums\RoleName;
 use App\Enums\StatusVerifikasi;
-use App\Models\AppNotification;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Vendor;
@@ -17,7 +16,9 @@ class VendorVerificationTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected User $vendorUser;
+
     protected Vendor $vendor;
 
     protected function setUp(): void
@@ -92,4 +93,3 @@ class VendorVerificationTest extends TestCase
         $this->assertEquals(StatusVerifikasi::Menunggu, $this->vendor->status_verifikasi);
     }
 }
-

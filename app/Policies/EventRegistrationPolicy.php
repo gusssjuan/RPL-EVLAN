@@ -32,4 +32,3 @@ class EventRegistrationPolicy
         return $registration->user_id === $user->id;
     }
 }
-

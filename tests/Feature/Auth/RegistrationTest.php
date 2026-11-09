@@ -7,7 +7,6 @@ use App\Enums\StatusAkun;
 use App\Enums\StatusVerifikasi;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Vendor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -133,4 +132,3 @@ class RegistrationTest extends TestCase
         $this->assertGuest();
     }
 }
-

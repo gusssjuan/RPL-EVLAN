@@ -35,7 +35,7 @@ class EventHistoryController extends Controller
 
         // Pencarian
         if ($request->filled('cari')) {
-            $query->where('nama_event', 'like', '%' . $request->cari . '%');
+            $query->where('nama_event', 'like', '%'.$request->cari.'%');
         }
 
         $events = $query->orderByDesc('tanggal')->get();
@@ -68,4 +68,3 @@ class EventHistoryController extends Controller
         ));
     }
 }
-

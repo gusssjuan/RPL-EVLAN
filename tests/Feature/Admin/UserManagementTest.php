@@ -112,4 +112,3 @@ class UserManagementTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 }
-

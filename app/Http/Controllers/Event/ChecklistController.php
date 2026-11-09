@@ -128,4 +128,3 @@ class ChecklistController extends Controller
             ->with('status', 'Kebutuhan berhasil dihapus.');
     }
 }
-

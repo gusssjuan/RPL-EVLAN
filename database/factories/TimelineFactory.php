@@ -16,7 +16,7 @@ class TimelineFactory extends Factory
 
         return [
             'event_id' => Event::factory(),
-            'label' => $offset === 0 ? 'Hari H' : 'H-' . $offset,
+            'label' => $offset === 0 ? 'Hari H' : 'H-'.$offset,
             'offset_hari' => $offset,
             'tanggal' => fake()->dateTimeBetween('-1 month', '+2 months')->format('Y-m-d'),
             'kegiatan' => fake()->sentence(4),
@@ -24,4 +24,3 @@ class TimelineFactory extends Factory
         ];
     }
 }
-

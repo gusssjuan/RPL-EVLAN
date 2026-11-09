@@ -122,4 +122,3 @@ class ProfileTest extends TestCase
         $this->assertEquals('1', $user->preferensi_notifikasi['deadline_h3']);
     }
 }
-

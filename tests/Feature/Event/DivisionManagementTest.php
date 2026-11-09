@@ -4,7 +4,6 @@ namespace Tests\Feature\Event;
 
 use App\Enums\PeranAnggota;
 use App\Enums\RoleName;
-use App\Models\ActivityLog;
 use App\Models\Category;
 use App\Models\Division;
 use App\Models\Event;
@@ -22,11 +21,17 @@ class DivisionManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected User $userCandidate;
+
     protected User $otherUser;
+
     protected Category $category;
+
     protected Template $template;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -72,7 +77,7 @@ class DivisionManagementTest extends TestCase
 
     public function test_ketua_dapat_melihat_halaman_kepanitiaan(): void
     {
-        $response = $this->actingAs($this->leader)->get('/acara/' . $this->event->id . '/kepanitiaan');
+        $response = $this->actingAs($this->leader)->get('/acara/'.$this->event->id.'/kepanitiaan');
 
         $response->assertStatus(200);
         $response->assertSee('Kepanitiaan');
@@ -89,7 +94,7 @@ class DivisionManagementTest extends TestCase
             'peran' => PeranAnggota::Anggota,
         ]);
 
-        $response = $this->actingAs($this->member)->get('/acara/' . $this->event->id . '/kepanitiaan');
+        $response = $this->actingAs($this->member)->get('/acara/'.$this->event->id.'/kepanitiaan');
 
         $response->assertStatus(200);
         $response->assertSee('Acara');
@@ -100,17 +105,17 @@ class DivisionManagementTest extends TestCase
     {
         $this->event->update(['is_publik' => false]);
 
-        $response = $this->actingAs($this->otherUser)->get('/acara/' . $this->event->id . '/kepanitiaan');
+        $response = $this->actingAs($this->otherUser)->get('/acara/'.$this->event->id.'/kepanitiaan');
         $response->assertStatus(403);
     }
 
     public function test_ketua_dapat_menambah_divisi_baru(): void
     {
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/divisi', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/divisi', [
             'nama_divisi' => 'Perlengkapan',
         ]);
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/kepanitiaan');
+        $response->assertRedirect('/acara/'.$this->event->id.'/kepanitiaan');
         $this->assertDatabaseHas('divisions', [
             'event_id' => $this->event->id,
             'nama_divisi' => 'Perlengkapan',
@@ -126,7 +131,7 @@ class DivisionManagementTest extends TestCase
     {
         Division::create(['event_id' => $this->event->id, 'nama_divisi' => 'Acara']);
 
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/divisi', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/divisi', [
             'nama_divisi' => 'acara', // case-insensitive check
         ]);
 
@@ -135,9 +140,9 @@ class DivisionManagementTest extends TestCase
 
     public function test_ketua_dapat_menambahkan_seluruh_rekomendasi_divisi_d10(): void
     {
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/rekomendasi');
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/rekomendasi');
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/kepanitiaan');
+        $response->assertRedirect('/acara/'.$this->event->id.'/kepanitiaan');
         $this->assertDatabaseHas('divisions', ['event_id' => $this->event->id, 'nama_divisi' => 'Acara']);
         $this->assertDatabaseHas('divisions', ['event_id' => $this->event->id, 'nama_divisi' => 'Konsumsi']);
     }
@@ -146,13 +151,13 @@ class DivisionManagementTest extends TestCase
     {
         $div = Division::create(['event_id' => $this->event->id, 'nama_divisi' => 'Acara']);
 
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/anggota', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/anggota', [
             'email' => $this->userCandidate->email,
             'division_id' => $div->id,
             'peran' => 'koordinator',
         ]);
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/kepanitiaan');
+        $response->assertRedirect('/acara/'.$this->event->id.'/kepanitiaan');
         $this->assertDatabaseHas('event_members', [
             'event_id' => $this->event->id,
             'user_id' => $this->userCandidate->id,
@@ -172,7 +177,7 @@ class DivisionManagementTest extends TestCase
     {
         $div = Division::create(['event_id' => $this->event->id, 'nama_divisi' => 'Acara']);
 
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/anggota', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/anggota', [
             'email' => 'tidakada@email.com',
             'division_id' => $div->id,
             'peran' => 'anggota',
@@ -185,7 +190,7 @@ class DivisionManagementTest extends TestCase
     {
         $div = Division::create(['event_id' => $this->event->id, 'nama_divisi' => 'Acara']);
 
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/anggota', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/anggota', [
             'email' => $this->leader->email,
             'division_id' => $div->id,
             'peran' => 'anggota',
@@ -204,7 +209,7 @@ class DivisionManagementTest extends TestCase
             'created_by' => $this->leader->id,
         ]);
 
-        $response = $this->actingAs($this->leader)->delete('/acara/' . $this->event->id . '/kepanitiaan/divisi/' . $div->id);
+        $response = $this->actingAs($this->leader)->delete('/acara/'.$this->event->id.'/kepanitiaan/divisi/'.$div->id);
 
         $response->assertSessionHasErrors('division');
         $this->assertDatabaseHas('divisions', ['id' => $div->id]);
@@ -220,10 +225,9 @@ class DivisionManagementTest extends TestCase
             'peran' => PeranAnggota::Anggota,
         ]);
 
-        $response = $this->actingAs($this->leader)->delete('/acara/' . $this->event->id . '/kepanitiaan/anggota/' . $mem->id);
+        $response = $this->actingAs($this->leader)->delete('/acara/'.$this->event->id.'/kepanitiaan/anggota/'.$mem->id);
 
-        $response->assertRedirect('/acara/' . $this->event->id . '/kepanitiaan');
+        $response->assertRedirect('/acara/'.$this->event->id.'/kepanitiaan');
         $this->assertDatabaseMissing('event_members', ['id' => $mem->id]);
     }
 }
-

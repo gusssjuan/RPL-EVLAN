@@ -19,7 +19,9 @@ class EventCreationWizardTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Category $category;
+
     protected Template $template;
 
     protected function setUp(): void
@@ -244,4 +246,3 @@ class EventCreationWizardTest extends TestCase
         $this->assertNull(session('event_draft'));
     }
 }
-

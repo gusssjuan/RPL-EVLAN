@@ -19,7 +19,9 @@ class UserDashboardTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $memberOnly;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -103,4 +105,3 @@ class UserDashboardTest extends TestCase
         $response->assertSee('Event Kepanitiaan Rina');
     }
 }
-

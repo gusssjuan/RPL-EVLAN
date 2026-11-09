@@ -94,4 +94,3 @@ class VendorVerificationController extends Controller
             ->with('status', 'Pendaftaran vendor "'.$vendor->nama_vendor.'" ditolak.');
     }
 }
-

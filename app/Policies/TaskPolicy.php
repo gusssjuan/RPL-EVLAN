@@ -49,4 +49,3 @@ class TaskPolicy
         return $task->penerima_id === $user->id && $task->event->status_event !== StatusEvent::Selesai;
     }
 }
-

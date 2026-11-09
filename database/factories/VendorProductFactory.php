@@ -21,4 +21,3 @@ class VendorProductFactory extends Factory
         ];
     }
 }
-

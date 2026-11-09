@@ -17,4 +17,3 @@ enum RoleName: string
         };
     }
 }
-

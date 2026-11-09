@@ -27,7 +27,7 @@ class TemplateController extends Controller
         $categories = Category::orderBy('nama_kategori')->get();
 
         return view('admin.template.editor', [
-            'template' => new Template(),
+            'template' => new Template,
             'categories' => $categories,
             'isEdit' => false,
         ]);
@@ -85,4 +85,3 @@ class TemplateController extends Controller
             ->with('status', 'Template berhasil dihapus.');
     }
 }
-

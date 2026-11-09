@@ -25,4 +25,3 @@ class SavedVendor extends Model
         return $this->belongsTo(Vendor::class);
     }
 }
-

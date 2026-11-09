@@ -26,7 +26,7 @@ class VendorFactory extends Factory
             ]),
             'alamat' => fake()->address(),
             'kota' => fake()->city(),
-            'kontak' => '08' . fake()->numerify('##########'),
+            'kontak' => '08'.fake()->numerify('##########'),
             'deskripsi' => fake()->paragraph(),
             'status_verifikasi' => StatusVerifikasi::Menunggu,
             'alasan_penolakan' => null,
@@ -51,4 +51,3 @@ class VendorFactory extends Factory
         ]);
     }
 }
-

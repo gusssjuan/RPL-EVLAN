@@ -202,7 +202,7 @@
                         </div>
                         <p class="text-[11px] text-gray-400">Total estimasi pengeluaran vendor & logistik.</p>
                         <div class="pt-1">
-                            <a href="{{ route('acara.anggaran', $event->id) }}" class="text-xs font-semibold text-indigo-600 hover:underline">
+                            <a href="{{ route('acara.anggaran.index', $event->id) }}" class="text-xs font-semibold text-indigo-600 hover:underline">
                                 Lihat Rincian Anggaran →
                             </a>
                         </div>

@@ -17,7 +17,9 @@ class MyEventsTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected User $otherUser;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -78,4 +80,3 @@ class MyEventsTest extends TestCase
         $response->assertDontSee('Acara Rahasia Orang Lain');
     }
 }
-

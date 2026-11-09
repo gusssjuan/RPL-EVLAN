@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\AppNotification;
 use App\Models\Task;
 use App\Services\ActivityLogger;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -80,7 +79,7 @@ class MyTaskController extends Controller
         $riwayat = $event->activityLogs()
             ->where(function ($q) use ($task) {
                 $q->whereJsonContains('meta->task_id', $task->id)
-                    ->orWhere('deskripsi', 'like', '%"' . $task->judul . '"%');
+                    ->orWhere('deskripsi', 'like', '%"'.$task->judul.'"%');
             })
             ->with('user')
             ->latest()
@@ -117,7 +116,7 @@ class MyTaskController extends Controller
             $event,
             $user,
             'ubah_status',
-            'mengubah status "' . $task->judul . '" → ' . $newStatus->label(),
+            'mengubah status "'.$task->judul.'" → '.$newStatus->label(),
             ['task_id' => $task->id, 'old_status' => $oldStatus->value, 'new_status' => $newStatus->value]
         );
 
@@ -128,14 +127,13 @@ class MyTaskController extends Controller
                 'event_id' => $event->id,
                 'task_id' => $task->id,
                 'jenis' => JenisNotifikasi::StatusTugas,
-                'pesan' => $user->nama . ' mengubah status "' . $task->judul . '" menjadi ' . $newStatus->label() . '.',
-                'tautan' => '/tugas/' . $task->id,
+                'pesan' => $user->nama.' mengubah status "'.$task->judul.'" menjadi '.$newStatus->label().'.',
+                'tautan' => '/tugas/'.$task->id,
                 'waktu_kirim' => now(),
             ]);
         }
 
         return redirect()->route('tugas.show', $task->id)
-            ->with('status', 'Status tugas berhasil diubah menjadi "' . $newStatus->label() . '".');
+            ->with('status', 'Status tugas berhasil diubah menjadi "'.$newStatus->label().'".');
     }
 }
-

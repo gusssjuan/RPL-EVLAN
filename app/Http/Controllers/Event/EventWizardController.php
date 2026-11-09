@@ -158,4 +158,3 @@ class EventWizardController extends Controller
             ->with('status', 'Acara "'.$event->nama_event.'" berhasil dibuat!');
     }
 }
-

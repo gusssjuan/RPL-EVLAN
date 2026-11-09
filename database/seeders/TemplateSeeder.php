@@ -147,7 +147,9 @@ class TemplateSeeder extends Seeder
     private function seed17AgustusTemplate(): void
     {
         $category = Category::where('nama_kategori', '17 Agustus')->first();
-        if (! $category) return;
+        if (! $category) {
+            return;
+        }
 
         $template = Template::firstOrCreate(
             ['category_id' => $category->id, 'nama_template' => 'Template Peringatan HUT RI'],
@@ -219,7 +221,9 @@ class TemplateSeeder extends Seeder
     private function seedUlangTahunTemplate(): void
     {
         $category = Category::where('nama_kategori', 'Ulang Tahun')->first();
-        if (! $category) return;
+        if (! $category) {
+            return;
+        }
 
         $template = Template::firstOrCreate(
             ['category_id' => $category->id, 'nama_template' => 'Template Pesta Ulang Tahun'],
@@ -291,7 +295,9 @@ class TemplateSeeder extends Seeder
     private function seedWeddingTemplate(): void
     {
         $category = Category::where('nama_kategori', 'Wedding')->first();
-        if (! $category) return;
+        if (! $category) {
+            return;
+        }
 
         $template = Template::firstOrCreate(
             ['category_id' => $category->id, 'nama_template' => 'Template Resepsi Pernikahan'],
@@ -363,7 +369,9 @@ class TemplateSeeder extends Seeder
     private function seedGatheringTemplate(): void
     {
         $category = Category::where('nama_kategori', 'Gathering')->first();
-        if (! $category) return;
+        if (! $category) {
+            return;
+        }
 
         $template = Template::firstOrCreate(
             ['category_id' => $category->id, 'nama_template' => 'Template Community & Family Gathering'],
@@ -432,4 +440,3 @@ class TemplateSeeder extends Seeder
         }
     }
 }
-

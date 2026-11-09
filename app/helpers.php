@@ -9,7 +9,6 @@ if (! function_exists('format_rupiah')) {
     {
         $amount = (int) ($nominal ?? 0);
 
-        return 'Rp ' . number_format($amount, 0, ',', '.');
+        return 'Rp '.number_format($amount, 0, ',', '.');
     }
 }
-

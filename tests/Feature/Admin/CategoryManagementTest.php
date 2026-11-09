@@ -120,4 +120,3 @@ class CategoryManagementTest extends TestCase
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
 }
-

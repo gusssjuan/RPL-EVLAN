@@ -22,7 +22,7 @@ return new class extends Migration
                 'status_tugas',
                 'undangan',
                 'pendaftaran',
-                'verifikasi_vendor'
+                'verifikasi_vendor',
             ]);
             $table->string('pesan');
             $table->string('tautan')->nullable();
@@ -43,4 +43,3 @@ return new class extends Migration
         Schema::dropIfExists('app_notifications');
     }
 };
-

@@ -25,7 +25,7 @@ class TimelineController extends Controller
         $eventDate = Carbon::parse($event->tanggal);
 
         // Hitung status terlewat/hari ini/akan datang untuk setiap item
-        $timelines = $timelines->map(function ($item) use ($today, $eventDate) {
+        $timelines = $timelines->map(function ($item) {
             $itemDate = Carbon::parse($item->tanggal);
             if ($itemDate->isPast() && ! $itemDate->isToday()) {
                 $item->status_waktu = 'terlewat';
@@ -111,4 +111,3 @@ class TimelineController extends Controller
             ->with('status', 'Agenda timeline berhasil dihapus.');
     }
 }
-

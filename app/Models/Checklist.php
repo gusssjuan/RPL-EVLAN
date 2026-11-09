@@ -39,4 +39,3 @@ class Checklist extends Model
         return $this->hasMany(Budget::class);
     }
 }
-

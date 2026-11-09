@@ -155,10 +155,10 @@ class Event extends Model
                 }
 
                 if ($diff > 0) {
-                    return 'H-' . $diff;
+                    return 'H-'.$diff;
                 }
 
-                return 'H+' . abs($diff);
+                return 'H+'.abs($diff);
             }
         );
     }
@@ -203,4 +203,3 @@ class Event extends Model
         });
     }
 }
-

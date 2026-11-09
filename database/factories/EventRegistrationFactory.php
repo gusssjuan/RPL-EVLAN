@@ -17,7 +17,7 @@ class EventRegistrationFactory extends Factory
         return [
             'event_id' => Event::factory(),
             'user_id' => User::factory(),
-            'no_telepon' => '08' . fake()->numerify('##########'),
+            'no_telepon' => '08'.fake()->numerify('##########'),
             'catatan' => fake()->sentence(),
             'persetujuan_data' => true,
             'status' => StatusPendaftaran::Menunggu,
@@ -26,4 +26,3 @@ class EventRegistrationFactory extends Factory
         ];
     }
 }
-

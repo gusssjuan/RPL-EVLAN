@@ -30,4 +30,3 @@ class EventMemberFactory extends Factory
         ]);
     }
 }
-

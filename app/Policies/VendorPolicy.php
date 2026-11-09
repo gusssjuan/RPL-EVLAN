@@ -34,4 +34,3 @@ class VendorPolicy
             && $vendor->status_verifikasi === StatusVerifikasi::Terverifikasi;
     }
 }
-

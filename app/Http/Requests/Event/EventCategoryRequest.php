@@ -25,4 +25,3 @@ class EventCategoryRequest extends FormRequest
         ];
     }
 }
-
