@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Phase 3 — Admin (FR-04…FR-08) |
-| Task terakhir selesai | T2.5 (Alur lupa kata sandi dan reset token) |
-| Task sedang dikerjakan | Persiapan Phase 3 (T3.1: Layout dan navigasi Admin) |
+| Phase aktif | Phase 4 — Perencanaan Acara (FR-09…FR-13, FR-22 sebagian) |
+| Task terakhir selesai | T3.6 (Kelola Pengguna) |
+| Task sedang dikerjakan | Persiapan Phase 4 (T4.1: Wizard 1/3 — Pilih Kategori dan Pratinjau Template) |
 | Branch aktif | `main` |
 | Commit terakhir | _(menunggu commit lokal)_ |
-| Hasil `php artisan test` terakhir | Siap dengan 7 test suite (Unit model logic + 6 Feature auth & RBAC) |
+| Hasil `php artisan test` terakhir | Siap dengan 11 test suite (Unit model logic + 6 Feature auth + 4 Feature admin) |
 | Hasil `npm run build` terakhir | Siap dengan Vite + Tailwind v4 + Alpine.js |
-| Terakhir diperbarui | 2026-11-09, Sesi 3 |
+| Terakhir diperbarui | 2026-11-09, Sesi 4 |
 
 ---
 
@@ -30,7 +30,7 @@ Status: `BELUM` · `BERJALAN` · `MENUNGGU REVIEW` · `SELESAI`.
 | 0 | Fondasi proyek | T0.1–T0.5 | **SELESAI** | T0.1 (env/config), T0.2 (toolchain), T0.3 (Blade S00/S00B & layouts), T0.4 (bahasa id), T0.5 (quality tooling) |
 | 1 | Database, model, seeder | T1.1–T1.5 | **SELESAI** | T1.1 (17 migrasi), T1.2 (10 enum, 18 model, tests), T1.3 (17 factory), T1.4 (seeder lengkap & demo), T1.5 (docs/ERD.md) |
 | 2 | Auth & RBAC | T2.1–T2.5 | **SELESAI** | T2.1 (Login/Register/Logout), T2.2 (Role & Active Middleware, RBAC Policies D-16), T2.3 (Dashboard router), T2.4 (Profil & Preferensi), T2.5 (Reset password) |
-| 3 | Admin | T3.1–T3.6 | BELUM | T3.1 s/d T3.6 (Dashboard, Kategori, Template, Verifikasi Vendor, Pengguna) |
+| 3 | Admin | T3.1–T3.6 | **SELESAI** | T3.1 (Layout admin & nav), T3.2 (Dashboard admin S25), T3.3 (Kelola Kategori S26 D-23), T3.4 (Editor Template S27/S28 D-07 D-08), T3.5 (Verifikasi Vendor S29), T3.6 (Kelola Pengguna S30) |
 | 4 | Perencanaan acara | T4.1–T4.8 | BELUM | **Checkpoint review setelah T4.3** |
 | 5 | Kepanitiaan & tugas | T5.1–T5.4 | BELUM | |
 | 6 | Monitoring, evaluasi, riwayat | T6.1–T6.4 | BELUM | |
@@ -54,7 +54,7 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 4. Ringkasan Pengerjaan Phase 0, Phase 1 & Phase 2
+## 4. Ringkasan Pengerjaan Phase 0 s/d Phase 3
 
 ### Phase 0 — Fondasi Proyek:
 - **T0.1**: Sinkronisasi `.env.example`, konfigurasi default `Asia/Makassar` (WITA), default locale `id`. Sinkronisasi `agents/DECISIONS.md`.
@@ -71,11 +71,19 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 - **T1.5**: Dokumentasi diagram relasi entitas Mermaid di `docs/ERD.md` (D-01 s/d D-08).
 
 ### Phase 2 — Autentikasi dan RBAC:
-- **T2.1**: Login, registrasi pengguna & vendor, dan logout. Login dengan rate limiting (5 percobaan/menit), pesan kegagalan generik yang tidak membocorkan alasan (Process Spec 1.0) termasuk penolakan akun nonaktif. Registrasi vendor dalam 1 transaksi DB membuat baris `users` + `vendors` berstatus `menunggu`. Redirect otomatis per peran (admin → `/admin`, vendor → `/usaha`, user → `/dashboard`). Feature test di `AuthenticationTest.php` dan `RegistrationTest.php`.
-- **T2.2**: Middleware `role:admin|user|vendor` dan `active` (pemutusan sesi langsung saat akun dinonaktifkan di `EnsureAccountActive`). Policies: `EventPolicy` (aturan ketat D-16: member tidak bisa akses monitoring/anggaran → 403), `TaskPolicy` (hanya penerima tugas yang bisa update status), `VendorPolicy` (produk terkunci sampai vendor berstatus terverifikasi), `EventRegistrationPolicy`. Matriks akses teruji di `RbacPolicyTest.php`.
-- **T2.3**: `DashboardController` routing cerdas: mendeteksi peran, mengarahkan user dengan ≥ 1 acara yang dipimpin ke varian Ketua (S05), atau varian Anggota (S05-V). Feature test di `DashboardRoutingTest.php`.
-- **T2.4**: `ProfileController` untuk edit nama, email unik, nomor telepon, ganti kata sandi dengan validasi sandi lama, serta toggle preferensi notifikasi disimpan ke JSON `preferensi_notifikasi`. View di `resources/views/profile/edit.blade.php`. Feature test di `ProfileTest.php`.
-- **T2.5**: Alur lupa kata sandi dan atur ulang kata sandi dengan token bawaan Laravel yang dilokalisasi, styled dengan `layouts.guest`. Feature test di `PasswordResetTest.php`.
+- **T2.1**: Login, registrasi pengguna & vendor, dan logout. Login dengan rate limiting (5 percobaan/menit), pesan kegagalan generik (Process Spec 1.0) termasuk penolakan akun nonaktif. Registrasi vendor dalam 1 transaksi DB membuat baris `users` + `vendors` berstatus `menunggu`. Redirect per peran.
+- **T2.2**: Middleware `role:admin|user|vendor` dan `active` (pemutusan sesi langsung saat akun dinonaktifkan di `EnsureAccountActive`). Policies: `EventPolicy` (D-16), `TaskPolicy`, `VendorPolicy`, `EventRegistrationPolicy`.
+- **T2.3**: `DashboardController` routing cerdas (Ketua vs Anggota).
+- **T2.4**: `ProfileController` untuk edit profil, validasi sandi lama, dan toggle preferensi notifikasi JSON.
+- **T2.5**: Alur reset kata sandi token Laravel bergaya guest.
+
+### Phase 3 — Admin:
+- **T3.1**: Master layout admin dengan sidebar gelap responsif, mobile drawer hamburger, dan navigasi (Dashboard, Kategori, Template, Verifikasi Vendor, Pengguna, Notifikasi).
+- **T3.2**: `AdminDashboardController` dan view `admin/dashboard.blade.php` (S25) memuat metrik pengguna, acara aktif, daftar vendor menunggu (nama vendor, pemilik, kontak), dan audit log aktivitas terbaru tanpa N+1.
+- **T3.3**: `CategoryController` (S26, S26-V) CRUD kategori modal interaktif Alpine.js, pencegahan hapus kategori aktif terpakai (D-23).
+- **T3.4**: `TemplateService` dan `TemplateController` (S27, S28) editor template 4 tab (Kebutuhan, Timeline H-n, Divisi, Jobdesk) dengan penambahan/penghapusan baris dinamis, aktivasi satu template aktif per kategori (D-07), duplikasi template, dan isolasi independen acara lama (D-08).
+- **T3.5**: `VendorVerificationController` (S29, S29-V) filter status (menunggu, terverifikasi, ditolak), pencarian, persetujuan dan penolakan dengan alasan wajib, pengiriman notifikasi otomatis `AppNotification` (Process Spec 6.0).
+- **T3.6**: `UserController` (S30, S30-V) kelola pengguna, pencarian, filter peran dan status, toggle status aktif/nonaktif, pencegahan admin menonaktifkan diri sendiri atau admin aktif terakhir.
 
 ---
 
@@ -90,22 +98,23 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 ## 6. Hutang Teknis / TODO Lanjutan
 
 - Menjalankan migrasi lokal: `php artisan migrate:fresh --seed`
-- Menjalankan pengujian fitur: `php artisan test`
-- Phase 3: Implementasi Modul Admin (Layout admin, Dashboard admin S25, Kelola Kategori S26, Kelola Template S27/S28, Verifikasi Vendor S29, Kelola Pengguna S30)
+- Menjalankan seluruh test: `php artisan test`
+- Phase 4: Wizard Pembuatan Acara (T4.1 Kategori & Pratinjau, T4.2 Detail Acara, T4.3 Rancangan & Checkpoint Reviewer!)
 
 ---
 
 ## 7. Log Sesi
 
-### Sesi 2026-11-09 (Sesi 3) — Antigravity Agent
+### Sesi 2026-11-09 (Sesi 4) — Antigravity Agent
 - **Dikerjakan**:
-  - Phase 2 diselesaikan 100%:
-    - T2.1: `LoginRequest`, `RegisterRequest`, `AuthenticatedSessionController`, `RegisteredUserController`, `resources/views/auth/login.blade.php`, `resources/views/auth/register.blade.php`, `tests/Feature/Auth/AuthenticationTest.php`, `tests/Feature/Auth/RegistrationTest.php`.
-    - T2.2: `CheckRole` middleware, `EnsureAccountActive` middleware, registrasi di `bootstrap/app.php`, policies (`EventPolicy`, `TaskPolicy`, `VendorPolicy`, `EventRegistrationPolicy`), `tests/Feature/Auth/RbacPolicyTest.php`.
-    - T2.3: `DashboardController`, view varian `dashboard/ketua.blade.php` & `dashboard/anggota.blade.php`, view dasar admin & vendor, `tests/Feature/Auth/DashboardRoutingTest.php`.
-    - T2.4: `ProfileUpdateRequest`, `PasswordUpdateRequest`, `ProfileController`, `resources/views/profile/edit.blade.php`, `tests/Feature/Auth/ProfileTest.php`.
-    - T2.5: `PasswordResetLinkController`, `NewPasswordController`, `resources/views/auth/forgot-password.blade.php`, `resources/views/auth/reset-password.blade.php`, `tests/Feature/Auth/PasswordResetTest.php`.
-    - Pembaruan rute lengkap di `routes/web.php`.
-- **Selesai & dicentang di task.md**: T2.1, T2.2, T2.3, T2.4, T2.5.
-- **Status saat ini**: **Phase 0, Phase 1, dan Phase 2 SELESAI 100%**. Siap lanjut ke Phase 3.
-- **Untuk sesi berikutnya**: Melanjutkan ke Phase 3 (Admin).
+  - Phase 3 diselesaikan 100%:
+    - T3.1: Pemutakhiran layout `layouts/admin.blade.php` dengan backdrop mobile dan navigasi lengkap.
+    - T3.2: `AdminDashboardController`, view `admin/dashboard.blade.php`, `tests/Feature/Admin/AdminDashboardTest.php`.
+    - T3.3: `CategoryRequest`, `CategoryController`, view `admin/kategori/index.blade.php`, `tests/Feature/Admin/CategoryManagementTest.php`.
+    - T3.4: `TemplateService`, `TemplateRequest`, `TemplateController`, view `admin/template/index.blade.php` & `admin/template/editor.blade.php`, `tests/Feature/Admin/TemplateManagementTest.php`.
+    - T3.5: `VendorVerificationController`, view `admin/vendor/index.blade.php`, `tests/Feature/Admin/VendorVerificationTest.php`.
+    - T3.6: `UserController`, view `admin/pengguna/index.blade.php`, `tests/Feature/Admin/UserManagementTest.php`.
+    - Pembaruan rute admin lengkap di `routes/web.php`.
+- **Selesai & dicentang di task.md**: T3.1, T3.2, T3.3, T3.4, T3.5, T3.6.
+- **Status saat ini**: **Phase 0, Phase 1, Phase 2, dan Phase 3 SELESAI 100%**. Siap lanjut ke Phase 4.
+- **Untuk sesi berikutnya**: Memulai Phase 4 (Perencanaan Acara, dengan checkpoint review wajib setelah T4.3).

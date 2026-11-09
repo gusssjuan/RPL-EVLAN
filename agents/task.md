@@ -409,22 +409,22 @@ activity_logs
 
 # PHASE 3 — Admin (FR-04…FR-08)
 
-### [ ] T3.1 Layout dan navigasi Admin
+### [x] T3.1 Layout dan navigasi Admin
 - **Depends**: T2.2, T0.3
 - Sidebar: Dashboard, Kategori, Template, Verifikasi Vendor, Pengguna, Notifikasi.
 
-### [ ] T3.2 Dashboard Admin (S25, hal. 43; FR-08)
+### [x] T3.2 Dashboard Admin (S25, hal. 43; FR-08)
 - **Depends**: T3.1, T1.4
 - Ringkasan: total pengguna, acara aktif, vendor menunggu verifikasi (**tampilkan nama vendor**, revisi wireframe), kategori & template, aktivitas terbaru.
 - **Acceptance**: angka cocok dengan data seeder; query dikumpulkan tanpa N+1.
 
-### [ ] T3.3 Kelola Kategori (S26, S26-V, hal. 44–45; FR-04)
+### [x] T3.3 Kelola Kategori (S26, S26-V, hal. 44–45; FR-04)
 - **Depends**: T3.1
 - CRUD + form tambah/ubah (modal/sheet) + dialog hapus.
 - Aturan (Process Spec 2.0): nama kosong atau duplikat → error; hapus **ditolak** jika dipakai acara/template (D-23) dengan pesan jelas.
 - **Acceptance**: test tambah/ubah/hapus; hapus kategori terpakai ditolak.
 
-### [ ] T3.4 Daftar Template dan Editor Template (S27, S28, hal. 46–49; FR-05)
+### [x] T3.4 Daftar Template dan Editor Template (S27, S28, hal. 46–49; FR-05)
 - **Depends**: T3.3
 - Daftar: nama, kategori, jumlah item per jenis, status aktif, aksi (edit, duplikat, aktifkan).
 - Editor: field Nama & Kategori; **4 tab** Kebutuhan, Timeline, Struktur Kepanitiaan, Rekomendasi Jobdesk (dengan hitungan di label tab); baris dapat ditambah/dihapus/diurutkan (Alpine, drag handle); tab Timeline punya input `H-` + offset hari; panel "Pratinjau di wizard"; bar bawah "Ada perubahan yang belum disimpan" + Batal / Simpan Template.
@@ -432,12 +432,12 @@ activity_logs
 - Validasi: offset hari bilangan bulat ≥ 0 dan unik; nama item wajib; jobdesk.kelompok harus salah satu nama divisi template.
 - **Acceptance**: test simpan; template baru langsung muncul di wizard; perubahan template **tidak** mengubah acara lama (D-08).
 
-### [ ] T3.5 Verifikasi Vendor (S29, S29-V, hal. 50–51; FR-06)
+### [x] T3.5 Verifikasi Vendor (S29, S29-V, hal. 50–51; FR-06)
 - **Depends**: T3.1, T7.1 (data vendor) — boleh dikerjakan dengan factory dulu `[PARALEL]`
 - Tabel pendaftaran vendor (filter status Menunggu/Terverifikasi/Ditolak), detail ringkas, **Setujui** / **Tolak (alasan wajib)**. Setelah keputusan: update `status_verifikasi`, `verified_at`, kirim notifikasi `verifikasi_vendor` (Process Spec 6.0).
 - **Acceptance**: vendor `terverifikasi` muncul di pencarian (S20); `ditolak/menunggu` tidak muncul dan tidak bisa input produk.
 
-### [ ] T3.6 Kelola Pengguna (S30, S30-V, hal. 52–53; FR-07)
+### [x] T3.6 Kelola Pengguna (S30, S30-V, hal. 52–53; FR-07)
 - **Depends**: T3.1
 - Daftar + pencarian + filter peran/status; toggle Aktif/Nonaktif dengan konfirmasi. Admin **tidak dapat menonaktifkan dirinya sendiri** maupun admin terakhir.
 - **Acceptance**: akun nonaktif tidak dapat login dan sesi aktifnya terputus (middleware `active`).
