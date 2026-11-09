@@ -12,11 +12,13 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Event\ChecklistController;
 use App\Http\Controllers\Event\DivisionController;
+use App\Http\Controllers\Event\EvaluationController;
 use App\Http\Controllers\Event\EventWizardController;
 use App\Http\Controllers\Event\MyTaskController;
 use App\Http\Controllers\Event\TaskController;
 use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventHistoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +77,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/acara/{event}', [EventController::class, 'update'])->name('acara.update');
     Route::get('/acara/{event}/monitoring', [EventController::class, 'monitoring'])->name('acara.monitoring');
     Route::get('/acara/{event}/anggaran', [EventController::class, 'anggaran'])->name('acara.anggaran');
+
+    // Evaluasi & Penutupan Acara (T6.3)
+    Route::get('/acara/{event}/evaluasi', [EvaluationController::class, 'show'])->name('acara.evaluasi');
+    Route::post('/acara/{event}/tutup', [EvaluationController::class, 'close'])->name('acara.tutup');
+
+    // Riwayat Acara (T6.4)
+    Route::get('/riwayat', [EventHistoryController::class, 'index'])->name('riwayat.index');
 
     // Checklist Kebutuhan (T4.4)
     Route::get('/acara/{event}/checklist', [ChecklistController::class, 'index'])->name('acara.checklist.index');
