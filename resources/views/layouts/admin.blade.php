@@ -12,6 +12,20 @@
 </head>
 <body class="h-full font-sans antialiased text-gray-900 bg-gray-50">
     <div x-data="{ sidebarOpen: false }" class="min-h-full flex flex-col lg:flex-row">
+        <!-- Mobile Sidebar Backdrop -->
+        <div
+            x-show="sidebarOpen"
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 z-40 bg-gray-900/50 lg:hidden"
+            x-on:click="sidebarOpen = false"
+            style="display: none;"
+        ></div>
+
         <!-- Sidebar -->
         <aside
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
@@ -70,6 +84,14 @@
                         <x-icon name="users" class="w-5 h-5" />
                         <span>Kelola Pengguna</span>
                     </a>
+
+                    <a
+                        href="{{ url('/admin/notifikasi') }}"
+                        class="flex items-center gap-3 px-3.5 py-2.5 rounded-[8px] text-sm font-medium transition-colors {{ request()->is('admin/notifikasi*') ? 'bg-indigo-600 text-white font-semibold' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}"
+                    >
+                        <x-icon name="bell" class="w-5 h-5" />
+                        <span>Notifikasi</span>
+                    </a>
                 </nav>
             </div>
 
@@ -87,17 +109,30 @@
 
         <!-- Main Wrapper -->
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-20">
-                <div class="text-sm font-semibold text-gray-800">
-                    {{ $title ?? 'Admin Area' }}
+            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 z-20">
+                <div class="flex items-center gap-3">
+                    <button
+                        type="button"
+                        x-on:click="sidebarOpen = true"
+                        class="p-2 -ml-2 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                        <span class="sr-only">Buka menu admin</span>
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                    <div class="text-sm font-semibold text-gray-800">
+                        {{ $title ?? 'Admin Area' }}
+                    </div>
                 </div>
+
                 <div class="flex items-center gap-3 text-sm text-gray-600">
-                    <x-avatar name="Admin EVLAN" size="sm" />
-                    <span class="font-medium">Administrator</span>
+                    <x-avatar :name="auth()->user()->nama ?? 'Admin EVLAN'" size="sm" />
+                    <span class="font-medium hidden sm:inline">{{ auth()->user()->nama ?? 'Administrator' }}</span>
                 </div>
             </header>
 
-            <main class="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
                 {{ $slot }}
             </main>
         </div>
@@ -106,4 +141,3 @@
     <x-toast />
 </body>
 </html>
-
