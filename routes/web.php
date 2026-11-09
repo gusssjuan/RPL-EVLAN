@@ -10,7 +10,9 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Event\ChecklistController;
 use App\Http\Controllers\Event\EventWizardController;
+use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -64,8 +66,25 @@ Route::middleware('auth')->group(function () {
         Route::post('/simpan', [EventWizardController::class, 'storeEvent'])->name('simpan');
     });
 
-    // Ringkasan Acara & Manajemen Detail
+    // Ringkasan Acara & Manajemen Detail (T4.6)
     Route::get('/acara/{event}', [EventController::class, 'show'])->name('acara.ringkasan');
+    Route::get('/acara/{event}/edit', [EventController::class, 'edit'])->name('acara.edit');
+    Route::put('/acara/{event}', [EventController::class, 'update'])->name('acara.update');
+    Route::get('/acara/{event}/monitoring', [EventController::class, 'monitoring'])->name('acara.monitoring');
+    Route::get('/acara/{event}/anggaran', [EventController::class, 'anggaran'])->name('acara.anggaran');
+
+    // Checklist Kebutuhan (T4.4)
+    Route::get('/acara/{event}/checklist', [ChecklistController::class, 'index'])->name('acara.checklist.index');
+    Route::post('/acara/{event}/checklist', [ChecklistController::class, 'store'])->name('acara.checklist.store');
+    Route::patch('/acara/{event}/checklist/{checklist}/toggle', [ChecklistController::class, 'toggle'])->name('acara.checklist.toggle');
+    Route::put('/acara/{event}/checklist/{checklist}', [ChecklistController::class, 'update'])->name('acara.checklist.update');
+    Route::delete('/acara/{event}/checklist/{checklist}', [ChecklistController::class, 'destroy'])->name('acara.checklist.destroy');
+
+    // Timeline Persiapan (T4.5)
+    Route::get('/acara/{event}/timeline', [TimelineController::class, 'index'])->name('acara.timeline.index');
+    Route::post('/acara/{event}/timeline', [TimelineController::class, 'store'])->name('acara.timeline.store');
+    Route::put('/acara/{event}/timeline/{timeline}', [TimelineController::class, 'update'])->name('acara.timeline.update');
+    Route::delete('/acara/{event}/timeline/{timeline}', [TimelineController::class, 'destroy'])->name('acara.timeline.destroy');
 
     // Rute Khusus Admin (FR-04 ... FR-08)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
