@@ -529,23 +529,23 @@ activity_logs
 
 # PHASE 6 — Monitoring, Evaluasi, Riwayat (FR-20, FR-21, FR-22)
 
-### [ ] T6.1 ProgressService
+### [x] T6.1 ProgressService
 - **Depends**: T5.2
 - `ProgressService::forEvent(Event)` mengembalikan: `persentase`, hitungan per status (+ terlewat), progres **per divisi**, deadline terdekat & terlewat, ringkasan checklist (x/y). Rumus (Process Spec 5.0): `jumlah_tugas = 0 → 0`, selain itu `selesai / total × 100`, dibulatkan ke bilangan bulat (10/24 → **42%**). Hitung via query agregat (bukan loop per tugas).
 - **Acceptance (Unit test)**: 0 tugas → 0%; 10/24 → 42%; hitungan "terlewat" mengikuti D-13; berubah **seketika** setelah update status (NFR-P4).
 
-### [ ] T6.2 Dashboard Monitoring (S18, hal. 33; mobile 70; FR-20, NFR-A1)
+### [x] T6.2 Dashboard Monitoring (S18, hal. 33; mobile 70; FR-20, NFR-A1)
 - **Depends**: T6.1, T5.4
 - Ringkasan progres (cincin %, 3 stat status), **Progres per divisi** (dengan filter), **Deadline terdekat & terlewat**, **Aktivitas anggota** (dari `activity_logs`, 10 terakhir), kartu Checklist (9/14), kartu Estimasi anggaran (total + tautan). Tombol **Evaluasi & Tutup Acara**.
 - Hanya Leader (D-16).
 - **Acceptance**: angka identik dengan seeder; Member → 403.
 
-### [ ] T6.3 Evaluasi dan Penutupan Acara (S19, S19-V, hal. 34–35; FR-21)
+### [x] T6.3 Evaluasi dan Penutupan Acara (S19, S19-V, hal. 34–35; FR-21)
 - **Depends**: T6.2
 - Form evaluasi (catatan), ringkasan akhir (progres, tugas belum selesai), dialog **konfirmasi** (peringatkan bila masih ada tugas belum selesai, tetap boleh ditutup). Set `status_event=selesai`, `closed_at`, simpan `evaluasi`. Setelah selesai: acara **read-only** (tidak bisa tambah/ubah tugas, anggota, checklist, anggaran) tetapi dapat dilihat di Riwayat.
 - **Acceptance**: setelah ditutup, POST ke endpoint kelola → 403/422; badge berubah "Selesai".
 
-### [ ] T6.4 Riwayat Acara (S24, hal. 42; FR-22)
+### [x] T6.4 Riwayat Acara (S24, hal. 42; FR-22)
 - **Depends**: T6.3
 - Daftar acara yang pernah dipimpin/diikuti (terutama yang selesai), filter status/tahun, peran pengguna.
 - **Acceptance**: hanya acara milik/ikut serta pengguna.
