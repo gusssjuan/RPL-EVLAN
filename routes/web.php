@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TemplateController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VendorVerificationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -39,11 +44,40 @@ Route::middleware('auth')->group(function () {
     Route::put('/profil/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::patch('/profil/notifikasi', [ProfileController::class, 'updateNotifications'])->name('profile.notifications');
 
-    // Rute Khusus Admin
+    // Rute Khusus Admin (FR-04 ... FR-08)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/', function () {
+        // T3.2 Dashboard Admin
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // T3.3 Kelola Kategori
+        Route::get('/kategori', [CategoryController::class, 'index'])->name('kategori.index');
+        Route::post('/kategori', [CategoryController::class, 'store'])->name('kategori.store');
+        Route::put('/kategori/{kategori}', [CategoryController::class, 'update'])->name('kategori.update');
+        Route::delete('/kategori/{kategori}', [CategoryController::class, 'destroy'])->name('kategori.destroy');
+
+        // T3.4 Kelola Template Master
+        Route::get('/template', [TemplateController::class, 'index'])->name('template.index');
+        Route::get('/template/buat', [TemplateController::class, 'create'])->name('template.create');
+        Route::post('/template', [TemplateController::class, 'store'])->name('template.store');
+        Route::get('/template/{template}/edit', [TemplateController::class, 'edit'])->name('template.edit');
+        Route::put('/template/{template}', [TemplateController::class, 'update'])->name('template.update');
+        Route::post('/template/{template}/duplikat', [TemplateController::class, 'duplicate'])->name('template.duplicate');
+        Route::post('/template/{template}/aktifkan', [TemplateController::class, 'activate'])->name('template.activate');
+        Route::delete('/template/{template}', [TemplateController::class, 'destroy'])->name('template.destroy');
+
+        // T3.5 Verifikasi Vendor
+        Route::get('/verifikasi-vendor', [VendorVerificationController::class, 'index'])->name('verifikasi-vendor.index');
+        Route::post('/verifikasi-vendor/{vendor}/setujui', [VendorVerificationController::class, 'approve'])->name('verifikasi-vendor.approve');
+        Route::post('/verifikasi-vendor/{vendor}/tolak', [VendorVerificationController::class, 'reject'])->name('verifikasi-vendor.reject');
+
+        // T3.6 Kelola Pengguna
+        Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
+        Route::post('/pengguna/{user}/toggle', [UserController::class, 'toggleStatus'])->name('pengguna.toggle');
+
+        // Placeholder Notifikasi Admin
+        Route::get('/notifikasi', function () {
             return view('admin.dashboard');
-        })->name('dashboard');
+        })->name('notifikasi.index');
     });
 
     // Rute Khusus Vendor
