@@ -1,0 +1,68 @@
+# DECISIONS.md — Keputusan dan Asumsi EVLAN
+
+> Dipakai bersama `agents/task.md`. Tiga bagian:
+> **A. Keputusan Awal** (D-01…D-26): sudah ditetapkan, berlaku kecuali pemilik proyek mengubahnya.
+> **B. Log Keputusan Agent**: tambahkan entri baru di sini setiap kali menemui hal ambigu (lihat aturan #5 di `task.md`).
+> **C. Pertanyaan Terbuka**: hal yang butuh konfirmasi pemilik proyek.
+
+## Cara menulis entri di Bagian B
+
+- Satu entri per keputusan, **terbaru di bawah**. ID berurutan `L-001`, `L-002`, …
+- Isi: tanggal, task, keputusan, alasan, dampak (file/tabel yang terpengaruh).
+- Bila keputusan **menyimpang dari SRS atau wireframe**, tulis tegas "MENYIMPANG" dan jelaskan alasannya.
+- Jangan menghapus atau menulis ulang entri lama. Bila keputusan berubah, tambah entri baru dengan status `MENGGANTIKAN L-xxx`.
+- Keputusan Bagian A hanya boleh diubah oleh pemilik proyek. Agent yang menemukan masalah pada keputusan Bagian A menulis entri di Bagian B bertanda `USUL PERUBAHAN D-xx`, lalu tetap mengikuti D-xx sampai ada persetujuan.
+
+---
+
+## A. Keputusan Awal (D-01 … D-26)
+
+| ID | Topik | Keputusan | Alasan |
+|---|---|---|---|
+| D-01 | **Model peran** | Tabel `roles` berisi 3 peran akun: `admin`, `user`, `vendor`. **Leader/Member bukan peran akun**, melainkan peran *kontekstual per acara*: Leader = `events.leader_id`; Member = baris di `event_members`. Setiap `user` boleh membuat acara (otomatis jadi Leader acara itu) dan boleh menjadi Member di acara lain. | Wireframe: registrasi memilih "Pengguna (Ketua/Anggota)" vs "Vendor"; sidebar menampilkan label "Pengguna"; dashboard Ketua vs Anggota hanya varian tampilan. RBAC SRS (NFR-S2) tetap terpenuhi lewat Policy per acara. |
+| D-02 | Penamaan DB | Nama tabel Inggris jamak (`events`, `tasks`, …); PK `id`; FK `<entitas>_id`; **kolom domain mengikuti Data Dictionary SRS** (`nama_event`, `tujuan`, `status_event`, …). `password_hash` SRS = kolom `password` Laravel (di-hash bcrypt/argon). | Konsisten dengan konvensi Eloquent tanpa kehilangan keterlacakan ke SRS. |
+| D-03 | Notifikasi | Tabel kustom `app_notifications` (model `AppNotification`); **jangan** pakai trait `Notifiable`/tabel `notifications` bawaan Laravel. | D9 SRS punya skema sendiri; menghindari bentrok relasi. |
+| D-04 | **Pendaftaran acara (FR-23/24)** | Tambah tabel `event_registrations` dan kolom publik di `events`: `is_publik`, `pendaftaran_dibuka`, `batas_pendaftaran`, `kuota`, `penyelenggara`, `waktu_mulai`, `waktu_selesai`. | Wireframe S08/S09 menampilkan pencarian acara publik, kuota 96/150, status Menunggu/Diterima/Ditolak. ERD SRS tidak memuatnya. |
+| D-05 | Konfirmasi pendaftar | Leader mengelola pendaftar lewat bagian "Pendaftar" di Detail Acara (belum ada layar di wireframe → buat sederhana, Prioritas 3). | S09-V menyebut "dikonfirmasi oleh Ketua Panitia" tetapi tidak ada layar pengelolaannya. |
+| D-06 | Struktur template | `template_items.jenis ∈ {kebutuhan, timeline, divisi, jobdesk}` + kolom `kelompok`. `struktur_panitia` (kolom di ERD) **diganti** item `jenis=divisi`. `jobdesk.kelompok` = nama divisi; `kebutuhan.kelompok` = kategori kebutuhan (mis. "Perlengkapan"). | Editor template (S28) punya 4 tab: Kebutuhan, Timeline, Struktur Kepanitiaan, Rekomendasi Jobdesk. |
+| D-07 | Satu template aktif per kategori | `templates.is_aktif`; wizard memakai template aktif dari kategori terpilih. Menyimpan template aktif menonaktifkan template aktif lain pada kategori yang sama (di service, bukan constraint DB). | Wizard hanya menampilkan satu "Template Seminar Umum". |
+| D-08 | Snapshot checklist/timeline | Saat acara dibuat, item template **disalin** ke `checklists` dan `timelines`. Perubahan template kemudian tidak mengubah acara lama. | Acara harus stabil dan dapat diedit sendiri (FR-13). |
+| D-09 | Hari H di timeline | Generator timeline **selalu menambah** entri `Hari H` (offset 0, "Pelaksanaan acara") di akhir. | Wizard 3/3 menampilkan "6 agenda timeline + hari H". |
+| D-10 | Divisi tidak dibuat otomatis | Saat acara dibuat, hanya checklist + timeline yang dibuat. Divisi & jobdesk **hanya rekomendasi**; Leader menambahkan divisi (satu per satu atau "Tambahkan semua rekomendasi") di S14, dan membuat tugas dengan acuan rekomendasi jobdesk di S15. | FR-15 & Process Spec 3.0; catatan wizard: "belum ada tugas yang ditugaskan". |
+| D-11 | Leader bukan baris `event_members` | Leader diperlakukan sebagai peserta acara untuk validasi penerima tugas. Helper: `Event::isParticipant(User)`. | Process Spec 4.3: penerima harus anggota acara; wireframe S16 menyebut "Leader sebagai penerima tugas". |
+| D-12 | Peran dalam divisi | `event_members.peran ∈ {koordinator, anggota}`. | Wireframe S14 menampilkan "Koordinator"/"Anggota". |
+| D-13 | Status "Terlewat" | **Tidak disimpan**. Dihitung: `deadline < hari_ini AND status != sudah_diselesaikan`. | Wireframe memakai badge "Terlewat", SRS hanya 3 status tersimpan. |
+| D-14 | Siapa boleh ubah status tugas | Hanya **penerima tugas** (termasuk Leader bila ia penerima). Leader boleh *edit* data tugas lain (judul, deskripsi, deadline, penerima, divisi) tetapi tidak mengubah status tugas milik orang lain. | Process Spec 4.4 + NFR-S2. |
+| D-15 | Menambah anggota | Anggota ditambahkan lewat **email akun yang sudah terdaftar** (role `user`). Email tidak ditemukan → tolak dengan pesan jelas. Tidak ada alur terima/tolak undangan; "undangan" = notifikasi jenis `undangan`. | Process Spec 4.2. |
+| D-16 | Hak akses tab acara | Leader: semua tab + tombol kelola. Member: Ringkasan, Checklist (baca), Timeline, Kepanitiaan (baca), tugas miliknya. Tab **Monitoring & Anggaran disembunyikan** untuk Member dan URL langsung → **403**. | Sitemap "Hak akses di dalam acara" (ASUMSI dari FR-14/FR-20). |
+| D-17 | Reminder deadline | 1 notifikasi per tugas per kondisi (`mendekati` = H-1 atau kurang, `terlewat`), ke penerima **dan** Leader, dengan `dedupe_key` agar idempoten. | Process Spec 7.0 + hindari spam harian. |
+| D-18 | Activity log | Tabel `activity_logs` (NFR-A1) mencatat: tugas dibuat, tugas ditugaskan, status berubah, anggota ditambahkan. Dipakai di panel "Aktivitas anggota" (S18). | NFR-A1, FR-20. |
+| D-19 | Vendor tersimpan | Tabel `saved_vendors` (tab "Tersimpan" di S20). | Wireframe S20. |
+| D-20 | Anggaran | `budgets.total` disimpan (sesuai D8 SRS) dan dihitung otomatis `jumlah × harga_satuan` di model. Opsional tertaut ke `checklist_id` dan `vendor_product_id`. "Sumber" = vendor bila `vendor_product_id` terisi, selain itu "Manual". Nilai uang = integer rupiah (`unsignedBigInteger`). | S22 + Process Spec 6.0. |
+| D-21 | Vendor mulai dari harga | "Mulai Rp X" di kartu vendor = `MIN(vendor_products.harga)` (dihitung, tidak disimpan). | S20. |
+| D-22 | Kategori vendor | Enum PHP: `catering`, `dekorasi`, `dokumentasi`, `sound_system`, `perlengkapan_acara`. Tidak dikelola Admin. | FR-25. |
+| D-23 | Hapus kategori/vendor dipakai | Tolak penghapusan bila kategori dipakai `events` (apa pun statusnya) atau template; vendor yang produknya dipakai di `budgets` tidak boleh dihapus (nonaktifkan saja). | NFR-D1, Process Spec 2.0. |
+| D-24 | Lupa kata sandi, landing, preferensi notifikasi | Ditandai **ASUMSI/OPSIONAL** di wireframe (S01, S02A, panel preferensi di S04). Kerjakan di akhir (Prioritas 3). | Tidak ada di SRS. |
+| D-25 | Draf wizard | Wizard 3 langkah menyimpan draf di **session** (belum ke DB). Tombol **Buat Acara** menyimpan semuanya dalam satu transaksi. | S11A: badge "Belum disimpan". |
+| D-26 | Validasi tanggal acara | `tanggal >= hari_ini` (hari ini diperbolehkan). Tugas: `deadline <= tanggal_acara`. | Process Spec 3.0 & 4.3. |
+
+---
+
+## B. Log Keputusan Agent
+
+| ID | Tanggal | Task | Keputusan | Alasan | Dampak | Status |
+|---|---|---|---|---|---|---|
+| L-001 | 2026-11-09 | T0.1 / T1.1 | Konfigurasi default timezone Asia/Makassar dan locale id; buat skema 16 tabel lengkap dengan relasi referensial sesuai Data Dictionary | Menjamin konsistensi zona waktu WITA sesuai wireframe dan relasi integritas data | `config/app.php`, migrasi | AKTIF |
+
+---
+
+## C. Pertanyaan Terbuka untuk Pemilik Proyek
+
+Hal yang agent putuskan sementara tetapi butuh konfirmasi manusia. Agent menambah baris; pemilik proyek mengisi kolom Jawaban.
+
+| ID | Pertanyaan | Default yang dipakai agent | Jawaban pemilik |
+|---|---|---|---|
+| Q-001 | Apakah kuota pendaftaran acara menghitung status `menunggu` selain `diterima`? | Hanya `diterima` (T9.2) | |
+| Q-002 | Apakah peran Leader/Member perlu menjadi peran akun terpisah seperti di FR-02 SRS? | Tidak; peran kontekstual per acara (D-01) | |
+| Q-003 | Apakah Hari H selalu ditambahkan ke timeline walau tidak ada di template? | Ya (D-09) | |
+
