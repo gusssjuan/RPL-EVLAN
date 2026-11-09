@@ -22,6 +22,11 @@ class EventDetailRequest extends FormRequest
             'lokasi' => ['required', 'string', 'max:255'],
             'target_peserta' => ['required', 'string', 'max:255'],
             'jumlah_peserta' => ['required', 'integer', 'min:1'],
+            'is_publik' => ['nullable', 'boolean'],
+            'pendaftaran_dibuka' => ['nullable', 'boolean'],
+            'batas_pendaftaran' => ['nullable', 'date'],
+            'kuota' => ['nullable', 'integer', 'min:1'],
+            'penyelenggara' => ['nullable', 'string', 'max:255'],
         ];
     }
 
