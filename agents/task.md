@@ -468,29 +468,29 @@ activity_logs
 - Divisi/jobdesk **tidak** dibuat otomatis (D-10).
 - **Acceptance**: Feature test: setelah create, jumlah checklist = jumlah item kebutuhan template; tanggal timeline benar (contoh: acara 12 Des 2026 → H-60 = 13 Okt 2026); `status_selesai=false`; proses < 5 detik (NFR-P2) pada test performa sederhana; kegagalan di tengah transaksi **tidak** meninggalkan data parsial.
 
-### [ ] T4.4 Checklist Kebutuhan (S12, S12-V, hal. 24–25; mobile 68; FR-13)
+### [x] T4.4 Checklist Kebutuhan (S12, S12-V, hal. 24–25; mobile 68; FR-13)
 - **Depends**: T4.3
 - Bar "Kebutuhan terpenuhi x/14"; chip filter **Semua (n) · Belum (n) · Terpenuhi (n)**; tombol **+ Tambah Kebutuhan** (item manual → `dari_template=false`). Tabel kolom: checkbox, Kebutuhan, **Sumber** (chip "Dari template"/"Manual"), **Status** (Belum / Terpenuhi, item selesai dicoret), **Vendor** (tautan "Cari vendor" → S20 dengan kategori vendor terkait), menu aksi (ubah/hapus). Centang via AJAX/Alpine. Member: **baca saja**.
 - **Acceptance**: Leader bisa CRUD + centang; Member tidak melihat tombol kelola dan POST → 403.
 
-### [ ] T4.5 Timeline Persiapan (S13, hal. 26; FR-12)
+### [x] T4.5 Timeline Persiapan (S13, hal. 26; FR-12)
 - **Depends**: T4.3
 - Daftar H-n berurutan dengan tanggal absolut, status terlewat/hari ini/akan datang. Leader dapat mengubah teks kegiatan (tanggal ikut `offset`, bukan diedit bebas) — jika diubah manual, simpan override dan catat di `agents/DECISIONS.md`.
 - **Acceptance**: urutan menurun dari H-terjauh ke Hari H; item lewat diberi penanda, tidak dihapus.
 
-### [ ] T4.6 Layout Acara dan Ringkasan (S07, S07-V, hal. 12–13; mobile 64; FR-10)
+### [x] T4.6 Layout Acara dan Ringkasan (S07, S07-V, hal. 12–13; mobile 64; FR-10)
 - **Depends**: T4.3, T2.2
 - Layout bersama dengan header (nama, badge status, kategori, tanggal, `H-n`, lokasi, jumlah peserta, tombol **Edit Detail**) dan **tab**: Ringkasan · Checklist · Timeline · Kepanitiaan · Tugas · Monitoring · Anggaran. **Tab disesuaikan peran (D-16)**.
 - Ringkasan Ketua: cincin progres, agenda terdekat, checklist terpenuhi, kepanitiaan (avatar), vendor tercatat. Varian Anggota (S07-V): tanpa Monitoring/Anggaran, menampilkan tugas miliknya.
 - **Edit Detail** (S11 mode edit) + bagian **Pengaturan Publikasi** (toggle `is_publik`, `pendaftaran_dibuka`, `batas_pendaftaran`, `kuota`, `penyelenggara`) — dasar T9.x. Jika tanggal diubah, **hitung ulang** `timelines.tanggal` dari `offset_hari`.
 - **Acceptance**: Member membuka tab terlarang → 403; ubah tanggal acara memperbarui timeline.
 
-### [ ] T4.7 Acara Saya (S06, hal. 11)
+### [x] T4.7 Acara Saya (S06, hal. 11)
 - **Depends**: T4.6
 - Tab "Saya Ketua" / "Saya Anggota" (atau filter), kartu/tabel: nama, kategori, tanggal + `H-n`, progres, peran (badge "Ketua"), status. Tombol **+ Buat Acara**.
 - **Acceptance**: hanya menampilkan acara milik/ikut serta pengguna.
 
-### [ ] T4.8 Dashboard Pengguna (S05, S05-V, hal. 9–10; mobile 62–63)
+### [x] T4.8 Dashboard Pengguna (S05, S05-V, hal. 9–10; mobile 62–63)
 - **Depends**: T4.7, T5.3 (data tugas) — rakit bertahap
 - Varian Ketua: sapaan "Halo, {nama} 👋", 4 stat (acara, tugas, dst. sesuai wireframe), acara aktif dengan progres, deadline terdekat, aktivitas terbaru. Varian Anggota: tugas prioritas saya, acara yang saya ikuti.
 - **Acceptance**: angka sama dengan data seeder wireframe (mis. progres 42%).
