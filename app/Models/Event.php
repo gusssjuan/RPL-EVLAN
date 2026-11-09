@@ -163,6 +163,29 @@ class Event extends Model
         );
     }
 
+    public function getProgresPersenAttribute(): int
+    {
+        $totalTasks = $this->relationLoaded('tasks') ? $this->tasks->count() : $this->tasks()->count();
+        if ($totalTasks > 0) {
+            $completed = $this->relationLoaded('tasks')
+                ? $this->tasks->where('status.value', 'sudah_diselesaikan')->count()
+                : $this->tasks()->where('status', 'sudah_diselesaikan')->count();
+
+            return (int) round(($completed / $totalTasks) * 100);
+        }
+
+        $totalChecklists = $this->relationLoaded('checklists') ? $this->checklists->count() : $this->checklists()->count();
+        if ($totalChecklists > 0) {
+            $completed = $this->relationLoaded('checklists')
+                ? $this->checklists->where('status_selesai', true)->count()
+                : $this->checklists()->where('status_selesai', true)->count();
+
+            return (int) round(($completed / $totalChecklists) * 100);
+        }
+
+        return 0;
+    }
+
     public function scopePublik(Builder $query): Builder
     {
         return $query->where('is_publik', true);
