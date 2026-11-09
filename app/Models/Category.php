@@ -21,6 +21,11 @@ class Category extends Model
         return $this->hasMany(Template::class);
     }
 
+    public function activeTemplate(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Template::class)->where('is_aktif', true);
+    }
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);

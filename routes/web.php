@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Event\EventWizardController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,18 +46,38 @@ Route::middleware('auth')->group(function () {
     Route::put('/profil/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::patch('/profil/notifikasi', [ProfileController::class, 'updateNotifications'])->name('profile.notifications');
 
+    // Acara Saya
+    Route::get('/acara', [EventController::class, 'index'])->name('acara.index');
+
+    // Wizard Pembuatan Acara (T4.1, T4.2, T4.3)
+    Route::middleware('role:user')->prefix('acara/buat')->name('acara.buat.')->group(function () {
+        // Langkah 1: Kategori
+        Route::get('/kategori', [EventWizardController::class, 'stepCategory'])->name('kategori');
+        Route::post('/kategori', [EventWizardController::class, 'storeCategory'])->name('kategori.store');
+
+        // Langkah 2: Detail
+        Route::get('/detail', [EventWizardController::class, 'stepDetail'])->name('detail');
+        Route::post('/detail', [EventWizardController::class, 'storeDetail'])->name('detail.store');
+
+        // Langkah 3: Rancangan & Eksekusi Simpan
+        Route::get('/rancangan', [EventWizardController::class, 'stepRancangan'])->name('rancangan');
+        Route::post('/simpan', [EventWizardController::class, 'storeEvent'])->name('simpan');
+    });
+
+    // Ringkasan Acara & Manajemen Detail
+    Route::get('/acara/{event}', [EventController::class, 'show'])->name('acara.ringkasan');
+
     // Rute Khusus Admin (FR-04 ... FR-08)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
-        // T3.2 Dashboard Admin
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-        // T3.3 Kelola Kategori
+        // Kelola Kategori
         Route::get('/kategori', [CategoryController::class, 'index'])->name('kategori.index');
         Route::post('/kategori', [CategoryController::class, 'store'])->name('kategori.store');
         Route::put('/kategori/{kategori}', [CategoryController::class, 'update'])->name('kategori.update');
         Route::delete('/kategori/{kategori}', [CategoryController::class, 'destroy'])->name('kategori.destroy');
 
-        // T3.4 Kelola Template Master
+        // Kelola Template Master
         Route::get('/template', [TemplateController::class, 'index'])->name('template.index');
         Route::get('/template/buat', [TemplateController::class, 'create'])->name('template.create');
         Route::post('/template', [TemplateController::class, 'store'])->name('template.store');
@@ -65,16 +87,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/template/{template}/aktifkan', [TemplateController::class, 'activate'])->name('template.activate');
         Route::delete('/template/{template}', [TemplateController::class, 'destroy'])->name('template.destroy');
 
-        // T3.5 Verifikasi Vendor
+        // Verifikasi Vendor
         Route::get('/verifikasi-vendor', [VendorVerificationController::class, 'index'])->name('verifikasi-vendor.index');
         Route::post('/verifikasi-vendor/{vendor}/setujui', [VendorVerificationController::class, 'approve'])->name('verifikasi-vendor.approve');
         Route::post('/verifikasi-vendor/{vendor}/tolak', [VendorVerificationController::class, 'reject'])->name('verifikasi-vendor.reject');
 
-        // T3.6 Kelola Pengguna
+        // Kelola Pengguna
         Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna/{user}/toggle', [UserController::class, 'toggleStatus'])->name('pengguna.toggle');
 
-        // Placeholder Notifikasi Admin
         Route::get('/notifikasi', function () {
             return view('admin.dashboard');
         })->name('notifikasi.index');
