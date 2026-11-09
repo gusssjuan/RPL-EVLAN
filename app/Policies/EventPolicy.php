@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\StatusEvent;
 use App\Models\Event;
 use App\Models\User;
 
@@ -32,7 +33,7 @@ class EventPolicy
      */
     public function update(User $user, Event $event): bool
     {
-        return $event->isLeader($user);
+        return $event->isLeader($user) && $event->status_event !== StatusEvent::Selesai;
     }
 
     /**
@@ -40,7 +41,7 @@ class EventPolicy
      */
     public function delete(User $user, Event $event): bool
     {
-        return $event->isLeader($user);
+        return $event->isLeader($user) && $event->status_event !== StatusEvent::Selesai;
     }
 
     /**
@@ -48,7 +49,15 @@ class EventPolicy
      */
     public function manage(User $user, Event $event): bool
     {
-        return $event->isLeader($user);
+        return $event->isLeader($user) && $event->status_event !== StatusEvent::Selesai;
+    }
+
+    /**
+     * Determine whether the user can close and evaluate the event.
+     */
+    public function close(User $user, Event $event): bool
+    {
+        return $event->isLeader($user) && $event->status_event !== StatusEvent::Selesai;
     }
 
     /**

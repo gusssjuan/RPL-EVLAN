@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\StatusEvent;
 use App\Models\Event;
 use App\Models\Task;
 use App\Models\User;
@@ -21,7 +22,7 @@ class TaskPolicy
      */
     public function create(User $user, Event $event): bool
     {
-        return $event->isLeader($user);
+        return $event->isLeader($user) && $event->status_event !== StatusEvent::Selesai;
     }
 
     /**
@@ -29,7 +30,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $task->event->isLeader($user);
+        return $task->event->isLeader($user) && $task->event->status_event !== StatusEvent::Selesai;
     }
 
     /**
@@ -37,7 +38,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $task->event->isLeader($user);
+        return $task->event->isLeader($user) && $task->event->status_event !== StatusEvent::Selesai;
     }
 
     /**
@@ -45,7 +46,7 @@ class TaskPolicy
      */
     public function updateStatus(User $user, Task $task): bool
     {
-        return $task->penerima_id === $user->id;
+        return $task->penerima_id === $user->id && $task->event->status_event !== StatusEvent::Selesai;
     }
 }
 
