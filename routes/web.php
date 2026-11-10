@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Event\BudgetController;
 use App\Http\Controllers\Event\ChecklistController;
 use App\Http\Controllers\Event\DivisionController;
 use App\Http\Controllers\Event\EvaluationController;
@@ -20,6 +21,10 @@ use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventHistoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Vendor\VendorDashboardController;
+use App\Http\Controllers\Vendor\VendorProductController;
+use App\Http\Controllers\Vendor\VendorProfileController;
+use App\Http\Controllers\Vendor\VendorSearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -76,7 +81,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/acara/{event}/edit', [EventController::class, 'edit'])->name('acara.edit');
     Route::put('/acara/{event}', [EventController::class, 'update'])->name('acara.update');
     Route::get('/acara/{event}/monitoring', [EventController::class, 'monitoring'])->name('acara.monitoring');
-    Route::get('/acara/{event}/anggaran', [EventController::class, 'anggaran'])->name('acara.anggaran');
+    Route::get('/acara/{event}/anggaran', [BudgetController::class, 'index'])->name('acara.anggaran');
+    Route::post('/acara/{event}/anggaran', [BudgetController::class, 'store'])->name('acara.anggaran.store');
+    Route::put('/acara/{event}/anggaran/{budget}', [BudgetController::class, 'update'])->name('acara.anggaran.update');
+    Route::delete('/acara/{event}/anggaran/{budget}', [BudgetController::class, 'destroy'])->name('acara.anggaran.destroy');
 
     // Evaluasi & Penutupan Acara (T6.3)
     Route::get('/acara/{event}/evaluasi', [EvaluationController::class, 'show'])->name('acara.evaluasi');
@@ -118,6 +126,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/tugas/{task}', [MyTaskController::class, 'show'])->name('tugas.show');
     Route::patch('/tugas/{task}/status', [MyTaskController::class, 'updateStatus'])->name('tugas.status');
 
+    // Pencarian & Detail Vendor (T7.2, T7.3) — hanya pengguna (Leader/Member)
+    Route::middleware('role:user')->group(function () {
+        Route::get('/vendor', [VendorSearchController::class, 'index'])->name('vendor.index');
+        Route::get('/vendor/{vendor}', [VendorSearchController::class, 'show'])->name('vendor.show');
+        Route::post('/vendor/{vendor}/simpan', [VendorSearchController::class, 'simpan'])->name('vendor.simpan');
+        Route::delete('/vendor/{vendor}/simpan', [VendorSearchController::class, 'batalSimpan'])->name('vendor.batal-simpan');
+        Route::post('/vendor/{vendor}/anggaran', [BudgetController::class, 'storeFromVendor'])->name('vendor.anggaran.store');
+    });
+
     // Rute Khusus Admin (FR-04 ... FR-08)
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -152,11 +169,18 @@ Route::middleware('auth')->group(function () {
         })->name('notifikasi.index');
     });
 
-    // Rute Khusus Vendor
+    // Rute Khusus Vendor (T7.1)
     Route::middleware('role:vendor')->prefix('usaha')->name('usaha.')->group(function () {
-        Route::get('/', function () {
-            return view('vendor.dashboard');
-        })->name('dashboard');
+        Route::get('/', [VendorDashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/profil', [VendorProfileController::class, 'edit'])->name('profil.edit');
+        Route::put('/profil', [VendorProfileController::class, 'update'])->name('profil.update');
+
+        Route::get('/produk', [VendorProductController::class, 'index'])->name('produk.index');
+        Route::post('/produk', [VendorProductController::class, 'store'])->name('produk.store');
+        Route::put('/produk/{produk}', [VendorProductController::class, 'update'])->name('produk.update');
+        Route::patch('/produk/{produk}/toggle', [VendorProductController::class, 'toggle'])->name('produk.toggle');
+        Route::delete('/produk/{produk}', [VendorProductController::class, 'destroy'])->name('produk.destroy');
     });
 });
 

@@ -128,11 +128,4 @@ class EventController extends Controller
 
         return view('acara.monitoring', compact('event', 'monitoring', 'aktivitasAnggota'));
     }
-
-    public function anggaran(Event $event): View
-    {
-        $this->authorize('viewBudget', $event); // D-16: Leader only
-
-        return view('acara.anggaran', compact('event'));
-    }
 }
