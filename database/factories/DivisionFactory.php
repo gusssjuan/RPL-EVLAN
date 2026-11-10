@@ -14,8 +14,7 @@ class DivisionFactory extends Factory
     {
         return [
             'event_id' => Event::factory(),
-            'nama_divisi' => fake()->unique()->randomElement(['Acara', 'Konsumsi', 'Publikasi', 'Perlengkapan', 'Dokumentasi', 'Keamanan', 'Humas']),
+            'nama_divisi' => fake()->randomElement(['Acara', 'Konsumsi', 'Publikasi', 'Perlengkapan', 'Dokumentasi', 'Keamanan', 'Humas']),
         ];
     }
 }
-

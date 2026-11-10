@@ -19,9 +19,13 @@ class MonitoringDashboardTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected User $outsider;
+
     protected Category $category;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -69,26 +73,25 @@ class MonitoringDashboardTest extends TestCase
             ]);
         }
 
-        $response = $this->actingAs($this->leader)->get('/acara/' . $this->event->id . '/monitoring');
+        $response = $this->actingAs($this->leader)->get('/acara/'.$this->event->id.'/monitoring');
 
         $response->assertStatus(200);
         $response->assertSee('Dashboard Monitoring Terpadu');
         $response->assertSee('42%');
-        $response->assertSee('Evaluasi &amp; Tutup Acara', false);
+        $response->assertSee('Evaluasi & Tutup Acara', false);
     }
 
     public function test_anggota_dilarang_mengakses_monitoring_d16(): void
     {
-        $response = $this->actingAs($this->member)->get('/acara/' . $this->event->id . '/monitoring');
+        $response = $this->actingAs($this->member)->get('/acara/'.$this->event->id.'/monitoring');
 
         $response->assertStatus(403);
     }
 
     public function test_pengguna_luar_dilarang_mengakses_monitoring(): void
     {
-        $response = $this->actingAs($this->outsider)->get('/acara/' . $this->event->id . '/monitoring');
+        $response = $this->actingAs($this->outsider)->get('/acara/'.$this->event->id.'/monitoring');
 
         $response->assertStatus(403);
     }
 }
-

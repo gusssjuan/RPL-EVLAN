@@ -20,8 +20,11 @@ class EventEvaluationTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $member;
+
     protected Category $category;
+
     protected Event $event;
 
     protected function setUp(): void
@@ -53,23 +56,23 @@ class EventEvaluationTest extends TestCase
 
     public function test_ketua_dapat_melihat_halaman_evaluasi_s19(): void
     {
-        $response = $this->actingAs($this->leader)->get('/acara/' . $this->event->id . '/evaluasi');
+        $response = $this->actingAs($this->leader)->get('/acara/'.$this->event->id.'/evaluasi');
 
         $response->assertStatus(200);
-        $response->assertSee('Evaluasi &amp; Penutupan Acara', false);
+        $response->assertSee('Evaluasi & Penutupan Acara', false);
         $response->assertSee('Catatan Evaluasi Pelaksanaan Acara');
     }
 
     public function test_anggota_dilarang_mengakses_halaman_evaluasi(): void
     {
-        $response = $this->actingAs($this->member)->get('/acara/' . $this->event->id . '/evaluasi');
+        $response = $this->actingAs($this->member)->get('/acara/'.$this->event->id.'/evaluasi');
 
         $response->assertStatus(403);
     }
 
     public function test_evaluasi_kosong_ditolak(): void
     {
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/tutup', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/tutup', [
             'evaluasi' => '',
         ]);
 
@@ -82,11 +85,11 @@ class EventEvaluationTest extends TestCase
     {
         $catatan = 'Acara seminar berjalan dengan sangat lancar dan mencapai 95% target peserta.';
 
-        $response = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/tutup', [
+        $response = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/tutup', [
             'evaluasi' => $catatan,
         ]);
 
-        $response->assertRedirect('/acara/' . $this->event->id);
+        $response->assertRedirect('/acara/'.$this->event->id);
 
         $this->event->refresh();
         $this->assertEquals(StatusEvent::Selesai, $this->event->status_event);
@@ -117,7 +120,7 @@ class EventEvaluationTest extends TestCase
         ]);
 
         // 1. Leader mencoba mengubah detail acara -> 403
-        $resUpdateEvent = $this->actingAs($this->leader)->put('/acara/' . $this->event->id, [
+        $resUpdateEvent = $this->actingAs($this->leader)->put('/acara/'.$this->event->id, [
             'nama_event' => 'Nama Baru Ditolak',
             'tujuan' => 'Tujuan',
             'tanggal' => '2026-12-15',
@@ -128,7 +131,7 @@ class EventEvaluationTest extends TestCase
         $resUpdateEvent->assertStatus(403);
 
         // 2. Leader mencoba membuat tugas baru -> 403
-        $resCreateTask = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/tugas', [
+        $resCreateTask = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/tugas', [
             'judul' => 'Tugas Ilegal',
             'penerima_id' => $this->member->id,
             'deadline' => '2026-12-10',
@@ -136,16 +139,15 @@ class EventEvaluationTest extends TestCase
         $resCreateTask->assertStatus(403);
 
         // 3. Leader mencoba menambah divisi -> 403
-        $resCreateDiv = $this->actingAs($this->leader)->post('/acara/' . $this->event->id . '/kepanitiaan/divisi', [
+        $resCreateDiv = $this->actingAs($this->leader)->post('/acara/'.$this->event->id.'/kepanitiaan/divisi', [
             'nama_divisi' => 'Divisi Ilegal',
         ]);
         $resCreateDiv->assertStatus(403);
 
         // 4. Penerima mencoba update status tugas -> 403
-        $resUpdateStatus = $this->actingAs($this->member)->patch('/tugas/' . $task->id . '/status', [
+        $resUpdateStatus = $this->actingAs($this->member)->patch('/tugas/'.$task->id.'/status', [
             'status' => 'sudah_diselesaikan',
         ]);
         $resUpdateStatus->assertStatus(403);
     }
 }
-

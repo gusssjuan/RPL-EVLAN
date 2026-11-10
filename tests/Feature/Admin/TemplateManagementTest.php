@@ -16,6 +16,7 @@ class TemplateManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $admin;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -78,7 +79,7 @@ class TemplateManagementTest extends TestCase
         ]);
 
         $template = Template::where('nama_template', 'Template Seminar Lengkap')->first();
-        $this->assertCount(6, $template->items);
+        $this->assertCount(8, $template->items);
         $this->assertEquals(2, $template->kebutuhan()->count());
         $this->assertEquals(2, $template->timeline()->count());
         $this->assertEquals(2, $template->divisi()->count());
@@ -134,4 +135,3 @@ class TemplateManagementTest extends TestCase
         $this->assertFalse($templateLama->fresh()->is_aktif);
     }
 }
-

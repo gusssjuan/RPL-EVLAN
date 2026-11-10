@@ -9,7 +9,7 @@ use App\Models\EventMember;
 use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ModelLogicTest extends TestCase
 {
@@ -59,13 +59,13 @@ class ModelLogicTest extends TestCase
 
     public function test_event_is_participant(): void
     {
-        $leader = new User();
+        $leader = new User;
         $leader->id = 1;
 
-        $member = new User();
+        $member = new User;
         $member->id = 2;
 
-        $stranger = new User();
+        $stranger = new User;
         $stranger->id = 3;
 
         $event = new Event(['leader_id' => 1]);
@@ -96,4 +96,3 @@ class ModelLogicTest extends TestCase
         $this->assertEquals(1250000, $expectedTotal);
     }
 }
-

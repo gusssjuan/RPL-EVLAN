@@ -19,7 +19,9 @@ class EventCreationWizardTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Category $category;
+
     protected Template $template;
 
     protected function setUp(): void
@@ -166,7 +168,7 @@ class EventCreationWizardTest extends TestCase
         $response = $this->actingAs($this->user)->get('/acara/buat/rancangan');
 
         $response->assertStatus(200);
-        $response->assertSee('Rancangan & Pratinjau Acara');
+        $response->assertSee('Rancangan & Pratinjau Acara', false);
         $response->assertSee('Seminar Teknologi 2026');
         $response->assertSee('Sound system & 4 mikrofon');
     }
@@ -244,4 +246,3 @@ class EventCreationWizardTest extends TestCase
         $this->assertNull(session('event_draft'));
     }
 }
-

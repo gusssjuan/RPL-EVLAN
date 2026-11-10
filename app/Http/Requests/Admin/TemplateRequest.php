@@ -19,6 +19,7 @@ class TemplateRequest extends FormRequest
             'is_aktif' => ['nullable', 'boolean'],
             'kebutuhan' => ['nullable', 'array'],
             'timeline' => ['nullable', 'array'],
+            'timeline.*.nama_item' => ['nullable', 'string', 'max:255'],
             'timeline.*.offset_hari' => ['nullable', 'integer', 'min:0'],
             'divisi' => ['nullable', 'array'],
             'jobdesk' => ['nullable', 'array'],
@@ -34,4 +35,3 @@ class TemplateRequest extends FormRequest
         ];
     }
 }
-
