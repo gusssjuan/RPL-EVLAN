@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Phase 7 — Vendor dan Anggaran (FR-14, FR-25, FR-26) |
-| Task terakhir selesai | T6.4 (Riwayat Acara S24) |
-| Task sedang dikerjakan | Siap melanjutkan ke Phase 7 (T7.1 — Area Vendor) |
+| Phase aktif | Phase 8 — Notifikasi (berikutnya; Phase 7 selesai) |
+| Task terakhir selesai | T7.4 (Estimasi Anggaran S22) |
+| Task sedang dikerjakan | Phase 7 selesai; siap melanjutkan ke Phase 8 (T8.1) |
 | Branch aktif | `main` |
-| Commit terakhir | _(skrip `commit_phase_6.bat` siap dieksekusi di terminal lokal)_ |
-| Hasil `php artisan test` terakhir | Siap dengan 23 test suite (Unit model + Feature auth + admin + event creation, checklist, timeline, overview, my events, user dashboard, division management, task management, my tasks, activity logger, progress service, monitoring dashboard, event evaluation, event history) |
-| Hasil `npm run build` terakhir | Siap dengan Vite + Tailwind v4 + Alpine.js |
-| Terakhir diperbarui | 2026-11-09, Sesi 7 |
+| Commit terakhir | _(perubahan Phase 7 belum di-commit; menunggu instruksi pemilik proyek)_ |
+| Hasil `php artisan test` terakhir | **150 passed (472 assertions)** — dijalankan dengan koneksi MySQL `evlan_test` karena `pdo_sqlite` tidak tersedia di lingkungan sandbox |
+| Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js) |
+| Terakhir diperbarui | 2026-11-10, Sesi 8 |
 
 ---
 
@@ -34,7 +34,7 @@ Status: `BELUM` · `BERJALAN` · `MENUNGGU REVIEW` · `SELESAI`.
 | 4 | Perencanaan acara | T4.1–T4.8 | **SELESAI** | T4.1–T4.3 (Wizard 3 langkah), T4.4 (Checklist), T4.5 (Timeline), T4.6 (Layout & Ringkasan D-11 D-16), T4.7 (Acara Saya S06), T4.8 (Dashboard S05/S05-V progres 42%) |
 | 5 | Kepanitiaan & tugas | T5.1–T5.4 | **SELESAI** | T5.1 (Struktur Kepanitiaan S14 D-10 D-15), T5.2 (Kelola Jobdesk S15 D-26), T5.3 (Tugas Saya & Detail Tugas S16/S17 D-14), T5.4 (ActivityLogger Service) |
 | 6 | Monitoring, evaluasi, riwayat | T6.1–T6.4 | **SELESAI** | T6.1 (ProgressService agregat SQL), T6.2 (Dashboard Monitoring S18 D-16), T6.3 (Evaluasi & Penutupan Acara S19/S19-V Immutability), T6.4 (Riwayat Acara S24) |
-| 7 | Vendor & anggaran | T7.1–T7.4 | BELUM | Siap dikerjakan: T7.1 Area Vendor & Profil Usaha |
+| 7 | Vendor & anggaran | T7.1–T7.4 | **SELESAI** | T7.1 (Area vendor S31/S32/S33), T7.2 (Pencarian vendor S20), T7.3 (Detail vendor S21), T7.4 (Estimasi anggaran S22); 22 feature/unit test baru |
 | 8 | Notifikasi | T8.1–T8.3 | BELUM | |
 | 9 | Pencarian & pendaftaran acara | T9.1–T9.3 | BELUM | |
 | 10 | Responsif, keadaan global, a11y | T10.1–T10.4 | BELUM | |
@@ -80,28 +80,57 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 5. Hambatan dan Hal Belum Beres
+## 5. Ringkasan Pengerjaan Phase 7 (Vendor & Anggaran — T7.1 s/d T7.4)
+
+- **T7.1 Area Vendor (S31/S31-V, S32, S33/S33-V; FR-26, FR-03)**:
+  - Controller: `app/Http/Controllers/Vendor/VendorDashboardController.php`, `VendorProfileController.php`, `VendorProductController.php`.
+  - Request: `app/Http/Requests/Vendor/VendorProfileRequest.php`, `VendorProductRequest.php`.
+  - View: `resources/views/components/layouts/vendor.blade.php`, `resources/views/vendor/dashboard.blade.php`, `vendor/profil/edit.blade.php`, `vendor/produk/index.blade.php`.
+  - Aturan: akun `vendor` diarahkan ke `/usaha`; produk terkunci (403) sebelum vendor terverifikasi; produk yang sudah dipakai di `budgets` tidak boleh dihapus (D-23).
+  - Feature test: `tests/Feature/Vendor/VendorAreaTest.php` (5 tests).
+- **T7.2 Pencarian Vendor (S20, mobile 71; FR-25, D-19, D-21, D-22)**:
+  - Controller: `VendorSearchController@index` (hanya vendor terverifikasi, cari nama/produk, chip kategori, filter kota, tab Semua/Tersimpan, simpan/batal simpan).
+  - View: `resources/views/vendor/cari/index.blade.php`.
+  - Feature test: `tests/Feature/Vendor/VendorSearchTest.php` (4 tests).
+- **T7.3 Detail Vendor (S21/S21-V; FR-25, FR-14)**:
+  - Controller: `VendorSearchController@show`.
+  - View: `resources/views/vendor/cari/show.blade.php` (kontak tel/WhatsApp/email, daftar produk, simpan, modal "Tambahkan ke Anggaran" untuk Leader acara `perencanaan`).
+  - Feature test: `tests/Feature/Vendor/VendorDetailTest.php` (4 tests).
+- **T7.4 Estimasi Anggaran (S22/S22-V; FR-14, NFR-P4, D-16, D-20)**:
+  - Service: `app/Services/BudgetService.php` (`ringkasan()`, `tambahDariVendor()`).
+  - Request/Controller: `app/Http/Requests/Event/BudgetRequest.php`, `app/Http/Controllers/Event/BudgetController.php` (index/store/update/destroy/storeFromVendor; Leader only).
+  - View: `resources/views/acara/anggaran/index.blade.php` (statistik, filter sumber/cari, tabel subtotal & total, modal tambah/edit/hapus, banner estimasi).
+  - Feature test: `tests/Feature/Event/BudgetManagementTest.php` (6 tests) dan `tests/Unit/Services/BudgetServiceTest.php` (3 tests).
+  - Verifikasi angka demo: total **Rp 18.450.000**, 11 item (5 dari vendor, 6 manual).
+- **Perbaikan lintas phase yang diperlukan agar test Phase 7 hijau**:
+  - `app/Http/Controllers/Controller.php` kini memakai `AuthorizesRequests` + `ValidatesRequests` (sebelumnya `$this->authorize()` gagal di semua controller).
+  - `resources/views/acara/partials/header.blade.php` dipindah ke `resources/views/components/acara/partials/header.blade.php` agar tag `<x-acara.partials.header>` valid.
+  - `app/Http/Requests/Admin/TemplateRequest.php`: tambah aturan `timeline.*.nama_item` agar item timeline tidak terbuang oleh `validated()`.
+  - `database/factories/DivisionFactory.php`: hapus `unique()` yang membuat full test suite kehabisan nilai setelah beberapa test.
+  - Beberapa ekspektasi test lama diselaraskan dengan teks UI aktual (dashboard anggota, escaping `&`, jumlah item template 8).
+
+---
+
+## 6. Hambatan dan Hal Belum Beres
 
 | # | Task | Masalah | Sudah dicoba | Butuh |
 |---|---|---|---|---|
-| 1 | Lingkungan | `run_command` terhambat mencari executable `powershell` di runner sandbox Windows | Pengecekan command bypass dan sandboxed | Eksekusi file batch commit di terminal lokal oleh user (`commit_phase_6.bat`) |
+| 1 | Lingkungan | PHP 8.4/8.1 di sandbox tidak memiliki `pdo_sqlite`, sedangkan `phpunit.xml` default memakai SQLite `:memory:` | Membuat konfigurasi sementara `phpunit.mysql.xml` (MySQL `evlan_test`) lalu menghapusnya setelah verifikasi | Bila ingin `php artisan test` default hijau di mesin ini, aktifkan `pdo_sqlite` atau sesuaikan konfigurasi test lokal |
+| 2 | Lingkungan | Wireframe PDF tidak bisa dirasterisasi (`pdftoppm`/`pip` tidak ada, Edge headless menghasilkan gambar kosong) | UI Phase 7 dirancang mengikuti design system halaman yang sudah ada | Tidak ada; pemilik proyek sudah mengizinkan desain mandiri |
+| 3 | Proses | Sandbox tidak dapat menjalankan `powershell`/batch dengan andal | Script `commit_phase_7.bat` sudah dibuat dan README diperbarui | Pemilik proyek menjalankan script commit secara lokal |
 
 ---
 
-## 6. Hutang Teknis / TODO Lanjutan
+## 7. Hutang Teknis / TODO Lanjutan
 
 - Menjalankan migrasi lokal jika belum: `php artisan migrate:fresh --seed`
-- Menjalankan seluruh test lokal: `php artisan test`
-- Menjalankan komit batch lokal:
-  1. `.\commit_phase_4_part1.bat`
-  2. `.\commit_phase_4_part2.bat`
-  3. `.\commit_phase_5.bat`
-  4. `.\commit_phase_6.bat`
-- Siap lanjut ke **Phase 7 — Vendor dan Anggaran (T7.1–T7.4)**.
+- Menjalankan seluruh test lokal: `php artisan test` (pastikan `pdo_sqlite` aktif; di sandbox diverifikasi lewat MySQL `evlan_test`)
+- Commit Phase 7: jalankan `commit_phase_7.bat` dari root proyek. Script membuat 6 commit (perbaikan fondasi, T7.1–T7.4, dokumentasi) tanpa push.
+- Siap lanjut ke **Phase 8 — Notifikasi (T8.1–T8.3)**.
 
 ---
 
-## 7. Log Sesi
+## 8. Log Sesi
 
 ### Sesi 2026-11-09 (Sesi 7) — Antigravity Agent
 - **Dikerjakan**:
@@ -115,3 +144,21 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 - **Selesai & dicentang di task.md**: T6.1, T6.2, T6.3, T6.4.
 - **Status saat ini**: **PHASE 6 SELESAI PENUH**.
 - **Untuk sesi berikutnya**: Melanjutkan ke **Phase 7 — Vendor dan Anggaran (T7.1 s/d T7.4)**.
+
+### Sesi 2026-11-10 (Sesi 8) — Agent
+- **Dikerjakan**:
+  - Phase 7 selesai penuh (T7.1 s/d T7.4): area vendor (dashboard/profil/produk), pencarian & detail vendor, serta estimasi anggaran lengkap dengan `BudgetService`.
+  - Menambahkan 22 test baru: `VendorAreaTest`, `VendorSearchTest`, `VendorDetailTest`, `BudgetManagementTest`, `BudgetServiceTest`.
+  - Verifikasi penuh: **150 passed (472 assertions)** menggunakan MySQL `evlan_test`; `./vendor/bin/pint --dirty` dan `npm run build` sukses.
+  - Memperbaiki bug lintas phase yang menghalangi test: trait `AuthorizesRequests`/`ValidatesRequests` pada base Controller, pemindahan komponen header acara, validasi `timeline.*.nama_item`, factory divisi, dan beberapa ekspektasi test lama.
+- **Selesai & dicentang di task.md**: T7.1, T7.2, T7.3, T7.4.
+- **Status saat ini**: **PHASE 7 SELESAI PENUH** (belum di-commit).
+- **Untuk sesi berikutnya**: **Phase 8 — Notifikasi (T8.1 s/d T8.3)**.
+
+### Sesi 2026-11-10 (Sesi 9) — Agent
+- **Dikerjakan**:
+  - Menulis ulang `README.md` sesuai proyek EVLAN: ringkasan fitur, stack, prasyarat, setup Laragon/Windows dan generik, konfigurasi MySQL, migrasi/seeder, akun demo, perintah dev/build, testing, struktur proyek, dan troubleshooting.
+  - Membuat `commit_phase_7.bat` untuk 6 commit lokal: perbaikan fondasi, T7.1 area vendor, T7.2 pencarian vendor, T7.3 detail vendor, T7.4 anggaran, dan dokumentasi. Script tidak melakukan push.
+- **Verifikasi**: `git diff --check` bersih; seluruh path yang di-`git add` pada script tervalidasi dengan `git add --dry-run`.
+- **Status saat ini**: Phase 7 selesai dan siap di-commit oleh pemilik proyek.
+- **Untuk sesi berikutnya**: Jalankan `commit_phase_7.bat`, lalu lanjut ke **Phase 8 — Notifikasi (T8.1 s/d T8.3)**.

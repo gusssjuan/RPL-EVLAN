@@ -1,58 +1,303 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# EVLAN — Event Planner Organizer
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+EVLAN adalah aplikasi web perencanaan acara yang membantu pengguna mengubah ide acara menjadi rencana kerja yang terstruktur: kategori dan template acara, checklist kebutuhan, timeline H-n, struktur kepanitiaan, pembagian tugas, monitoring, evaluasi, hingga pencarian vendor dan estimasi anggaran.
 
-## About Laravel
+Aplikasi ini dibangun dengan **Laravel**, **Blade**, **Tailwind CSS**, dan **Alpine.js**. Seluruh teks antarmuka menggunakan **Bahasa Indonesia**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Status Pengembangan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Phase 0 sampai Phase 7 sudah selesai. Fitur yang sudah tersedia:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Autentikasi: login, registrasi, reset password, profil, dan pengaturan notifikasi.
+- Manajemen peran: `admin`, `user`, dan `vendor`.
+- Area admin: dashboard, kategori acara, template master, verifikasi vendor, dan kelola pengguna.
+- Perencanaan acara: wizard kategori → detail → rancangan, checklist, timeline, dan ringkasan acara.
+- Kepanitiaan: divisi, anggota, rekomendasi anggota, jobdesk, serta tugas saya.
+- Monitoring dan evaluasi: progres divisi, tenggat, audit log, penutupan acara, dan riwayat acara.
+- Area vendor: dashboard usaha, profil usaha, dan pengelolaan produk/jasa.
+- Pencarian vendor: filter kategori/kota, detail vendor, simpan vendor, dan tambah produk vendor ke anggaran.
+- Anggaran acara: estimasi biaya, tambah anggaran manual, tambah dari vendor, ubah, dan hapus.
 
-## Learning Laravel
+Fitur notifikasi, pendaftaran peserta publik, dan penguatan keamanan lanjutan direncanakan pada phase berikutnya.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Teknologi
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Bagian | Teknologi |
+| --- | --- |
+| Backend | PHP 8.3+, Laravel 13 |
+| Database | MySQL 8 |
+| Frontend | Blade, Tailwind CSS 4, Alpine.js, Vite 8 |
+| Pengujian | Pest 5 |
+| Autentikasi | Session auth Laravel (scaffold Breeze yang disesuaikan) |
+| Format kode | Laravel Pint |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Zona waktu aplikasi adalah `Asia/Makassar`, locale `id`, dan nilai uang disimpan sebagai integer rupiah.
 
-## Agentic Development
+## Prasyarat
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Pastikan perangkat sudah memiliki:
+
+- PHP **8.3 atau lebih baru** dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, dan `fileinfo`.
+- Composer 2.
+- MySQL 8 (Laragon, XAMPP, atau server MySQL mandiri).
+- Node.js 20.19+ atau 22.12+ dan npm.
+- Git.
+
+Untuk pengembangan di Windows, Laragon dengan PHP 8.4 dan MySQL 8 sudah cukup.
+
+## Setup Proyek
+
+### 1. Clone repositori
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <url-repositori> evlan
+cd evlan
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Jika proyek ditempatkan di Laragon, letakkan folder di `C:\laragon\www\evlan`.
 
-## Contributing
+### 2. Install dependensi backend
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+```
 
-## Code of Conduct
+### 3. Siapkan file environment
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Windows Command Prompt:
 
-## Security Vulnerabilities
+```bat
+copy .env.example .env
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+PowerShell:
 
-## License
+```powershell
+Copy-Item .env.example .env
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Linux/macOS:
+
+```bash
+cp .env.example .env
+```
+
+Lalu buat application key:
+
+```bash
+php artisan key:generate
+```
+
+### 4. Siapkan database MySQL
+
+Buat database utama:
+
+```sql
+CREATE DATABASE evlan CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Sesuaikan konfigurasi database di `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=evlan
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Jika menggunakan Laragon, konfigurasi default di atas biasanya sudah sesuai. Jika MySQL memakai password, isi `DB_PASSWORD`.
+
+Opsional, buat database terpisah untuk pengujian:
+
+```sql
+CREATE DATABASE evlan_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 5. Jalankan migrasi dan seeder
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+Perintah ini akan membuat seluruh tabel, menyiapkan role, akun admin, kategori, template, dan data demo.
+
+> **Peringatan:** `migrate:fresh` menghapus seluruh tabel di database yang sedang aktif. Hanya jalankan di lingkungan lokal atau testing, dan jangan gunakan pada database yang berisi data penting.
+
+### 6. Install dependensi frontend
+
+```bash
+npm install
+```
+
+### 7. Build aset frontend
+
+Untuk produksi atau memastikan aset siap dipakai:
+
+```bash
+npm run build
+```
+
+Untuk pengembangan dengan hot reload:
+
+```bash
+npm run dev
+```
+
+### 8. Jalankan aplikasi
+
+Terminal pertama:
+
+```bash
+php artisan serve
+```
+
+Terminal kedua:
+
+```bash
+npm run dev
+```
+
+Buka `http://127.0.0.1:8000`.
+
+Alternatif, jalankan server, worker antrean, dan Vite sekaligus:
+
+```bash
+composer dev
+```
+
+### 9. Perintah tambahan (opsional)
+
+Menjalankan scheduler untuk pengingat tenggat:
+
+```bash
+php artisan schedule:work
+```
+
+Menjalankan worker antrean:
+
+```bash
+php artisan queue:work
+```
+
+## Akun Demo
+
+Seeder demo hanya dijalankan pada environment `local` dan `testing`. Semua akun demo menggunakan password `password`, kecuali akun admin.
+
+| Peran | Email | Password | Keterangan |
+| --- | --- | --- | --- |
+| Admin | `admin@evlan.test` | `admin12345` | Dapat diubah lewat `ADMIN_PASSWORD` di `.env` sebelum seeding |
+| User / Leader | `gusega@evlan.test` | `password` | Leader acara demo "Seminar Teknologi 2026" |
+| Anggota | `rina@evlan.test` | `password` | Koordinator divisi Acara |
+| Anggota | `komang@evlan.test` | `password` | Koordinator divisi Perlengkapan |
+| Anggota | `made@evlan.test` | `password` | Koordinator divisi Konsumsi |
+| Anggota | `ketut@evlan.test` | `password` | Anggota divisi Publikasi |
+| Vendor | `sinarsound@evlan.test` | `password` | Vendor sound system, terverifikasi |
+| Vendor | `dapurbukomang@evlan.test` | `password` | Vendor catering, terverifikasi |
+| Vendor | `kiranaprint@evlan.test` | `password` | Vendor perlengkapan acara, terverifikasi |
+| Vendor | `lensart@evlan.test` | `password` | Vendor dokumentasi, terverifikasi |
+| Vendor | `baliaudio@evlan.test` | `password` | Vendor sound system, terverifikasi |
+
+## Pengujian dan Kualitas Kode
+
+Jalankan seluruh test:
+
+```bash
+php artisan test
+```
+
+Konfigurasi default `phpunit.xml` menggunakan SQLite in-memory, sehingga membutuhkan ekstensi `pdo_sqlite`.
+
+Jika `pdo_sqlite` tidak tersedia, gunakan database MySQL untuk pengujian:
+
+1. Buat database `evlan_test`.
+2. Salin konfigurasi PHPUnit:
+
+   ```bash
+   cp phpunit.xml .phpunit.mysql.xml
+   ```
+
+3. Pada `.phpunit.mysql.xml`, tambahkan konfigurasi database di dalam elemen `<php>`:
+
+   ```xml
+   <env name="DB_CONNECTION" value="mysql"/>
+   <env name="DB_DATABASE" value="evlan_test"/>
+   <env name="DB_USERNAME" value="root"/>
+   <env name="DB_PASSWORD" value=""/>
+   ```
+
+4. Jalankan test dengan konfigurasi tersebut:
+
+   ```bash
+   php vendor/bin/pest -c .phpunit.mysql.xml
+   ```
+
+Format kode sebelum commit:
+
+```bash
+php vendor/bin/pint
+```
+
+Build frontend sebelum commit perubahan UI:
+
+```bash
+npm run build
+```
+
+## Struktur Proyek
+
+```text
+app/
+  Enums/                 Enum status dan peran
+  Http/Controllers/      Controller per area (Admin, Event, Vendor)
+  Http/Requests/         Validasi form
+  Models/                Model Eloquent
+  Policies/              Otorisasi per acara dan tugas
+  Services/              Logika bisnis dan agregasi
+database/
+  migrations/            Skema database
+  seeders/               Seeder role, admin, kategori, template, demo
+resources/
+  views/                 Blade: admin, acara, vendor, komponen, layout
+  css/                   Sumber Tailwind
+  js/                    Sumber JavaScript
+routes/web.php           Route utama aplikasi
+tests/                   Test Pest (Unit dan Feature)
+agents/                  Catatan kerja: task, progress, keputusan
+docs/ERD.md              Dokumentasi relasi data
+```
+
+## Alur Kerja Git
+
+- Buat branch per phase, misalnya `phase-7-vendor-anggaran`.
+- Satu task idealnya menjadi satu commit.
+- Gunakan format Conventional Commits dengan ID task, contoh:
+  `feat(vendor): pencarian vendor dan simpan daftar vendor [T7.2]`
+- Sebelum commit, jalankan `php vendor/bin/pint`, `php artisan test`, dan `npm run build` bila mengubah UI.
+- Script `commit_phase_7.bat` disediakan untuk membuat commit Phase 7 secara lokal. Script ini tidak melakukan push.
+
+Menjalankan script di Windows:
+
+```bat
+commit_phase_7.bat
+```
+
+## Troubleshooting
+
+- **`could not find driver`** — aktifkan ekstensi `pdo_mysql` (dan `pdo_sqlite` bila memakai test default) di `php.ini`.
+- **`Vite manifest not found`** — jalankan `npm run build` atau `npm run dev`.
+- **`format_rupiah() not found`** — jalankan `composer dump-autoload`.
+- **Aset tidak berubah setelah build** — hentikan `npm run dev`, jalankan `npm run build`, lalu refresh browser.
+- **Gagal koneksi database** — pastikan MySQL berjalan, database `evlan` sudah dibuat, dan kredensial di `.env` benar.
+
+## Dokumen Internal
+
+- `agents/PROGRESS.md` — posisi pekerjaan terakhir.
+- `agents/task.md` — daftar task per phase.
+- `agents/DECISIONS.md` — keputusan teknis dan produk.
+- `docs/ERD.md` — entity relationship diagram.
+
+## Lisensi
+
+Proyek internal EVLAN. Lisensi belum ditetapkan.

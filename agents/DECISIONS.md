@@ -53,6 +53,9 @@
 | ID | Tanggal | Task | Keputusan | Alasan | Dampak | Status |
 |---|---|---|---|---|---|---|
 | L-001 | 2026-11-09 | T0.1 / T1.1 | Konfigurasi default timezone Asia/Makassar dan locale id; buat skema 16 tabel lengkap dengan relasi referensial sesuai Data Dictionary | Menjamin konsistensi zona waktu WITA sesuai wireframe dan relasi integritas data | `config/app.php`, migrasi | AKTIF |
+| L-002 | 2026-11-10 | T7.1–T7.4 | Tampilan vendor (S31/S32/S33) dan estimasi anggaran (S22) dirancang manual mengikuti design system halaman yang sudah ada | Wireframe PDF tidak dapat dirasterisasi di sandbox; pemilik proyek mengizinkan desain mandiri agar pekerjaan tidak terhenti | `resources/views/vendor/**`, `resources/views/components/layouts/vendor.blade.php`, `resources/views/acara/anggaran/index.blade.php` | AKTIF |
+| L-003 | 2026-11-10 | T7.1–T7.4 | Verifikasi test memakai MySQL `evlan_test` melalui konfigurasi sementara; `phpunit.xml` tetap default SQLite | PHP di sandbox tidak memiliki `pdo_sqlite`, sedangkan `pdo_mysql` tersedia; konfigurasi sementara dihapus setelah verifikasi | Tidak ada perubahan permanen pada konfigurasi test | AKTIF |
+| L-004 | 2026-11-10 | T7.1–T7.4 | Perbaikan lintas phase: base `Controller` memakai `AuthorizesRequests`/`ValidatesRequests`, komponen header acara dipindah ke folder `components`, aturan `timeline.*.nama_item` ditambahkan, dan `unique()` pada `DivisionFactory` dihapus | Bug lama ini membuat `$this->authorize()` gagal, tag `<x-acara.partials.header>` tidak ditemukan, item timeline hilang dari `validated()`, serta full test suite kehabisan nilai unik | `app/Http/Controllers/Controller.php`, `resources/views/components/acara/partials/header.blade.php`, `app/Http/Requests/Admin/TemplateRequest.php`, `database/factories/DivisionFactory.php` | AKTIF |
 
 ---
 
