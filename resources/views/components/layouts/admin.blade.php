@@ -86,11 +86,16 @@
                     </a>
 
                     <a
-                        href="{{ url('/admin/notifikasi') }}"
-                        class="flex items-center gap-3 px-3.5 py-2.5 rounded-[8px] text-sm font-medium transition-colors {{ request()->is('admin/notifikasi*') ? 'bg-indigo-600 text-white font-semibold' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}"
+                        href="{{ route('notifikasi.index') }}"
+                        class="flex items-center gap-3 px-3.5 py-2.5 rounded-[8px] text-sm font-medium transition-colors {{ request()->is('notifikasi*') ? 'bg-indigo-600 text-white font-semibold' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}"
                     >
                         <x-icon name="bell" class="w-5 h-5" />
                         <span>Notifikasi</span>
+                        @if (($jumlahNotifikasiBelumDibaca ?? 0) > 0)
+                            <span class="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+                                {{ $jumlahNotifikasiBelumDibaca > 99 ? '99+' : $jumlahNotifikasiBelumDibaca }}
+                            </span>
+                        @endif
                     </a>
                 </nav>
             </div>
@@ -127,6 +132,19 @@
                 </div>
 
                 <div class="flex items-center gap-3 text-sm text-gray-600">
+                    @php($jumlahNotif = $jumlahNotifikasiBelumDibaca ?? 0)
+                    <a
+                        href="{{ route('notifikasi.index') }}"
+                        aria-label="Notifikasi, {{ $jumlahNotif }} belum dibaca"
+                        class="relative p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                    >
+                        <x-icon name="bell" class="w-5 h-5" />
+                        @if ($jumlahNotif > 0)
+                            <span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+                                {{ $jumlahNotif > 99 ? '99+' : $jumlahNotif }}
+                            </span>
+                        @endif
+                    </a>
                     <x-avatar :name="auth()->user()->nama ?? 'Admin EVLAN'" size="sm" />
                     <span class="font-medium hidden sm:inline">{{ auth()->user()->nama ?? 'Administrator' }}</span>
                 </div>

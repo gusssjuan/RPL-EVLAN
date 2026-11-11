@@ -20,6 +20,7 @@ use App\Http\Controllers\Event\TaskController;
 use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventHistoryController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
 use App\Http\Controllers\Vendor\VendorProductController;
@@ -51,6 +52,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Notifikasi in-app (T8.2)
+    Route::get('/notifikasi', [NotificationController::class, 'index'])->name('notifikasi.index');
+    Route::patch('/notifikasi/baca-semua', [NotificationController::class, 'bacaSemua'])->name('notifikasi.baca-semua');
+    Route::post('/notifikasi/{notification}/baca', [NotificationController::class, 'baca'])->name('notifikasi.baca');
 
     // Profil & Pengaturan
     Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -165,7 +171,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/pengguna/{user}/toggle', [UserController::class, 'toggleStatus'])->name('pengguna.toggle');
 
         Route::get('/notifikasi', function () {
-            return view('admin.dashboard');
+            return redirect()->route('notifikasi.index');
         })->name('notifikasi.index');
     });
 

@@ -156,12 +156,18 @@
 
                 <div class="flex items-center gap-4">
                     <!-- Notification Bell -->
-                    <a href="{{ url('/notifikasi') }}" class="relative p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors">
+                    @php($jumlahNotif = $jumlahNotifikasiBelumDibaca ?? 0)
+                    <a
+                        href="{{ route('notifikasi.index') }}"
+                        aria-label="Notifikasi, {{ $jumlahNotif }} belum dibaca"
+                        class="relative p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
+                    >
                         <x-icon name="bell" class="w-5 h-5" />
-                        <span class="absolute top-1.5 right-1.5 flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
+                        @if ($jumlahNotif > 0)
+                            <span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+                                {{ $jumlahNotif > 99 ? '99+' : $jumlahNotif }}
+                            </span>
+                        @endif
                     </a>
 
                     <!-- Avatar Profile Menu -->
