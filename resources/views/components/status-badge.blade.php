@@ -9,6 +9,7 @@
         'sudah_diselesaikan' => ['label' => 'Sudah diselesaikan', 'icon' => '✓', 'variant' => 'success'],
         'terlewat' => ['label' => 'Terlewat', 'icon' => '▲', 'variant' => 'danger'],
         'menunggu' => ['label' => 'Menunggu', 'icon' => '⏳', 'variant' => 'warning'],
+        'diterima' => ['label' => 'Diterima', 'icon' => '✓', 'variant' => 'success'],
         'terverifikasi' => ['label' => 'Terverifikasi', 'icon' => '✓', 'variant' => 'success'],
         'ditolak' => ['label' => 'Ditolak', 'icon' => '✕', 'variant' => 'danger'],
         'aktif' => ['label' => 'Aktif', 'icon' => '●', 'variant' => 'success'],
