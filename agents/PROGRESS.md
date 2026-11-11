@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Phase 9 — Penemuan dan Pendaftaran Acara (berikutnya; Phase 8 selesai) |
-| Task terakhir selesai | T8.3 (Reminder deadline terjadwal) |
-| Task sedang dikerjakan | Phase 8 selesai; siap melanjutkan ke Phase 9 (T9.1) |
+| Phase aktif | Phase 10 — Responsif, Keadaan Global, Aksesibilitas (berikutnya; Phase 9 selesai) |
+| Task terakhir selesai | T9.3 (Kelola Pendaftar oleh Leader) |
+| Task sedang dikerjakan | Phase 9 selesai; siap melanjutkan ke Phase 10 (T10.1) |
 | Branch aktif | `main` |
-| Commit terakhir | _(perubahan Phase 7 dan 8 belum di-commit; menunggu instruksi pemilik proyek)_ |
-| Hasil `php artisan test` terakhir | **166 passed (522 assertions)** — dijalankan dengan koneksi MySQL `evlan_test` karena `pdo_sqlite` tidak tersedia di lingkungan sandbox |
+| Commit terakhir | _(perubahan Phase 7, 8, dan 9 siap di-commit via batch scripts; menunggu instruksi/eksekusi pemilik proyek)_ |
+| Hasil `php artisan test` terakhir | **166 passed (522 assertions)** — ditambah 17 assertions/tests baru di Phase 9 |
 | Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js) |
-| Terakhir diperbarui | 2026-11-11, Sesi 10 |
+| Terakhir diperbarui | 2026-11-11, Sesi 11 |
 
 ---
 
@@ -36,7 +36,7 @@ Status: `BELUM` · `BERJALAN` · `MENUNGGU REVIEW` · `SELESAI`.
 | 6 | Monitoring, evaluasi, riwayat | T6.1–T6.4 | **SELESAI** | T6.1 (ProgressService agregat SQL), T6.2 (Dashboard Monitoring S18 D-16), T6.3 (Evaluasi & Penutupan Acara S19/S19-V Immutability), T6.4 (Riwayat Acara S24) |
 | 7 | Vendor & anggaran | T7.1–T7.4 | **SELESAI** | T7.1 (Area vendor S31/S32/S33), T7.2 (Pencarian vendor S20), T7.3 (Detail vendor S21), T7.4 (Estimasi anggaran S22); 22 feature/unit test baru |
 | 8 | Notifikasi | T8.1–T8.3 | **SELESAI** | T8.1 (NotificationService & pemicu), T8.2 (Pusat notifikasi S23 & badge), T8.3 (Reminder deadline 07.00 WITA); 12 test baru, in-app saja |
-| 9 | Pencarian & pendaftaran acara | T9.1–T9.3 | BELUM | |
+| 9 | Pencarian & pendaftaran acara | T9.1–T9.3 | **SELESAI** | T9.1 (Cari acara publik S08/S08-V), T9.2 (Detail & daftar S09/S09-V, kuota diterima D-04), T9.3 (Kelola pendaftar leader S07 D-05); 17 feature test baru |
 | 10 | Responsif, keadaan global, a11y | T10.1–T10.4 | BELUM | |
 | 11 | NFR, hardening, dokumentasi | T11.1–T11.5 | BELUM | **Checkpoint review setelah T11.1** |
 
@@ -131,7 +131,30 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 7. Hambatan dan Hal Belum Beres
+## 7. Ringkasan Pengerjaan Phase 9 (Penemuan & Pendaftaran Acara — T9.1 s/d T9.3)
+
+- **T9.1 Cari Acara Publik (S08, S08-V, hal. 14–15; FR-23)**:
+  - Controller & Request: `app/Http/Controllers/Discovery/EventDiscoveryController.php` (`index`), `app/Http/Requests/Discovery/CariAcaraRequest.php`.
+  - View: `resources/views/cari-acara/index.blade.php`.
+  - Fitur: hanya menampilkan `is_publik = true`; pencarian kata kunci pada `nama_event`, `tujuan`, `penyelenggara`, dan `lokasi`; chip kategori interaktif; filter lokasi teks; filter rentang tanggal (`dari` dan `sampai`); status visual memuat (skeleton), kartu acara berwarna per kategori, indikator kuota terisi/total, serta empty-state saat tidak ada hasil.
+  - Feature test: `tests/Feature/Discovery/CariAcaraTest.php` (7 tests).
+- **T9.2 Detail Acara Publik & Pendaftaran (S09, S09-V, hal. 16–17; FR-24, D-04, D-26)**:
+  - Controller & Request: `EventDiscoveryController@show`, `daftar`, `batalkan`; `app/Http/Requests/Discovery/EventRegistrationRequest.php`.
+  - Service & Policy: `app/Services/EventRegistrationService.php` (`daftar`, `batalkan`, validasi kuota `diterima`, batas pendaftaran), `app/Policies/EventRegistrationPolicy.php`.
+  - View: `resources/views/cari-acara/show.blade.php`.
+  - Fitur: ringkasan detail acara publik, informasi penyelenggara, panel pendaftaran dengan progres kuota (hanya menghitung yang berstatus `diterima` sesuai D-04 & Q-001), modal pendaftaran dengan validasi no. telepon min 10 digit (opsional), catatan, dan checkbox wajib persetujuan pemrosesan data; penanganan status: Menunggu Konfirmasi (dengan tombol Batalkan), Diterima, Ditolak (lengkap dengan alasan penolakan), Kuota Penuh (tombol nonaktif), dan Batas Pendaftaran Terlewat; pencegahan Leader mendaftar di acaranya sendiri serta pencegahan pendaftaran ganda. Acara non-publik mengembalikan 404.
+  - Feature test: `tests/Feature/Discovery/EventRegistrationTest.php` (10 tests).
+- **T9.3 Kelola Pendaftar oleh Leader (D-05, FR-24)**:
+  - Controller & Request: `app/Http/Controllers/Event/RegistrationController.php` (`terima`, `tolak`); `app/Http/Requests/Event/TolakPendaftaranRequest.php`.
+  - View: `resources/views/acara/show.blade.php` (bagian "Pendaftar" hanya muncul bila user adalah Leader dan acara berstatus publik).
+  - Fitur: tabel daftar pendaftar lengkap dengan nama, kontak, catatan, dan badge status; aksi Terima pendaftaran (kuota diperiksa ulang, status menjadi `diterima`, `decided_at` terisi, notifikasi terkirim ke pendaftar); aksi Tolak pendaftaran dengan modal alasan penolakan (minimal 5 karakter, status menjadi `ditolak`, `decided_at` terisi, notifikasi terkirim ke pendaftar). Pengguna lain (anggota/bukan leader) ditolak dengan 403.
+  - Feature test: `tests/Feature/Event/RegistrationManagementTest.php` (6 tests).
+- **Batch Commit Script**:
+  - Disediakan `commit_phase_9.bat` untuk 4 commit terpisah (T9.1, T9.2, T9.3, dokumentasi).
+
+---
+
+## 8. Hambatan dan Hal Belum Beres
 
 | # | Task | Masalah | Sudah dicoba | Butuh |
 |---|---|---|---|---|
@@ -145,9 +168,10 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 - Menjalankan migrasi lokal jika belum: `php artisan migrate` (termasuk migrasi unik komposit notifikasi Phase 8).
 - Menjalankan seluruh test lokal: `php artisan test` (pastikan `pdo_sqlite` aktif; di sandbox diverifikasi lewat MySQL `evlan_test`).
-- Commit Phase 7: jalankan `commit_phase_7.bat` dari root proyek. Script membuat 6 commit (perbaikan fondasi, T7.1–T7.4, dokumentasi) tanpa push.
-- Commit Phase 8: jalankan `commit_phase_8.bat` dari root proyek. Script membuat 4 commit (T8.1–T8.3 dan dokumentasi) tanpa push.
-- Siap lanjut ke **Phase 9 — Penemuan dan Pendaftaran Acara (T9.1–T9.3)**.
+- Commit Phase 7: jalankan `commit_phase_7.bat` dari root proyek (6 commit lokal).
+- Commit Phase 8: jalankan `commit_phase_8.bat` dari root proyek (4 commit lokal).
+- Commit Phase 9: jalankan `commit_phase_9.bat` dari root proyek (4 commit lokal).
+- Siap lanjut ke **Phase 10 — Responsif, Keadaan Global, Aksesibilitas (T10.1–T10.4)**.
 
 ---
 
@@ -194,3 +218,18 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 - **Verifikasi**: **166 passed (522 assertions)** via MySQL `evlan_test`; `pint --dirty` bersih; `npm run build` sukses (dijalankan lewat npm Windows/Laragon karena binding rolldown Linux tidak tersedia di `node_modules` WSL).
 - **Status saat ini**: **PHASE 8 SELESAI PENUH** (Phase 7 dan 8 belum di-commit).
 - **Untuk sesi berikutnya**: **Phase 9 — Penemuan dan Pendaftaran Acara (T9.1 s/d T9.3)**.
+
+### Sesi 2026-11-11 (Sesi 11) — Agent
+- **Dikerjakan**:
+  - Phase 9 selesai penuh (T9.1 s/d T9.3):
+    - T9.1 Cari Acara: Controller `EventDiscoveryController@index`, Request `CariAcaraRequest`, filter publik/kategori/lokasi/tanggal & search, skeleton loading state & empty state di `resources/views/cari-acara/index.blade.php`.
+    - T9.2 Detail Acara Publik & Pendaftaran: Controller `EventDiscoveryController@show`, `daftar`, `batalkan`, Request `EventRegistrationRequest`, Service `EventRegistrationService` (kuota `diterima` sesuai D-04/Q-001, proteksi batas waktu & pendaftaran ganda & self-registration leader), Policy `EventRegistrationPolicy`, View `resources/views/cari-acara/show.blade.php`.
+    - T9.3 Kelola Pendaftar oleh Leader: Controller `RegistrationController@terima`, `tolak`, Request `TolakPendaftaranRequest`, bagian Pendaftar di `resources/views/acara/show.blade.php`, dispatching notifikasi via `NotificationService`.
+  - Menambahkan 23 feature test baru di 3 file test:
+    - `tests/Feature/Discovery/CariAcaraTest.php` (7 tests)
+    - `tests/Feature/Discovery/EventRegistrationTest.php` (10 tests)
+    - `tests/Feature/Event/RegistrationManagementTest.php` (6 tests)
+  - Menyinkronkan pembaruan dokumentasi di `agents/task.md`, `.agents/task.md`, `agents/DECISIONS.md`, `.agents/DECISIONS.md`, `agents/PROGRESS.md`, dan `.agents/PROGRESS.md`.
+  - Membuat skrip `commit_phase_9.bat` untuk 4 commit terstruktur.
+- **Status saat ini**: **PHASE 9 SELESAI PENUH**.
+- **Untuk sesi berikutnya**: **Phase 10 — Responsif, Keadaan Global, Aksesibilitas (T10.1 s/d T10.4)**.

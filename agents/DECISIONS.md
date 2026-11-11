@@ -59,6 +59,7 @@
 | L-005 | 2026-11-11 | T8.1–T8.3 | Notifikasi Phase 8 hanya in-app; tidak ada pengiriman email, Mailable, atau queue notifikasi | Arahan pemilik sesi: lewati email dan jangan menambah paket/API; `MAIL_MAILER=log` di `.env` dan `array` di `phpunit.xml` dipertahankan | `app/Services/NotificationService.php`, `routes/console.php`, tests | AKTIF |
 | L-006 | 2026-11-11 | T8.1 | Unik `dedupe_key` diubah dari global menjadi komposit `(user_id, dedupe_key)` melalui migrasi baru | Penerima dan Leader harus menerima reminder dengan `dedupe_key` yang sama; unik global akan menolak notifikasi pengguna kedua | `database/migrations/2024_01_01_000017_add_user_unique_to_app_notifications_dedupe_key.php` | AKTIF |
 | L-007 | 2026-11-11 | T8.2 | Semua peran memakai halaman `/notifikasi` yang sama; `/admin/notifikasi` dialihkan ke halaman tersebut | Menghindari duplikasi UI; layout admin/vendor tetap dipilih dinamis dan badge lonceng tersedia di ketiga layout | `routes/web.php`, `NotificationController`, `resources/views/notifikasi/index.blade.php` | AKTIF |
+| L-008 | 2026-11-11 | T9.1–T9.3 | Kuota pendaftaran acara hanya memperhitungkan pendaftar dengan status `diterima` (Q-001 & T9.2); Leader mengelola pendaftar pada bagian "Pendaftar" di Detail Acara S07 (D-05) | Menghindari pendaftar berstatus menunggu memblokir kuota sebelum diverifikasi, dan memberikan Leader kendali langsung | `app/Services/EventRegistrationService.php`, `routes/web.php`, `resources/views/cari-acara/**`, `resources/views/acara/show.blade.php` | AKTIF |
 
 ---
 

@@ -601,19 +601,19 @@ activity_logs
 
 # PHASE 9 — Penemuan dan Pendaftaran Acara (FR-23, FR-24) — Prioritas 2
 
-### [ ] T9.1 Cari Acara (S08, S08-V, hal. 14–15)
+### [x] T9.1 Cari Acara (S08, S08-V, hal. 14–15)
 - **Depends**: T4.6
 - Hanya `is_publik = true`. Filter **kategori, lokasi (teks), rentang tanggal**, kotak cari; kartu acara berwarna per kategori (nama, tanggal, lokasi, kuota terisi/total). Keadaan: memuat (skeleton), kosong, tidak ada hasil, galat (hal. 15).
 - **Acceptance**: filter kombinasi benar; acara privat tak pernah muncul.
 
-### [ ] T9.2 Detail Acara Publik + Pendaftaran (S09, S09-V, hal. 16–17)
+### [x] T9.2 Detail Acara Publik + Pendaftaran (S09, S09-V, hal. 16–17)
 - **Depends**: T9.1, T8.1
 - Detail: tentang acara, target & jumlah peserta, tujuan, lokasi (placeholder peta), panel **Pendaftaran** (progres 96/150, batas daftar, tombol **Daftar Acara**), Penyelenggara.
 - Modal Daftar: nama (dari profil), email, no. telepon (opsional; min 10 digit bila diisi), catatan, **checkbox persetujuan data wajib**. Status di panel: Menunggu konfirmasi (dengan "Batalkan pendaftaran"), Diterima, Ditolak (dengan alasan), Kuota penuh (tombol nonaktif).
 - Aturan: tidak bisa daftar bila `pendaftaran_dibuka=false`, lewat `batas_pendaftaran`, kuota penuh (hitung `diterima` + `menunggu`? **pakai `diterima` saja**, catat di `agents/DECISIONS.md`), atau sudah mendaftar; Leader tidak mendaftar ke acaranya sendiri. Tidak ada tiket/pembayaran.
 - **Acceptance**: tiap keadaan S09-V tercapai di test; pendaftaran ganda ditolak.
 
-### [ ] T9.3 Kelola Pendaftar oleh Leader (D-05) — P3
+### [x] T9.3 Kelola Pendaftar oleh Leader (D-05) — P3
 - **Depends**: T9.2
 - Bagian "Pendaftar" di Detail Acara (Leader): daftar, **Terima** / **Tolak (alasan)**; kirim notifikasi `pendaftaran` ke pendaftar.
 - **Acceptance**: keputusan memperbarui status & notifikasi; non-Leader → 403.
