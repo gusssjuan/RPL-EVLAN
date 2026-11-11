@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Phase 8 — Notifikasi (berikutnya; Phase 7 selesai) |
-| Task terakhir selesai | T7.4 (Estimasi Anggaran S22) |
-| Task sedang dikerjakan | Phase 7 selesai; siap melanjutkan ke Phase 8 (T8.1) |
+| Phase aktif | Phase 9 — Penemuan dan Pendaftaran Acara (berikutnya; Phase 8 selesai) |
+| Task terakhir selesai | T8.3 (Reminder deadline terjadwal) |
+| Task sedang dikerjakan | Phase 8 selesai; siap melanjutkan ke Phase 9 (T9.1) |
 | Branch aktif | `main` |
-| Commit terakhir | _(perubahan Phase 7 belum di-commit; menunggu instruksi pemilik proyek)_ |
-| Hasil `php artisan test` terakhir | **150 passed (472 assertions)** — dijalankan dengan koneksi MySQL `evlan_test` karena `pdo_sqlite` tidak tersedia di lingkungan sandbox |
+| Commit terakhir | _(perubahan Phase 7 dan 8 belum di-commit; menunggu instruksi pemilik proyek)_ |
+| Hasil `php artisan test` terakhir | **166 passed (522 assertions)** — dijalankan dengan koneksi MySQL `evlan_test` karena `pdo_sqlite` tidak tersedia di lingkungan sandbox |
 | Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js) |
-| Terakhir diperbarui | 2026-11-10, Sesi 8 |
+| Terakhir diperbarui | 2026-11-11, Sesi 10 |
 
 ---
 
@@ -35,7 +35,7 @@ Status: `BELUM` · `BERJALAN` · `MENUNGGU REVIEW` · `SELESAI`.
 | 5 | Kepanitiaan & tugas | T5.1–T5.4 | **SELESAI** | T5.1 (Struktur Kepanitiaan S14 D-10 D-15), T5.2 (Kelola Jobdesk S15 D-26), T5.3 (Tugas Saya & Detail Tugas S16/S17 D-14), T5.4 (ActivityLogger Service) |
 | 6 | Monitoring, evaluasi, riwayat | T6.1–T6.4 | **SELESAI** | T6.1 (ProgressService agregat SQL), T6.2 (Dashboard Monitoring S18 D-16), T6.3 (Evaluasi & Penutupan Acara S19/S19-V Immutability), T6.4 (Riwayat Acara S24) |
 | 7 | Vendor & anggaran | T7.1–T7.4 | **SELESAI** | T7.1 (Area vendor S31/S32/S33), T7.2 (Pencarian vendor S20), T7.3 (Detail vendor S21), T7.4 (Estimasi anggaran S22); 22 feature/unit test baru |
-| 8 | Notifikasi | T8.1–T8.3 | BELUM | |
+| 8 | Notifikasi | T8.1–T8.3 | **SELESAI** | T8.1 (NotificationService & pemicu), T8.2 (Pusat notifikasi S23 & badge), T8.3 (Reminder deadline 07.00 WITA); 12 test baru, in-app saja |
 | 9 | Pencarian & pendaftaran acara | T9.1–T9.3 | BELUM | |
 | 10 | Responsif, keadaan global, a11y | T10.1–T10.4 | BELUM | |
 | 11 | NFR, hardening, dokumentasi | T11.1–T11.5 | BELUM | **Checkpoint review setelah T11.1** |
@@ -111,7 +111,27 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 6. Hambatan dan Hal Belum Beres
+## 6. Ringkasan Pengerjaan Phase 8 (Notifikasi — T8.1 s/d T8.3)
+
+- **T8.1 NotificationService dan pemicu**:
+  - Service: `app/Services/NotificationService.php` (`kirim()`, `jumlahBelumDibaca()`) menulis ke `app_notifications`; `dedupe_key` membuat pengiriman idempoten.
+  - Pemicu aktif: penugasan baru (`TaskController`), undangan anggota (`DivisionController`), perubahan status tugas (`MyTaskController`), dan hasil verifikasi vendor (`VendorVerificationController`).
+  - Migrasi baru `2024_01_01_000017_add_user_unique_to_app_notifications_dedupe_key.php`: unik komposit `(user_id, dedupe_key)` agar penerima dan Leader bisa menerima reminder yang sama.
+  - Email/queue notifikasi **tidak** digunakan sesuai arahan sesi; `MAIL_MAILER=log` dan `array` dipertahankan.
+- **T8.2 Pusat Notifikasi (S23)**:
+  - Controller: `app/Http/Controllers/NotificationController.php` (`index`, `baca`, `bacaSemua`).
+  - View: `resources/views/notifikasi/index.blade.php` — filter Semua/Belum dibaca/Penugasan/Deadline/Status tugas/Undangan/Pendaftaran, kelompok Hari ini/Kemarin/Minggu ini/Lebih lama, penanda "Baru", dan aksi tandai semua.
+  - Badge lonceng + jumlah belum dibaca tersedia di layout `app`, `admin`, dan `vendor`; admin `/admin/notifikasi` dialihkan ke `/notifikasi`.
+  - Feature test: `tests/Feature/Notification/NotificationPageTest.php` (7 tests).
+- **T8.3 Reminder deadline**:
+  - Command: `app/Console/Commands/KirimReminderDeadline.php`; jadwal harian **07:00 WITA** di `routes/console.php`.
+  - Penerima: penerima tugas + Leader (de-duplikasi), hanya tugas belum selesai dan acara belum selesai; key `deadline:{task_id}:{mendekati|terlewat}`.
+  - Feature test: `tests/Feature/Notification/DeadlineReminderCommandTest.php` (5 tests) dan unit test `tests/Unit/Services/NotificationServiceTest.php` (4 tests).
+- **Verifikasi**: **166 passed (522 assertions)** via MySQL `evlan_test`; `pint --dirty` bersih dan `npm run build` sukses.
+
+---
+
+## 7. Hambatan dan Hal Belum Beres
 
 | # | Task | Masalah | Sudah dicoba | Butuh |
 |---|---|---|---|---|
@@ -121,16 +141,17 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 7. Hutang Teknis / TODO Lanjutan
+## 8. Hutang Teknis / TODO Lanjutan
 
-- Menjalankan migrasi lokal jika belum: `php artisan migrate:fresh --seed`
-- Menjalankan seluruh test lokal: `php artisan test` (pastikan `pdo_sqlite` aktif; di sandbox diverifikasi lewat MySQL `evlan_test`)
+- Menjalankan migrasi lokal jika belum: `php artisan migrate` (termasuk migrasi unik komposit notifikasi Phase 8).
+- Menjalankan seluruh test lokal: `php artisan test` (pastikan `pdo_sqlite` aktif; di sandbox diverifikasi lewat MySQL `evlan_test`).
 - Commit Phase 7: jalankan `commit_phase_7.bat` dari root proyek. Script membuat 6 commit (perbaikan fondasi, T7.1–T7.4, dokumentasi) tanpa push.
-- Siap lanjut ke **Phase 8 — Notifikasi (T8.1–T8.3)**.
+- Commit Phase 8: jalankan `commit_phase_8.bat` dari root proyek. Script membuat 4 commit (T8.1–T8.3 dan dokumentasi) tanpa push.
+- Siap lanjut ke **Phase 9 — Penemuan dan Pendaftaran Acara (T9.1–T9.3)**.
 
 ---
 
-## 8. Log Sesi
+## 9. Log Sesi
 
 ### Sesi 2026-11-09 (Sesi 7) — Antigravity Agent
 - **Dikerjakan**:
@@ -162,3 +183,14 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 - **Verifikasi**: `git diff --check` bersih; seluruh path yang di-`git add` pada script tervalidasi dengan `git add --dry-run`.
 - **Status saat ini**: Phase 7 selesai dan siap di-commit oleh pemilik proyek.
 - **Untuk sesi berikutnya**: Jalankan `commit_phase_7.bat`, lalu lanjut ke **Phase 8 — Notifikasi (T8.1 s/d T8.3)**.
+
+### Sesi 2026-11-11 (Sesi 10) — Agent
+- **Dikerjakan**:
+  - Phase 8 selesai penuh (T8.1 s/d T8.3): `NotificationService`, pemicu penugasan/undangan/status tugas/verifikasi vendor, pusat notifikasi `/notifikasi` dengan filter & badge, serta command reminder deadline harian 07.00 WITA.
+  - Menambahkan migrasi unik komposit `(user_id, dedupe_key)` pada `app_notifications`; notifikasi tetap in-app tanpa email/queue sesuai arahan pemilik.
+  - Menambahkan 12 test baru: `NotificationServiceTest`, `NotificationPageTest` (termasuk akses admin/vendor), dan `DeadlineReminderCommandTest`.
+  - Memperbarui `README.md` (status Phase 8, fitur notifikasi, perintah scheduler/reminder) serta mencentang T8.1–T8.3 di `agents/task.md`.
+  - Membuat `commit_phase_8.bat` untuk 4 commit lokal: T8.1, T8.2, T8.3, dan dokumentasi. Script tidak melakukan push.
+- **Verifikasi**: **166 passed (522 assertions)** via MySQL `evlan_test`; `pint --dirty` bersih; `npm run build` sukses (dijalankan lewat npm Windows/Laragon karena binding rolldown Linux tidak tersedia di `node_modules` WSL).
+- **Status saat ini**: **PHASE 8 SELESAI PENUH** (Phase 7 dan 8 belum di-commit).
+- **Untuk sesi berikutnya**: **Phase 9 — Penemuan dan Pendaftaran Acara (T9.1 s/d T9.3)**.

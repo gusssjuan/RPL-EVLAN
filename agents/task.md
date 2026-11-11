@@ -581,17 +581,18 @@ activity_logs
 
 # PHASE 8 — Notifikasi (FR-27)
 
-### [ ] T8.1 NotificationService dan pemicu
+### [x] T8.1 NotificationService dan pemicu
 - **Depends**: T1.2, T5.1
 - `NotificationService::kirim(User, JenisNotifikasi, pesan, ?Event, ?Task, ?tautan, ?dedupeKey)` menulis ke `app_notifications`. Pemicu: penugasan (T5.2), undangan (T5.1), perubahan status (T5.3), hasil verifikasi vendor (T3.5), pendaftaran acara (T9.2/T9.3). Email opsional lewat queue sesuai `preferensi_notifikasi` (P3).
+- **Catatan implementasi**: email dilewati sesuai arahan pemilik (in-app saja); pemicu pendaftaran acara disambungkan saat T9.2/T9.3.
 - **Acceptance**: tiap pemicu menghasilkan 1 notifikasi untuk penerima yang tepat.
 
-### [ ] T8.2 UI Notifikasi (S23, hal. 41)
+### [x] T8.2 UI Notifikasi (S23, hal. 41)
 - **Depends**: T8.1, T0.3
 - Halaman dengan filter chip (Semua, Belum dibaca, Penugasan, Deadline, Status tugas, Undangan, Pendaftaran), pengelompokan Hari ini / Kemarin / Minggu ini, penanda belum dibaca (latar ungu + titik + teks "Baru"), **Tandai semua dibaca**, klik → tautan ke halaman terkait (Detail Tugas, Kepanitiaan, Detail Acara Publik). Lonceng topbar menampilkan jumlah belum dibaca.
 - **Acceptance**: klik menandai dibaca & menavigasi; user hanya melihat notifikasi miliknya.
 
-### [ ] T8.3 Reminder deadline terjadwal (Process Spec 7.0)
+### [x] T8.3 Reminder deadline terjadwal (Process Spec 7.0)
 - **Depends**: T8.1
 - Command `evlan:kirim-reminder-deadline`, dijadwalkan harian **07:00 WITA**. Untuk tiap tugas `status != sudah_diselesaikan`: bila `deadline − hari_ini ≤ 1 hari` → notifikasi "Deadline besok/hari ini"; bila `deadline < hari_ini` → "Deadline terlewat". Kirim ke penerima **dan** Leader. Idempoten via `dedupe_key = deadline:{task_id}:{mendekati|terlewat}` (D-17). Lewati acara berstatus `selesai`.
 - **Acceptance (test dengan `Carbon::setTestNow`)**: dijalankan dua kali → tidak duplikat; tugas selesai tidak memicu; acara selesai dilewati.

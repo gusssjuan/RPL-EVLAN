@@ -6,7 +6,7 @@ Aplikasi ini dibangun dengan **Laravel**, **Blade**, **Tailwind CSS**, dan **Alp
 
 ## Status Pengembangan
 
-Phase 0 sampai Phase 7 sudah selesai. Fitur yang sudah tersedia:
+Phase 0 sampai Phase 8 sudah selesai. Fitur yang sudah tersedia:
 
 - Autentikasi: login, registrasi, reset password, profil, dan pengaturan notifikasi.
 - Manajemen peran: `admin`, `user`, dan `vendor`.
@@ -17,8 +17,9 @@ Phase 0 sampai Phase 7 sudah selesai. Fitur yang sudah tersedia:
 - Area vendor: dashboard usaha, profil usaha, dan pengelolaan produk/jasa.
 - Pencarian vendor: filter kategori/kota, detail vendor, simpan vendor, dan tambah produk vendor ke anggaran.
 - Anggaran acara: estimasi biaya, tambah anggaran manual, tambah dari vendor, ubah, dan hapus.
+- Notifikasi in-app: pusat notifikasi dengan filter dan badge lonceng, notifikasi penugasan/undangan/status tugas/verifikasi vendor, serta pengingat deadline terjadwal tanpa email.
 
-Fitur notifikasi, pendaftaran peserta publik, dan penguatan keamanan lanjutan direncanakan pada phase berikutnya.
+Pendaftaran peserta publik dan penguatan keamanan lanjutan direncanakan pada phase berikutnya.
 
 ## Teknologi
 
@@ -169,10 +170,16 @@ composer dev
 
 ### 9. Perintah tambahan (opsional)
 
-Menjalankan scheduler untuk pengingat tenggat:
+Menjalankan scheduler untuk pengingat deadline harian pukul 07.00 WITA:
 
 ```bash
 php artisan schedule:work
+```
+
+Menjalankan pengingat deadline secara manual:
+
+```bash
+php artisan evlan:kirim-reminder-deadline
 ```
 
 Menjalankan worker antrean:
