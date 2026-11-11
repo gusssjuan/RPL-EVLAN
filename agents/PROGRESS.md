@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Phase 10 — Responsif, Keadaan Global, Aksesibilitas (berikutnya; Phase 9 selesai) |
-| Task terakhir selesai | T9.3 (Kelola Pendaftar oleh Leader) |
-| Task sedang dikerjakan | Phase 9 selesai; siap melanjutkan ke Phase 10 (T10.1) |
+| Phase aktif | Phase 11 — NFR, Hardening, Pengujian, Dokumentasi (berikutnya; Phase 10 selesai) |
+| Task terakhir selesai | T10.4 (Beranda Publik) |
+| Task sedang dikerjakan | Phase 10 selesai; siap melanjutkan ke Phase 11 (T11.1) |
 | Branch aktif | `main` |
-| Commit terakhir | _(perubahan Phase 7, 8, dan 9 siap di-commit via batch scripts; menunggu instruksi/eksekusi pemilik proyek)_ |
-| Hasil `php artisan test` terakhir | **166 passed (522 assertions)** — ditambah 17 assertions/tests baru di Phase 9 |
+| Commit terakhir | _(perubahan Phase 7, 8, 9, dan 10 siap di-commit via batch scripts; menunggu instruksi/eksekusi pemilik proyek)_ |
+| Hasil `php artisan test` terakhir | **166 passed (522 assertions)** — ditambah 4 tests baru di Phase 10 |
 | Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js) |
-| Terakhir diperbarui | 2026-11-11, Sesi 11 |
+| Terakhir diperbarui | 2026-11-11, Sesi 12 |
 
 ---
 
@@ -37,7 +37,7 @@ Status: `BELUM` · `BERJALAN` · `MENUNGGU REVIEW` · `SELESAI`.
 | 7 | Vendor & anggaran | T7.1–T7.4 | **SELESAI** | T7.1 (Area vendor S31/S32/S33), T7.2 (Pencarian vendor S20), T7.3 (Detail vendor S21), T7.4 (Estimasi anggaran S22); 22 feature/unit test baru |
 | 8 | Notifikasi | T8.1–T8.3 | **SELESAI** | T8.1 (NotificationService & pemicu), T8.2 (Pusat notifikasi S23 & badge), T8.3 (Reminder deadline 07.00 WITA); 12 test baru, in-app saja |
 | 9 | Pencarian & pendaftaran acara | T9.1–T9.3 | **SELESAI** | T9.1 (Cari acara publik S08/S08-V), T9.2 (Detail & daftar S09/S09-V, kuota diterima D-04), T9.3 (Kelola pendaftar leader S07 D-05); 17 feature test baru |
-| 10 | Responsif, keadaan global, a11y | T10.1–T10.4 | BELUM | |
+| 10 | Responsif, keadaan global, a11y | T10.1–T10.4 | **SELESAI** | T10.1 (Mobile 375px & bottom nav), T10.2 (Error pages 403/404/419/500), T10.3 (A11y skip-link & touch targets), T10.4 (Beranda publik S01); 4 feature test baru |
 | 11 | NFR, hardening, dokumentasi | T11.1–T11.5 | BELUM | **Checkpoint review setelah T11.1** |
 
 ---
@@ -154,7 +154,31 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 
 ---
 
-## 8. Hambatan dan Hal Belum Beres
+## 8. Ringkasan Pengerjaan Phase 10 (Responsif, Keadaan Global, Aksesibilitas — T10.1 s/d T10.4)
+
+- **T10.1 Mobile Responsive (375px) & Mobile Navigation (M-NAV, hal. 60–71)**:
+  - Layout: `resources/views/layouts/app.blade.php`.
+  - Komponen: Bottom Navigation Bar 5 tab (Beranda, Acara, Tugas, Vendor, Lainnya) dengan indikator aktif dan ketinggian target sentuh >= 40px (`min-h-[44px]`).
+  - Drawer menu mobile "Lainnya": muncul dari bawah untuk akses cepat Buat Acara, Cari Acara, Riwayat Acara, Notifikasi, Profil, dan Logout.
+  - Penyesuaian viewport: `pb-24 lg:pb-8` pada kontainer konten utama agar tidak terpotong oleh bottom bar; tabel-tabel utama (`acara/tugas`, `acara/checklist`, `acara/timeline`, `acara/anggaran`) menggunakan `overflow-x-auto` yang aman dari scroll horizontal pada `<body>`.
+- **T10.2 Keadaan Global (SG-V, hal. 59)**:
+  - Error Pages: `resources/views/errors/403.blade.php` (Akses Ditolak), `404.blade.php` (Halaman Tidak Ditemukan), `419.blade.php` (Sesi Berakhir / Kedaluwarsa dengan tombol Muat Ulang & Masuk Kembali), `500.blade.php` (Terjadi Kesalahan Server).
+  - Standarisasi copy: seluruh teks error memakai Bahasa Indonesia yang ramah, santun, dan konsisten dengan branding EVLAN.
+  - Indikator fokus: kelas `focus-visible:ring-2 focus-visible:ring-indigo-500` diterapkan pada tombol navigasi, link aksi, dan form.
+- **T10.3 Aksesibilitas Dasar (a11y)**:
+  - Skip to main content: ditambahkan tautan aksesibilitas `"Lewati ke konten utama"` di awal `<body>` pada `layouts/app.blade.php`, `components/layouts/admin.blade.php`, dan `components/layouts/vendor.blade.php`, yang langsung melompat ke `#main-content` dengan `tabindex="-1"`.
+  - Toast: dilengkapi `aria-live="polite"` dan tombol dismiss dengan `aria-label="Tutup notifikasi"` serta ukuran target sentuh yang memadai.
+  - Modal: mendukung interaksi keyboard penutupan dengan tombol Escape (`@keydown.escape.window`).
+- **T10.4 Beranda Publik (S01, hal. 3)**:
+  - View: `resources/views/welcome.blade.php` dibangun ulang sebagai landing page modern EVLAN.
+  - Konten: Hero dengan tagline "Rencanakan Acara Lebih Mudah & Terstruktur", tombol CTA "Mulai Rencanakan Acara" dan "Jelajahi Acara Publik", mockup kartu ringkasan progres H-n, 4 pilar fitur unggulan, 3 langkah alur kerja, banner ajakan bergabung, dan footer komprehensif.
+  - Feature test: `tests/Feature/Global/GlobalPagesTest.php` (4 tests).
+- **Batch Commit Script**:
+  - Disediakan `commit_phase_10.bat` untuk 5 commit terstruktur (T10.1, T10.2, T10.3, T10.4, dokumentasi).
+
+---
+
+## 9. Hambatan dan Hal Belum Beres
 
 | # | Task | Masalah | Sudah dicoba | Butuh |
 |---|---|---|---|---|
@@ -171,7 +195,9 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 - Commit Phase 7: jalankan `commit_phase_7.bat` dari root proyek (6 commit lokal).
 - Commit Phase 8: jalankan `commit_phase_8.bat` dari root proyek (4 commit lokal).
 - Commit Phase 9: jalankan `commit_phase_9.bat` dari root proyek (4 commit lokal).
-- Siap lanjut ke **Phase 10 — Responsif, Keadaan Global, Aksesibilitas (T10.1–T10.4)**.
+- Commit Phase 10: jalankan `commit_phase_10.bat` dari root proyek (5 commit lokal).
+- Siap lanjut ke **Phase 11 — NFR, Hardening, Pengujian, Dokumentasi (T11.1–T11.5)**.
+- **Catatan Penting**: Berhenti untuk **Checkpoint Review Pemilik Proyek** setelah pengerjaan T11.1 selesai!
 
 ---
 
@@ -233,3 +259,16 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
   - Membuat skrip `commit_phase_9.bat` untuk 4 commit terstruktur.
 - **Status saat ini**: **PHASE 9 SELESAI PENUH**.
 - **Untuk sesi berikutnya**: **Phase 10 — Responsif, Keadaan Global, Aksesibilitas (T10.1 s/d T10.4)**.
+
+### Sesi 2026-11-11 (Sesi 12) — Agent
+- **Dikerjakan**:
+  - Phase 10 selesai penuh (T10.1 s/d T10.4):
+    - T10.1 Responsif & Navigasi Mobile 375px: Komponen Mobile Bottom Navigation Bar 5 tab (Beranda, Acara, Tugas, Vendor, Lainnya), drawer menu mobile untuk akses sekunder (Buat Acara, Cari Acara, Riwayat, Notifikasi, Profil, Keluar), dan padding safe area di `resources/views/layouts/app.blade.php`.
+    - T10.2 Keadaan Global: Halaman error komprehensif Bahasa Indonesia `resources/views/errors/403.blade.php`, `404.blade.php`, `419.blade.php`, dan `500.blade.php`, serta indikator fokus keyboard `focus-visible`.
+    - T10.3 Aksesibilitas Dasar: Tautan "Lewati ke konten utama" di awal body pada seluruh layout (`app`, `admin`, `vendor`), `tabindex="-1"` pada main content, touch target minimum >= 40px pada tombol dan menu, modal dismiss dengan tombol `Esc`, dan toast a11y.
+    - T10.4 Beranda Publik: Landing page baru EVLAN di `resources/views/welcome.blade.php` lengkap dengan Hero, statistik H-n, 4 pilar fitur, 3 langkah alur kerja, CTA pendaftaran, dan footer informatif.
+  - Menambahkan 4 feature test di `tests/Feature/Global/GlobalPagesTest.php`.
+  - Menyinkronkan pembaruan di `agents/task.md`, `.agents/task.md`, `agents/PROGRESS.md`, dan `.agents/PROGRESS.md`.
+  - Membuat skrip `commit_phase_10.bat` untuk 5 commit terstruktur.
+- **Status saat ini**: **PHASE 10 SELESAI PENUH**.
+- **Untuk sesi berikutnya**: **Phase 11 — NFR, Hardening, Pengujian, Dokumentasi (T11.1 s/d T11.5)** dengan **Checkpoint Review wajib setelah T11.1**.

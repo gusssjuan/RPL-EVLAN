@@ -622,22 +622,22 @@ activity_logs
 
 # PHASE 10 — Responsif, Keadaan Global, Aksesibilitas
 
-### [ ] T10.1 Mobile 375 px dan navigasi (hal. 60–71)
+### [x] T10.1 Mobile 375 px dan navigasi (hal. 60–71)
 - **Depends**: Phase 4–7 selesai
 - Implementasikan versi mobile untuk: M-S02, M-S03, M-S05, M-NAV, M-S07, M-S10, M-S11, M-S11A, M-S12, M-S16, M-S18, M-S20. **Bottom nav**: Beranda · Acara · Tugas · Vendor · Lainnya (drawer berisi menu lain). Tabel panjang berubah menjadi kartu atau scroll horizontal dalam kontainernya sendiri; tidak ada scroll horizontal pada `<body>`.
 - **Acceptance**: tidak ada overflow horizontal pada 360 px (uji manual/Playwright); semua tombol target sentuh ≥ 40 px.
 
-### [ ] T10.2 Keadaan Global (SG-V, hal. 59)
+### [x] T10.2 Keadaan Global (SG-V, hal. 59)
 - **Depends**: T2.2
 - Halaman 403 (akses ditolak), 404, 419/sesi berakhir (arahkan ke login dengan pesan), 500/galat, skeleton loading, toast sukses/galat, empty-state tiap daftar, **indikator fokus keyboard** jelas.
 - **Acceptance**: tiap keadaan dapat dipicu di test; pesan Bahasa Indonesia.
 
-### [ ] T10.3 Aksesibilitas dasar
+### [x] T10.3 Aksesibilitas dasar
 - **Depends**: T0.3
 - Label field di atas input; `aria-live` untuk toast; modal mengunci fokus & tutup dengan Esc; badge status tidak mengandalkan warna saja; kontras memenuhi WCAG AA; tautan "lewati ke konten".
 - **Acceptance**: audit Lighthouse/axe pada S02, S05, S12, S15, S18 tanpa pelanggaran kritis.
 
-### [ ] T10.4 Beranda Publik (S01, hal. 3) — P3
+### [x] T10.4 Beranda Publik (S01, hal. 3) — P3
 - **Depends**: T0.3
 - Landing: hero "Rencanakan acara lebih terstruktur, dari kategori hingga evaluasi", kartu fitur (Template kategori, Checklist & timeline, Kepanitiaan & tugas, Vendor & anggaran), CTA daftar/masuk. Pengguna login diarahkan ke dashboard.
 
