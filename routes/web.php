@@ -10,12 +10,14 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Discovery\EventDiscoveryController;
 use App\Http\Controllers\Event\BudgetController;
 use App\Http\Controllers\Event\ChecklistController;
 use App\Http\Controllers\Event\DivisionController;
 use App\Http\Controllers\Event\EvaluationController;
 use App\Http\Controllers\Event\EventWizardController;
 use App\Http\Controllers\Event\MyTaskController;
+use App\Http\Controllers\Event\RegistrationController;
 use App\Http\Controllers\Event\TaskController;
 use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
@@ -58,6 +60,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/notifikasi/baca-semua', [NotificationController::class, 'bacaSemua'])->name('notifikasi.baca-semua');
     Route::post('/notifikasi/{notification}/baca', [NotificationController::class, 'baca'])->name('notifikasi.baca');
 
+    // Penemuan & Pendaftaran Acara (T9.1, T9.2) — hanya pengguna
+    Route::middleware('role:user')->group(function () {
+        Route::get('/cari-acara', [EventDiscoveryController::class, 'index'])->name('cari-acara.index');
+        Route::get('/cari-acara/{event}', [EventDiscoveryController::class, 'show'])->name('cari-acara.show');
+        Route::post('/cari-acara/{event}/daftar', [EventDiscoveryController::class, 'daftar'])->name('cari-acara.daftar');
+        Route::delete('/cari-acara/{event}/daftar', [EventDiscoveryController::class, 'batalkan'])->name('cari-acara.daftar.batal');
+    });
+
     // Profil & Pengaturan
     Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profil', [ProfileController::class, 'update'])->name('profile.update');
@@ -84,6 +94,8 @@ Route::middleware('auth')->group(function () {
 
     // Ringkasan Acara & Manajemen Detail (T4.6)
     Route::get('/acara/{event}', [EventController::class, 'show'])->name('acara.ringkasan');
+    Route::post('/acara/{event}/pendaftar/{registration}/terima', [RegistrationController::class, 'terima'])->name('acara.pendaftar.terima');
+    Route::post('/acara/{event}/pendaftar/{registration}/tolak', [RegistrationController::class, 'tolak'])->name('acara.pendaftar.tolak');
     Route::get('/acara/{event}/edit', [EventController::class, 'edit'])->name('acara.edit');
     Route::put('/acara/{event}', [EventController::class, 'update'])->name('acara.update');
     Route::get('/acara/{event}/monitoring', [EventController::class, 'monitoring'])->name('acara.monitoring');
