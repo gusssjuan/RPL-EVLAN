@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Event;
 use App\Enums\JenisNotifikasi;
 use App\Enums\StatusTugas;
 use App\Http\Controllers\Controller;
-use App\Models\AppNotification;
 use App\Models\Task;
 use App\Services\ActivityLogger;
-use Carbon\Carbon;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -80,7 +79,7 @@ class MyTaskController extends Controller
         $riwayat = $event->activityLogs()
             ->where(function ($q) use ($task) {
                 $q->whereJsonContains('meta->task_id', $task->id)
-                    ->orWhere('deskripsi', 'like', '%"' . $task->judul . '"%');
+                    ->orWhere('deskripsi', 'like', '%"'.$task->judul.'"%');
             })
             ->with('user')
             ->latest()
@@ -117,25 +116,23 @@ class MyTaskController extends Controller
             $event,
             $user,
             'ubah_status',
-            'mengubah status "' . $task->judul . '" → ' . $newStatus->label(),
+            'mengubah status "'.$task->judul.'" → '.$newStatus->label(),
             ['task_id' => $task->id, 'old_status' => $oldStatus->value, 'new_status' => $newStatus->value]
         );
 
-        // Notifikasi status_tugas ke Leader
+        // Notifikasi status_tugas ke Leader (in-app)
         if (! $event->isLeader($user)) {
-            AppNotification::create([
-                'user_id' => $event->leader_id,
-                'event_id' => $event->id,
-                'task_id' => $task->id,
-                'jenis' => JenisNotifikasi::StatusTugas,
-                'pesan' => $user->nama . ' mengubah status "' . $task->judul . '" menjadi ' . $newStatus->label() . '.',
-                'tautan' => '/tugas/' . $task->id,
-                'waktu_kirim' => now(),
-            ]);
+            NotificationService::kirim(
+                $event->leader()->firstOrFail(),
+                JenisNotifikasi::StatusTugas,
+                $user->nama.' mengubah status "'.$task->judul.'" menjadi '.$newStatus->label().'.',
+                $event,
+                $task,
+                '/tugas/'.$task->id,
+            );
         }
 
         return redirect()->route('tugas.show', $task->id)
-            ->with('status', 'Status tugas berhasil diubah menjadi "' . $newStatus->label() . '".');
+            ->with('status', 'Status tugas berhasil diubah menjadi "'.$newStatus->label().'".');
     }
 }
-

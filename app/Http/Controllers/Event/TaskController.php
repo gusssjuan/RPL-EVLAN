@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Event;
 use App\Enums\JenisNotifikasi;
 use App\Enums\StatusTugas;
 use App\Http\Controllers\Controller;
-use App\Models\AppNotification;
 use App\Models\Event;
 use App\Models\Task;
 use App\Models\TemplateItem;
 use App\Services\ActivityLogger;
+use App\Services\NotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class TaskController extends Controller
 
         // Pencarian
         if ($request->filled('cari')) {
-            $query->where('judul', 'like', '%' . $request->cari . '%');
+            $query->where('judul', 'like', '%'.$request->cari.'%');
         }
 
         $tasks = $query->orderBy('deadline')->paginate(8)->withQueryString();
@@ -117,7 +117,7 @@ class TaskController extends Controller
 
         // Validasi: deadline <= tanggal_acara (D-26)
         if (Carbon::parse($validated['deadline'])->greaterThan($event->tanggal)) {
-            return back()->withErrors(['deadline' => 'Deadline tugas tidak boleh melewati tanggal pelaksanaan acara (' . $event->tanggal->isoFormat('D MMMM Y') . ').'])->withInput();
+            return back()->withErrors(['deadline' => 'Deadline tugas tidak boleh melewati tanggal pelaksanaan acara ('.$event->tanggal->isoFormat('D MMMM Y').').'])->withInput();
         }
 
         // Pastikan division milik event
@@ -139,29 +139,28 @@ class TaskController extends Controller
             'status' => StatusTugas::BelumDikerjakan,
         ]);
 
-        // Notifikasi penugasan
+        // Notifikasi penugasan (in-app)
         $penerima = $task->penerima;
-        AppNotification::create([
-            'user_id' => $penerima->id,
-            'event_id' => $event->id,
-            'task_id' => $task->id,
-            'jenis' => JenisNotifikasi::Penugasan,
-            'pesan' => 'Anda ditugaskan "' . $task->judul . '" di acara "' . $event->nama_event . '" dengan batas waktu ' . Carbon::parse($task->deadline)->isoFormat('D MMMM Y') . '.',
-            'tautan' => '/tugas/' . $task->id,
-            'waktu_kirim' => now(),
-        ]);
+        NotificationService::kirim(
+            $penerima,
+            JenisNotifikasi::Penugasan,
+            'Anda ditugaskan "'.$task->judul.'" di acara "'.$event->nama_event.'" dengan batas waktu '.Carbon::parse($task->deadline)->isoFormat('D MMMM Y').'.',
+            $event,
+            $task,
+            '/tugas/'.$task->id,
+        );
 
         // Activity log
         ActivityLogger::log(
             $event,
             $request->user(),
             'buat_tugas',
-            'membuat tugas "' . $task->judul . '" dan menugaskan ke ' . $penerima->nama,
+            'membuat tugas "'.$task->judul.'" dan menugaskan ke '.$penerima->nama,
             ['task_id' => $task->id, 'penerima_id' => $penerima->id]
         );
 
         return redirect()->route('acara.tugas.index', $event->id)
-            ->with('status', 'Tugas "' . $task->judul . '" berhasil dibuat dan ditugaskan ke ' . $penerima->nama . '.');
+            ->with('status', 'Tugas "'.$task->judul.'" berhasil dibuat dan ditugaskan ke '.$penerima->nama.'.');
     }
 
     /**
@@ -197,10 +196,10 @@ class TaskController extends Controller
             'deadline' => $validated['deadline'],
         ]);
 
-        ActivityLogger::log($event, $request->user(), 'ubah_tugas', 'mengubah detail tugas "' . $task->judul . '"');
+        ActivityLogger::log($event, $request->user(), 'ubah_tugas', 'mengubah detail tugas "'.$task->judul.'"');
 
         return redirect()->route('acara.tugas.index', $event->id)
-            ->with('status', 'Tugas "' . $task->judul . '" berhasil diperbarui.');
+            ->with('status', 'Tugas "'.$task->judul.'" berhasil diperbarui.');
     }
 
     /**
@@ -215,10 +214,9 @@ class TaskController extends Controller
         $judul = $task->judul;
         $task->delete();
 
-        ActivityLogger::log($event, auth()->user(), 'hapus_tugas', 'menghapus tugas "' . $judul . '"');
+        ActivityLogger::log($event, auth()->user(), 'hapus_tugas', 'menghapus tugas "'.$judul.'"');
 
         return redirect()->route('acara.tugas.index', $event->id)
-            ->with('status', 'Tugas "' . $judul . '" berhasil dihapus.');
+            ->with('status', 'Tugas "'.$judul.'" berhasil dihapus.');
     }
 }
-

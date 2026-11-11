@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Event;
 use App\Enums\JenisNotifikasi;
 use App\Enums\PeranAnggota;
 use App\Http\Controllers\Controller;
-use App\Models\AppNotification;
 use App\Models\Division;
 use App\Models\Event;
 use App\Models\EventMember;
 use App\Models\TemplateItem;
 use App\Models\User;
 use App\Services\ActivityLogger;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -72,15 +72,15 @@ class DivisionController extends Controller
         // Validasi: nama divisi unik per acara (Process Spec 4.1)
         $exists = $event->divisions()->whereRaw('LOWER(nama_divisi) = ?', [mb_strtolower($validated['nama_divisi'])])->exists();
         if ($exists) {
-            return back()->withErrors(['nama_divisi' => 'Nama divisi "' . $validated['nama_divisi'] . '" sudah ada di acara ini.'])->withInput();
+            return back()->withErrors(['nama_divisi' => 'Nama divisi "'.$validated['nama_divisi'].'" sudah ada di acara ini.'])->withInput();
         }
 
         $division = $event->divisions()->create($validated);
 
-        ActivityLogger::log($event, $request->user(), 'buat_divisi', 'menambahkan divisi "' . $division->nama_divisi . '"');
+        ActivityLogger::log($event, $request->user(), 'buat_divisi', 'menambahkan divisi "'.$division->nama_divisi.'"');
 
         return redirect()->route('acara.kepanitiaan.index', $event->id)
-            ->with('status', 'Divisi "' . $division->nama_divisi . '" berhasil ditambahkan.');
+            ->with('status', 'Divisi "'.$division->nama_divisi.'" berhasil ditambahkan.');
     }
 
     /**
@@ -111,11 +111,11 @@ class DivisionController extends Controller
         }
 
         if ($added > 0) {
-            ActivityLogger::log($event, $request->user(), 'buat_divisi', 'menambahkan ' . $added . ' divisi dari rekomendasi template');
+            ActivityLogger::log($event, $request->user(), 'buat_divisi', 'menambahkan '.$added.' divisi dari rekomendasi template');
         }
 
         return redirect()->route('acara.kepanitiaan.index', $event->id)
-            ->with('status', $added . ' divisi rekomendasi berhasil ditambahkan.');
+            ->with('status', $added.' divisi rekomendasi berhasil ditambahkan.');
     }
 
     /**
@@ -129,7 +129,7 @@ class DivisionController extends Controller
 
         // Tolak jika divisi memiliki tugas (Process Spec 4.1)
         if ($division->tasks()->exists()) {
-            return back()->withErrors(['division' => 'Tidak dapat menghapus divisi "' . $division->nama_divisi . '" karena masih memiliki tugas yang terhubung. Pindahkan atau hapus tugas terlebih dahulu.']);
+            return back()->withErrors(['division' => 'Tidak dapat menghapus divisi "'.$division->nama_divisi.'" karena masih memiliki tugas yang terhubung. Pindahkan atau hapus tugas terlebih dahulu.']);
         }
 
         // Keluarkan anggota dari divisi ini (set division_id null)
@@ -138,10 +138,10 @@ class DivisionController extends Controller
         $nama = $division->nama_divisi;
         $division->delete();
 
-        ActivityLogger::log($event, auth()->user(), 'hapus_divisi', 'menghapus divisi "' . $nama . '"');
+        ActivityLogger::log($event, auth()->user(), 'hapus_divisi', 'menghapus divisi "'.$nama.'"');
 
         return redirect()->route('acara.kepanitiaan.index', $event->id)
-            ->with('status', 'Divisi "' . $nama . '" berhasil dihapus.');
+            ->with('status', 'Divisi "'.$nama.'" berhasil dihapus.');
     }
 
     /**
@@ -160,7 +160,7 @@ class DivisionController extends Controller
         // Cari user berdasarkan email (D-15)
         $targetUser = User::where('email', $validated['email'])->first();
         if (! $targetUser) {
-            return back()->withErrors(['email' => 'Akun dengan email "' . $validated['email'] . '" tidak ditemukan dalam sistem.'])->withInput();
+            return back()->withErrors(['email' => 'Akun dengan email "'.$validated['email'].'" tidak ditemukan dalam sistem.'])->withInput();
         }
 
         // User harus role 'user' (bukan admin/vendor)
@@ -175,7 +175,7 @@ class DivisionController extends Controller
 
         // Cek sudah jadi anggota
         if ($event->isMember($targetUser)) {
-            return back()->withErrors(['email' => $targetUser->nama . ' sudah terdaftar sebagai panitia di acara ini.'])->withInput();
+            return back()->withErrors(['email' => $targetUser->nama.' sudah terdaftar sebagai panitia di acara ini.'])->withInput();
         }
 
         // Pastikan division milik event ini
@@ -192,27 +192,27 @@ class DivisionController extends Controller
             'peran' => PeranAnggota::from($validated['peran']),
         ]);
 
-        // Kirim notifikasi undangan
-        AppNotification::create([
-            'user_id' => $targetUser->id,
-            'event_id' => $event->id,
-            'jenis' => JenisNotifikasi::Undangan,
-            'pesan' => 'Anda diundang bergabung dalam kepanitiaan acara "' . $event->nama_event . '" di divisi ' . $division->nama_divisi . '.',
-            'tautan' => '/acara/' . $event->id,
-            'waktu_kirim' => now(),
-        ]);
+        // Kirim notifikasi undangan (in-app)
+        NotificationService::kirim(
+            $targetUser,
+            JenisNotifikasi::Undangan,
+            'Anda diundang bergabung dalam kepanitiaan acara "'.$event->nama_event.'" di divisi '.$division->nama_divisi.'.',
+            $event,
+            null,
+            '/acara/'.$event->id,
+        );
 
         // Catat aktivitas
         ActivityLogger::log(
             $event,
             $request->user(),
             'tambah_anggota',
-            'menambahkan ' . $targetUser->nama . ' sebagai ' . PeranAnggota::from($validated['peran'])->label() . ' divisi ' . $division->nama_divisi,
+            'menambahkan '.$targetUser->nama.' sebagai '.PeranAnggota::from($validated['peran'])->label().' divisi '.$division->nama_divisi,
             ['user_id' => $targetUser->id, 'division_id' => $division->id]
         );
 
         return redirect()->route('acara.kepanitiaan.index', $event->id)
-            ->with('status', $targetUser->nama . ' berhasil ditambahkan ke divisi ' . $division->nama_divisi . '.');
+            ->with('status', $targetUser->nama.' berhasil ditambahkan ke divisi '.$division->nama_divisi.'.');
     }
 
     /**
@@ -236,10 +236,10 @@ class DivisionController extends Controller
             'peran' => PeranAnggota::from($validated['peran']),
         ]);
 
-        ActivityLogger::log($event, $request->user(), 'ubah_anggota', 'mengubah peran/divisi ' . $member->user->nama);
+        ActivityLogger::log($event, $request->user(), 'ubah_anggota', 'mengubah peran/divisi '.$member->user->nama);
 
         return redirect()->route('acara.kepanitiaan.index', $event->id)
-            ->with('status', 'Data keanggotaan ' . $member->user->nama . ' berhasil diperbarui.');
+            ->with('status', 'Data keanggotaan '.$member->user->nama.' berhasil diperbarui.');
     }
 
     /**
@@ -262,15 +262,14 @@ class DivisionController extends Controller
 
         $member->delete();
 
-        ActivityLogger::log($event, $request->user(), 'hapus_anggota', 'mengeluarkan ' . $userName . ' dari kepanitiaan' . ($activeTasks > 0 ? ' (' . $activeTasks . ' tugas aktif tetap berlaku)' : ''));
+        ActivityLogger::log($event, $request->user(), 'hapus_anggota', 'mengeluarkan '.$userName.' dari kepanitiaan'.($activeTasks > 0 ? ' ('.$activeTasks.' tugas aktif tetap berlaku)' : ''));
 
-        $msg = $userName . ' berhasil dikeluarkan dari kepanitiaan.';
+        $msg = $userName.' berhasil dikeluarkan dari kepanitiaan.';
         if ($activeTasks > 0) {
-            $msg .= ' Perhatian: ' . $activeTasks . ' tugas aktif miliknya tetap berlaku dan perlu ditugaskan ulang.';
+            $msg .= ' Perhatian: '.$activeTasks.' tugas aktif miliknya tetap berlaku dan perlu ditugaskan ulang.';
         }
 
         return redirect()->route('acara.kepanitiaan.index', $event->id)
             ->with('status', $msg);
     }
 }
-

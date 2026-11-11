@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\JenisNotifikasi;
 use App\Enums\StatusVerifikasi;
 use App\Http\Controllers\Controller;
-use App\Models\AppNotification;
 use App\Models\Vendor;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -56,14 +56,15 @@ class VendorVerificationController extends Controller
             'verified_at' => now(),
         ]);
 
-        // Process Spec 6.0: Notifikasi verifikasi vendor
-        AppNotification::create([
-            'user_id' => $vendor->user_id,
-            'jenis' => JenisNotifikasi::VerifikasiVendor,
-            'pesan' => 'Selamat! Pendaftaran usaha vendor "'.$vendor->nama_vendor.'" telah disetujui Admin. Anda sekarang dapat menambahkan produk dan jasa.',
-            'tautan' => '/usaha',
-            'waktu_kirim' => now(),
-        ]);
+        // Process Spec 6.0: Notifikasi verifikasi vendor (in-app)
+        NotificationService::kirim(
+            $vendor->user()->firstOrFail(),
+            JenisNotifikasi::VerifikasiVendor,
+            'Selamat! Pendaftaran usaha vendor "'.$vendor->nama_vendor.'" telah disetujui Admin. Anda sekarang dapat menambahkan produk dan jasa.',
+            null,
+            null,
+            '/usaha',
+        );
 
         return redirect()->route('admin.verifikasi-vendor.index')
             ->with('status', 'Vendor "'.$vendor->nama_vendor.'" berhasil diverifikasi.');
@@ -81,17 +82,17 @@ class VendorVerificationController extends Controller
             'verified_at' => null,
         ]);
 
-        // Process Spec 6.0: Notifikasi penolakan vendor
-        AppNotification::create([
-            'user_id' => $vendor->user_id,
-            'jenis' => JenisNotifikasi::VerifikasiVendor,
-            'pesan' => 'Pendaftaran usaha vendor "'.$vendor->nama_vendor.'" ditolak. Alasan: '.$request->alasan_penolakan,
-            'tautan' => '/usaha/profil',
-            'waktu_kirim' => now(),
-        ]);
+        // Process Spec 6.0: Notifikasi penolakan vendor (in-app)
+        NotificationService::kirim(
+            $vendor->user()->firstOrFail(),
+            JenisNotifikasi::VerifikasiVendor,
+            'Pendaftaran usaha vendor "'.$vendor->nama_vendor.'" ditolak. Alasan: '.$request->alasan_penolakan,
+            null,
+            null,
+            '/usaha/profil',
+        );
 
         return redirect()->route('admin.verifikasi-vendor.index')
             ->with('status', 'Pendaftaran vendor "'.$vendor->nama_vendor.'" ditolak.');
     }
 }
-
