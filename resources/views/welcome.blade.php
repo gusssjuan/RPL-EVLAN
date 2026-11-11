@@ -29,7 +29,7 @@
                     <a href="#fitur" class="hover:text-indigo-600 transition-colors">Fitur</a>
                     <a href="#cara-kerja" class="hover:text-indigo-600 transition-colors">Cara Kerja</a>
                     <a href="{{ route('cari-acara.index') }}" class="hover:text-indigo-600 transition-colors">Cari Acara</a>
-                    <a href="{{ route('vendor.cari.index') }}" class="hover:text-indigo-600 transition-colors">Katalog Vendor</a>
+                    <a href="{{ url('/vendor') }}" class="hover:text-indigo-600 transition-colors">Katalog Vendor</a>
                 </nav>
             </div>
 
@@ -284,7 +284,7 @@
 
                 <div class="flex items-center gap-6 text-sm">
                     <a href="{{ route('cari-acara.index') }}" class="hover:text-white transition-colors">Cari Acara</a>
-                    <a href="{{ route('vendor.cari.index') }}" class="hover:text-white transition-colors">Katalog Vendor</a>
+                    <a href="{{ url('/vendor') }}" class="hover:text-white transition-colors">Katalog Vendor</a>
                     <a href="{{ route('login') }}" class="hover:text-white transition-colors">Masuk</a>
                     <a href="{{ route('register') }}" class="hover:text-white transition-colors">Daftar</a>
                 </div>
