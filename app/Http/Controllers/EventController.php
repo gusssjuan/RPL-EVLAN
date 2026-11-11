@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusPendaftaran;
 use App\Http\Requests\Event\EventDetailRequest;
 use App\Models\Event;
 use App\Services\ProgressService;
@@ -59,6 +60,17 @@ class EventController extends Controller
         // Tugas saya di acara ini (khusus panitia/anggota)
         $tugasSaya = $event->tasks->where('penerima_id', $user->id);
 
+        // Pendaftar publik (T9.3): hanya dimuat untuk Leader
+        $pendaftar = collect();
+        $jumlahPendaftarDiterima = 0;
+        if ($isLeader && $event->is_publik) {
+            $event->load(['registrations' => fn ($q) => $q->with('user')->latest()]);
+            $pendaftar = $event->registrations;
+            $jumlahPendaftarDiterima = $pendaftar
+                ->filter(fn ($p) => $p->status === StatusPendaftaran::Diterima)
+                ->count();
+        }
+
         return view('acara.show', compact(
             'event',
             'isLeader',
@@ -68,7 +80,9 @@ class EventController extends Controller
             'selesaiTugas',
             'persenProgres',
             'agendaTerdekat',
-            'tugasSaya'
+            'tugasSaya',
+            'pendaftar',
+            'jumlahPendaftarDiterima'
         ));
     }
 
