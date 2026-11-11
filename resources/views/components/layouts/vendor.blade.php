@@ -10,6 +10,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full font-sans antialiased text-gray-900 bg-gray-50">
+    <!-- Aksesibilitas: Lewati ke konten utama -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 z-50 px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-semibold shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">
+        Lewati ke konten utama
+    </a>
+
     <div x-data="{ sidebarOpen: false }" class="min-h-full flex flex-col lg:flex-row">
         <div
             x-show="sidebarOpen"
@@ -139,7 +144,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+            <main id="main-content" class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto focus:outline-none" tabindex="-1">
                 {{ $slot }}
             </main>
         </div>

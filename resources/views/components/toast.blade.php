@@ -42,8 +42,8 @@
             <div class="flex-1 text-sm">
                 <p x-text="notice.message" class="font-medium"></p>
             </div>
-            <button type="button" x-on:click="remove(notice.id)" class="text-gray-400 hover:text-gray-600 shrink-0">
-                &times;
+            <button type="button" x-on:click="remove(notice.id)" class="text-gray-400 hover:text-gray-600 shrink-0 p-1 -m-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" aria-label="Tutup notifikasi">
+                <span aria-hidden="true" class="text-lg leading-none">&times;</span>
             </button>
         </div>
     </template>
