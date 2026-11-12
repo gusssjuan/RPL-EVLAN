@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\EventRegistration;
 use App\Services\EventRegistrationService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 class RegistrationController extends Controller
 {
@@ -22,9 +23,21 @@ class RegistrationController extends Controller
         $this->authorize('manage', $registration);
 
         $nama = $registration->user()->value('nama');
-        $registrationService->terima($registration);
 
-        return back()->with('status', 'Pendaftar "'.$nama.'" berhasil diterima.');
+        try {
+            $registrationService->terima($registration);
+        } catch (ValidationException $exception) {
+            $pesan = collect($exception->errors())->flatten()->first() ?? 'Pendaftaran belum dapat diterima.';
+
+            return back()
+                ->withErrors($exception->errors())
+                ->with('error', $pesan)
+                ->with('peringatan', $pesan);
+        }
+
+        $pesan = 'Pendaftar "'.$nama.'" berhasil diterima.';
+
+        return back()->with('status', $pesan)->with('sukses', $pesan);
     }
 
     public function tolak(
@@ -39,8 +52,20 @@ class RegistrationController extends Controller
         $this->authorize('manage', $registration);
 
         $nama = $registration->user()->value('nama');
-        $registrationService->tolak($registration, $request->validated('alasan_penolakan'));
 
-        return back()->with('status', 'Pendaftar "'.$nama.'" ditolak.');
+        try {
+            $registrationService->tolak($registration, $request->validated('alasan_penolakan'));
+        } catch (ValidationException $exception) {
+            $pesan = collect($exception->errors())->flatten()->first() ?? 'Pendaftaran belum dapat ditolak.';
+
+            return back()
+                ->withErrors($exception->errors())
+                ->with('error', $pesan)
+                ->with('peringatan', $pesan);
+        }
+
+        $pesan = 'Pendaftar "'.$nama.'" ditolak.';
+
+        return back()->with('status', $pesan)->with('sukses', $pesan);
     }
 }

@@ -203,8 +203,8 @@
             <div id="pendaftar" class="bg-white p-6 rounded-[16px] border border-gray-200 shadow-sm space-y-4 scroll-mt-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-gray-100 pb-3">
                     <div>
-                        <h2 class="text-base font-bold text-gray-900">Pendaftar Acara Publik</h2>
-                        <p class="text-xs text-gray-500">Kelola permintaan pendaftaran peserta untuk acara ini.</p>
+                        <h2 class="text-base font-bold text-gray-900">Daftar Pendaftar</h2>
+                        <p class="text-xs text-gray-500">Pendaftar acara publik — kelola permintaan pendaftaran peserta untuk acara ini.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold">
