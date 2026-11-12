@@ -47,7 +47,7 @@
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
-                                        <span>{{ $tmpl->category?->ikon ?? '📁' }}</span>
+                                        <x-category-icon :kategori="$tmpl->category" class="w-3.5 h-3.5" />
                                         <span>{{ $tmpl->category?->nama_kategori ?? 'Umum' }}</span>
                                     </span>
                                 </td>

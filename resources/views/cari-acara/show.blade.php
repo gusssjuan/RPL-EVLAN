@@ -57,7 +57,7 @@
                     <div class="p-6 sm:p-7 space-y-5">
                         <div class="flex flex-wrap items-center gap-2">
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full {{ $color['bg'] }} {{ $color['text'] }} text-xs font-semibold">
-                                <span>{{ $event->category?->ikon ?? '📅' }}</span>
+                                <x-category-icon :kategori="$event->category" class="w-4 h-4" />
                                 <span>{{ $event->category?->nama_kategori }}</span>
                             </span>
                             <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold">
@@ -89,7 +89,7 @@
                                     <p class="font-semibold text-gray-800">{{ $event->tanggal->isoFormat('dddd, D MMMM Y') }}</p>
                                     @if ($event->waktu_mulai || $event->waktu_selesai)
                                         <p class="text-xs text-gray-500 mt-0.5">
-                                            {{ $event->waktu_mulai ? \Carbon\Carbon::parse($event->waktu_mulai)->format('H.i') : '—' }}
+                                            {{ $event->waktu_mulai ? \Carbon\Carbon::parse($event->waktu_mulai)->format('H.i') : '-' }}
                                             @if ($event->waktu_selesai)
                                                 – {{ \Carbon\Carbon::parse($event->waktu_selesai)->format('H.i') }}
                                             @endif
@@ -117,7 +117,7 @@
                             </div>
 
                             <div class="flex items-start gap-2.5 p-3 bg-gray-50 rounded-[10px] border border-gray-100">
-                                <x-icon name="building-storefront" class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" />
+                                <x-icon name="store" class="w-4 h-4 text-indigo-600 mt-0.5 shrink-0" />
                                 <div>
                                     <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Penyelenggara</p>
                                     <p class="font-semibold text-gray-800">{{ $event->penyelenggara ?: $event->leader?->nama }}</p>
@@ -244,7 +244,7 @@
                 <div class="p-3 bg-gray-50 rounded-[10px] border border-gray-100">
                     <p class="text-xs font-semibold text-gray-500">Acara</p>
                     <p class="text-sm font-bold text-gray-900">{{ $event->nama_event }}</p>
-                    <p class="text-xs text-gray-500 mt-0.5">{{ $event->tanggal->isoFormat('D MMMM Y') }} · {{ $event->lokasi }}</p>
+                    <p class="text-xs text-gray-500 mt-0.5">{{ $event->tanggal->isoFormat('D MMMM Y') }}, {{ $event->lokasi }}</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

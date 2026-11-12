@@ -122,7 +122,7 @@
                         <form method="POST" action="{{ route('logout', [], false) }}">
                             @csrf
                             <button type="submit" class="text-gray-400 hover:text-red-600 p-1 rounded-md transition-colors" title="Keluar">
-                                <x-icon name="logout" class="w-4 h-4" />
+                                <x-icon name="log-out" class="w-4 h-4" />
                             </button>
                         </form>
                     </div>
@@ -146,9 +146,7 @@
                         class="p-2 -ml-2 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
                         <span class="sr-only">Buka menu</span>
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
+                        <x-icon name="menu" class="w-6 h-6" />
                     </button>
 
                     <!-- Breadcrumbs / Page Title -->

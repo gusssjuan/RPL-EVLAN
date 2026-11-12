@@ -18,7 +18,7 @@ use Illuminate\View\View;
 class TaskController extends Controller
 {
     /**
-     * Halaman Tugas Acara — Kelola Jobdesk (S15).
+     * Halaman Tugas Acara - Kelola Jobdesk (S15).
      */
     public function index(Request $request, Event $event): View
     {

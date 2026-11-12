@@ -20,9 +20,9 @@ enum StatusTugas: string
     public function icon(): string
     {
         return match ($this) {
-            self::BelumDikerjakan => '○',
-            self::SedangDikerjakan => '◐',
-            self::SudahDiselesaikan => '✓',
+            self::BelumDikerjakan => 'circle',
+            self::SedangDikerjakan => 'circle-dashed',
+            self::SudahDiselesaikan => 'check',
         };
     }
 
@@ -35,4 +35,3 @@ enum StatusTugas: string
         };
     }
 }
-

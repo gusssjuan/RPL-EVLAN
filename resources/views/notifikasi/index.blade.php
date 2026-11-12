@@ -9,14 +9,17 @@
         ['label' => 'Pendaftaran', 'status' => 'semua', 'jenis' => \App\Enums\JenisNotifikasi::Pendaftaran->value],
     ];
 
-    $ikon = fn (\App\Enums\JenisNotifikasi $jenis): array => match ($jenis) {
-        \App\Enums\JenisNotifikasi::Penugasan => ['name' => 'check-circle', 'class' => 'bg-indigo-100 text-indigo-600'],
-        \App\Enums\JenisNotifikasi::Deadline => ['name' => 'clock', 'class' => 'bg-amber-100 text-amber-600'],
-        \App\Enums\JenisNotifikasi::StatusTugas => ['name' => 'edit', 'class' => 'bg-sky-100 text-sky-600'],
-        \App\Enums\JenisNotifikasi::Undangan => ['name' => 'user-plus', 'class' => 'bg-emerald-100 text-emerald-600'],
-        \App\Enums\JenisNotifikasi::Pendaftaran => ['name' => 'calendar', 'class' => 'bg-purple-100 text-purple-600'],
-        \App\Enums\JenisNotifikasi::VerifikasiVendor => ['name' => 'briefcase', 'class' => 'bg-rose-100 text-rose-600'],
-    };
+    $ikon = fn (\App\Enums\JenisNotifikasi $jenis): array => [
+        'name' => $jenis->icon(),
+        'class' => match ($jenis) {
+            \App\Enums\JenisNotifikasi::Penugasan => 'bg-indigo-100 text-indigo-600',
+            \App\Enums\JenisNotifikasi::Deadline => 'bg-amber-100 text-amber-600',
+            \App\Enums\JenisNotifikasi::StatusTugas => 'bg-sky-100 text-sky-600',
+            \App\Enums\JenisNotifikasi::Undangan => 'bg-emerald-100 text-emerald-600',
+            \App\Enums\JenisNotifikasi::Pendaftaran => 'bg-purple-100 text-purple-600',
+            \App\Enums\JenisNotifikasi::VerifikasiVendor => 'bg-rose-100 text-rose-600',
+        },
+    ];
 @endphp
 
 <x-dynamic-component :component="$layout" title="Notifikasi">

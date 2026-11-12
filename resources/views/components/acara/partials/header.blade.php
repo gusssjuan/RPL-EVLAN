@@ -29,7 +29,8 @@
             <div>
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-semibold">
-                        {{ $event->category?->ikon ?? '📁' }} {{ $event->category?->nama_kategori }}
+                        <x-category-icon :kategori="$event->category" class="w-3.5 h-3.5" />
+                        {{ $event->category?->nama_kategori }}
                     </span>
                     <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold">
                         {{ $event->hari_menuju }}
@@ -46,10 +47,22 @@
                 </h1>
 
                 <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 mt-1.5">
-                    <span>📅 {{ $event->tanggal->isoFormat('D MMMM Y') }}</span>
-                    <span>📍 {{ $event->lokasi }}</span>
-                    <span>👥 {{ number_format($event->jumlah_peserta, 0, ',', '.') }} Peserta</span>
-                    <span>👑 Ketua: {{ $event->leader?->nama ?? '-' }}</span>
+                    <span class="inline-flex items-center gap-1">
+                        <x-icon name="calendar" class="w-3.5 h-3.5" />
+                        {{ $event->tanggal->isoFormat('D MMMM Y') }}
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                        <x-icon name="map-pin" class="w-3.5 h-3.5" />
+                        {{ $event->lokasi }}
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                        <x-icon name="users" class="w-3.5 h-3.5" />
+                        {{ number_format($event->jumlah_peserta, 0, ',', '.') }} Peserta
+                    </span>
+                    <span class="inline-flex items-center gap-1">
+                        <x-icon name="crown" class="w-3.5 h-3.5" />
+                        Ketua: {{ $event->leader?->nama ?? '-' }}
+                    </span>
                 </div>
             </div>
 

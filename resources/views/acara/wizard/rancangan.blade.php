@@ -23,7 +23,7 @@
             <!-- Stepper Bar -->
             <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-2">
                 <a href="{{ route('acara.buat.kategori') }}" class="p-3 bg-white border border-gray-200 rounded-[10px] flex items-center gap-3 hover:bg-gray-50 transition-colors">
-                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0"><x-icon name="check" class="w-4 h-4" /></span>
                     <div class="min-w-0 hidden sm:block">
                         <p class="text-xs font-bold text-gray-900 truncate">Kategori</p>
                         <p class="text-[10px] text-gray-500 truncate">{{ $category->nama_kategori }}</p>
@@ -31,7 +31,7 @@
                 </a>
 
                 <a href="{{ route('acara.buat.detail') }}" class="p-3 bg-white border border-gray-200 rounded-[10px] flex items-center gap-3 hover:bg-gray-50 transition-colors">
-                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0"><x-icon name="check" class="w-4 h-4" /></span>
                     <div class="min-w-0 hidden sm:block">
                         <p class="text-xs font-bold text-gray-900 truncate">Detail Acara</p>
                         <p class="text-[10px] text-gray-500 truncate">{{ $draft['nama_event'] }}</p>
@@ -69,7 +69,7 @@
                 <div>
                     <span class="text-xs text-gray-400 block">Kategori Acara</span>
                     <span class="font-semibold text-gray-800 flex items-center gap-1.5 mt-0.5">
-                        <span>{{ $category->ikon ?? '📁' }}</span>
+                        <x-category-icon :kategori="$category" class="w-4 h-4" />
                         <span>{{ $category->nama_kategori }}</span>
                     </span>
                 </div>
@@ -228,13 +228,14 @@
                     href="{{ route('acara.buat.detail') }}"
                     class="px-4 py-2 border border-gray-300 rounded-[8px] text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                 >
-                    ← Kembali Ubah Detail
+                    <x-icon name="arrow-left" class="w-4 h-4" />
+                    Kembali Ubah Detail
                 </a>
 
                 <form method="POST" action="{{ route('acara.buat.simpan') }}">
                     @csrf
                     <x-button type="submit" variant="primary" class="px-6 py-2.5 shadow-md">
-                        🎉 Buat Acara Sekarang
+                        Buat Acara Sekarang
                     </x-button>
                 </form>
             </div>

@@ -118,7 +118,8 @@
                         href="{{ route('cari-acara.index', array_merge($baseQuery, ['kategori' => $category->id])) }}"
                         class="px-3 py-1.5 rounded-[8px] text-xs font-semibold whitespace-nowrap transition-colors {{ (string) $kategori === (string) $category->id ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}"
                     >
-                        {{ $category->ikon }} {{ $category->nama_kategori }}
+                        <x-category-icon :kategori="$category" class="w-3.5 h-3.5" />
+                        {{ $category->nama_kategori }}
                     </a>
                 @endforeach
             </div>
@@ -178,7 +179,7 @@
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="flex items-center gap-3 min-w-0">
                                         <div class="w-11 h-11 rounded-[10px] {{ $color['bg'] }} flex items-center justify-center text-xl shrink-0">
-                                            {{ $event->category?->ikon ?? '📅' }}
+                                            <x-category-icon :kategori="$event->category" class="w-5 h-5" />
                                         </div>
                                         <div class="min-w-0">
                                             <p class="text-[11px] font-semibold {{ $color['text'] }} truncate">

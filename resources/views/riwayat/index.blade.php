@@ -26,13 +26,15 @@
                     href="{{ route('riwayat.index', array_merge(request()->except('status'), ['status' => 'selesai'])) }}"
                     class="px-3.5 py-1.5 rounded-full text-xs font-semibold {{ request('status') === 'selesai' ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }} transition-colors"
                 >
-                    ✓ Selesai ({{ $countSelesai }})
+                    <x-icon name="check" class="w-3.5 h-3.5" />
+                    Selesai ({{ $countSelesai }})
                 </a>
                 <a
                     href="{{ route('riwayat.index', array_merge(request()->except('status'), ['status' => 'perencanaan'])) }}"
                     class="px-3.5 py-1.5 rounded-full text-xs font-semibold {{ request('status') === 'perencanaan' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }} transition-colors"
                 >
-                    ○ Sedang Berjalan ({{ $countPerencanaan }})
+                    <x-icon name="circle" class="w-3.5 h-3.5" />
+                    Sedang Berjalan ({{ $countPerencanaan }})
                 </a>
             </div>
 
@@ -102,7 +104,8 @@
                             <!-- Header Badges -->
                             <div class="flex items-center justify-between gap-2">
                                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-700">
-                                    {{ $item->category?->ikon ?? '📁' }} {{ $item->category?->nama_kategori }}
+                                    <x-category-icon :kategori="$item->category" class="w-3.5 h-3.5" />
+                                    {{ $item->category?->nama_kategori }}
                                 </span>
 
                                 <div class="flex items-center gap-1.5">

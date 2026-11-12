@@ -26,7 +26,8 @@
             <div class="p-6 border-b border-gray-100">
                 <div class="flex items-center gap-2">
                     <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
-                        {{ $event->category?->ikon ?? '📁' }} {{ $event->category?->nama_kategori }}
+                        <x-category-icon :kategori="$event->category" class="w-3.5 h-3.5" />
+                        {{ $event->category?->nama_kategori }}
                     </span>
                     <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
                         Fase Penutupan
@@ -50,7 +51,8 @@
                     </p>
                     @if ($tugasSisa > 0)
                         <p class="mt-2 font-bold text-red-700 bg-red-100/80 px-2 py-1 rounded inline-block">
-                            ⚠️ Perhatian: Masih terdapat {{ $tugasSisa }} tugas yang belum diselesaikan. Anda tetap diperbolehkan menutup acara ini jika pengerjaan memang dihentikan.
+                            <x-icon name="triangle-alert" class="w-3.5 h-3.5 inline" />
+                            Perhatian: Masih terdapat {{ $tugasSisa }} tugas yang belum diselesaikan. Anda tetap diperbolehkan menutup acara ini jika pengerjaan memang dihentikan.
                         </p>
                     @endif
                 </div>

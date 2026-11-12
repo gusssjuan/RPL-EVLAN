@@ -2,11 +2,11 @@
     use App\Enums\KategoriVendor;
 
     $kategoriMeta = [
-        'catering' => ['emoji' => '🍽️', 'bg' => 'bg-orange-50 text-orange-600'],
-        'dekorasi' => ['emoji' => '🎀', 'bg' => 'bg-pink-50 text-pink-600'],
-        'dokumentasi' => ['emoji' => '📷', 'bg' => 'bg-sky-50 text-sky-600'],
-        'sound_system' => ['emoji' => '🔊', 'bg' => 'bg-indigo-50 text-indigo-600'],
-        'perlengkapan_acara' => ['emoji' => '🎪', 'bg' => 'bg-emerald-50 text-emerald-600'],
+        'catering' => 'bg-orange-50 text-orange-600',
+        'dekorasi' => 'bg-pink-50 text-pink-600',
+        'dokumentasi' => 'bg-sky-50 text-sky-600',
+        'sound_system' => 'bg-indigo-50 text-indigo-600',
+        'perlengkapan_acara' => 'bg-emerald-50 text-emerald-600',
     ];
 
     $kategoriChips = ['' => 'Semua'];
@@ -119,8 +119,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 @foreach ($vendors as $vendor)
                     @php
-                        $meta = $kategoriMeta[$vendor->kategori_vendor] ?? ['emoji' => '🏷️', 'bg' => 'bg-gray-100 text-gray-600'];
-                        $labelKategori = KategoriVendor::tryFrom($vendor->kategori_vendor)?->label() ?? $vendor->kategori_vendor;
+                        $meta = $kategoriMeta[$vendor->kategori_vendor] ?? 'bg-gray-100 text-gray-600';
+                        $kategoriEnum = KategoriVendor::tryFrom($vendor->kategori_vendor);
+                        $labelKategori = $kategoriEnum?->label() ?? $vendor->kategori_vendor;
+                        $ikonKategori = $kategoriEnum?->icon() ?? 'tag';
                         $disimpan = in_array($vendor->id, $savedIds, true);
                     @endphp
 
@@ -128,8 +130,8 @@
                         <div class="p-5 space-y-3 flex-1">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-11 h-11 rounded-[10px] {{ $meta['bg'] }} flex items-center justify-center text-xl shrink-0">
-                                        {{ $meta['emoji'] }}
+                                    <div class="w-11 h-11 rounded-[10px] {{ $meta }} flex items-center justify-center shrink-0">
+                                        <x-icon :name="$ikonKategori" class="w-5 h-5" />
                                     </div>
                                     <div class="min-w-0">
                                         <a href="{{ route('vendor.show', $vendor->id) }}" class="block text-sm font-bold text-gray-900 truncate hover:text-indigo-700">
@@ -151,10 +153,7 @@
                             </div>
 
                             <div class="flex flex-wrap items-center gap-2">
-                                <x-badge variant="success">
-                                    <span class="font-bold text-[11px] leading-none">✓</span>
-                                    <span>Terverifikasi</span>
-                                </x-badge>
+                                <x-status-badge status="terverifikasi" />
                                 @if ($vendor->kota)
                                     <span class="inline-flex items-center gap-1 text-[11px] text-gray-500">
                                         <x-icon name="map-pin" class="w-3.5 h-3.5" />

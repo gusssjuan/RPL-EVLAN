@@ -22,5 +22,16 @@ enum JenisNotifikasi: string
             self::VerifikasiVendor => 'Verifikasi Vendor',
         };
     }
-}
 
+    public function icon(): string
+    {
+        return match ($this) {
+            self::Penugasan => 'clipboard-list',
+            self::Deadline => 'clock',
+            self::StatusTugas => 'circle-dashed',
+            self::Undangan => 'mail',
+            self::Pendaftaran => 'calendar',
+            self::VerifikasiVendor => 'badge-check',
+        };
+    }
+}

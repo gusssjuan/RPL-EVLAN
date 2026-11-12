@@ -33,10 +33,10 @@
         >
             <div class="shrink-0 mt-0.5">
                 <template x-if="notice.type === 'success'">
-                    <span class="text-green-600 font-bold">✓</span>
+                    <x-icon name="check" class="w-5 h-5 text-green-600" />
                 </template>
                 <template x-if="notice.type === 'error'">
-                    <span class="text-red-600 font-bold">▲</span>
+                    <x-icon name="triangle-alert" class="w-5 h-5 text-red-600" />
                 </template>
             </div>
             <div class="flex-1 text-sm">

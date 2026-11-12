@@ -81,7 +81,6 @@
                                     <span class="inline-block px-2 py-0.5 bg-gray-100 rounded text-[11px] font-medium text-gray-700">
                                         {{ ucfirst(str_replace('_', ' ', $vendor->kategori_vendor)) }}
                                     </span>
-                                    <span>•</span>
                                     <span>{{ $vendor->kontak }}</span>
                                 </p>
                                 <p class="text-[11px] text-gray-400 mt-0.5">
@@ -134,7 +133,6 @@
                                 </p>
                                 <p class="text-[11px] text-gray-400 mt-0.5 flex items-center gap-1.5">
                                     <span>{{ $log->user?->nama ?? 'Sistem' }}</span>
-                                    <span>•</span>
                                     <span>{{ $log->created_at->diffForHumans() }}</span>
                                 </p>
                             </div>

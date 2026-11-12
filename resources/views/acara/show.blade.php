@@ -35,7 +35,7 @@
                         <span class="text-xs text-gray-500">keseluruhan</span>
                     </div>
                     <p class="text-xs text-gray-500 mt-2">
-                        {{ $selesaiChecklist }} dari {{ $totalChecklist }} kebutuhan logistik terpenuhi • {{ $selesaiTugas }} dari {{ $totalTugas }} tugas diselesaikan.
+                        {{ $selesaiChecklist }} dari {{ $totalChecklist }} kebutuhan logistik terpenuhi, {{ $selesaiTugas }} dari {{ $totalTugas }} tugas diselesaikan.
                     </p>
                 </div>
 
@@ -57,7 +57,8 @@
                                 {{ $agendaTerdekat->kegiatan }}
                             </p>
                             <p class="text-xs text-gray-500 mt-0.5">
-                                📅 {{ \Carbon\Carbon::parse($agendaTerdekat->tanggal)->isoFormat('D MMMM Y') }}
+                                <x-icon name="calendar" class="w-3.5 h-3.5 inline" />
+                                {{ \Carbon\Carbon::parse($agendaTerdekat->tanggal)->isoFormat('D MMMM Y') }}
                             </p>
                         </div>
                     @else
@@ -69,7 +70,8 @@
 
                 <div class="pt-2">
                     <a href="{{ route('acara.timeline.index', $event->id) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline">
-                        Lihat Seluruh Timeline →
+                        <span>Lihat Seluruh Timeline</span>
+                        <x-icon name="arrow-right" class="w-3.5 h-3.5" />
                     </a>
                 </div>
             </div>
@@ -89,7 +91,8 @@
 
                 <div class="pt-2">
                     <a href="{{ route('acara.checklist.index', $event->id) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline">
-                        Buka Checklist Kebutuhan →
+                        <span>Buka Checklist Kebutuhan</span>
+                        <x-icon name="arrow-right" class="w-3.5 h-3.5" />
                     </a>
                 </div>
             </div>
@@ -204,7 +207,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-gray-100 pb-3">
                     <div>
                         <h2 class="text-base font-bold text-gray-900">Daftar Pendaftar</h2>
-                        <p class="text-xs text-gray-500">Pendaftar acara publik — kelola permintaan pendaftaran peserta untuk acara ini.</p>
+                        <p class="text-xs text-gray-500">Pendaftar acara publik: kelola permintaan pendaftaran peserta untuk acara ini.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold">
@@ -235,7 +238,7 @@
                                 <p class="text-xs text-gray-500 mt-0.5">
                                     {{ $p->user?->email }}
                                     @if ($p->no_telepon)
-                                        · {{ $p->no_telepon }}
+                                        , {{ $p->no_telepon }}
                                     @endif
                                 </p>
                                 @if ($p->catatan)
@@ -249,7 +252,7 @@
                                 <p class="text-[11px] text-gray-400 mt-1">
                                     Mendaftar {{ $p->created_at?->isoFormat('D MMM Y, HH.mm') }}
                                     @if ($p->decided_at)
-                                        · Diputuskan {{ $p->decided_at->isoFormat('D MMM Y, HH.mm') }}
+                                        , diputuskan {{ $p->decided_at->isoFormat('D MMM Y, HH.mm') }}
                                     @endif
                                 </p>
                             </div>

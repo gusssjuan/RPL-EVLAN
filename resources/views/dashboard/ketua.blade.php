@@ -4,7 +4,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-                    Halo, {{ $user->nama }} 👋
+                    Halo, {{ $user->nama }}
                 </h1>
                 <p class="mt-1 text-sm text-gray-500">
                     Pantau kemajuan persiapan acara, tenggat waktu tugas, dan aktivitas kepanitiaan Anda.
@@ -59,7 +59,8 @@
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
-                                {{ $acaraUtama->category?->ikon ?? '📁' }} {{ $acaraUtama->category?->nama_kategori }}
+                                <x-category-icon :kategori="$acaraUtama->category" class="w-3.5 h-3.5" />
+                                {{ $acaraUtama->category?->nama_kategori }}
                             </span>
                             <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
                                 {{ $acaraUtama->hari_menuju }}
@@ -69,9 +70,18 @@
                             {{ $acaraUtama->nama_event }}
                         </h2>
                         <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 mt-1">
-                            <span>📅 {{ $acaraUtama->tanggal->isoFormat('D MMMM Y') }}</span>
-                            <span>📍 {{ $acaraUtama->lokasi }}</span>
-                            <span>👥 {{ number_format($acaraUtama->jumlah_peserta, 0, ',', '.') }} Peserta</span>
+                            <span class="inline-flex items-center gap-1">
+                                <x-icon name="calendar" class="w-3.5 h-3.5" />
+                                {{ $acaraUtama->tanggal->isoFormat('D MMMM Y') }}
+                            </span>
+                            <span class="inline-flex items-center gap-1">
+                                <x-icon name="map-pin" class="w-3.5 h-3.5" />
+                                {{ $acaraUtama->lokasi }}
+                            </span>
+                            <span class="inline-flex items-center gap-1">
+                                <x-icon name="users" class="w-3.5 h-3.5" />
+                                {{ number_format($acaraUtama->jumlah_peserta, 0, ',', '.') }} Peserta
+                            </span>
                         </div>
                     </div>
 
@@ -97,7 +107,10 @@
                     </div>
                     <div class="flex items-center justify-between text-[11px] text-gray-400 mt-2">
                         <span>{{ $acaraUtama->tasks->where('status.value', 'sudah_diselesaikan')->count() }} dari {{ $acaraUtama->tasks->count() }} tugas diselesaikan</span>
-                        <a href="{{ route('acara.ringkasan', $acaraUtama->id) }}" class="text-indigo-600 hover:underline font-medium">Lihat detail progres →</a>
+                        <a href="{{ route('acara.ringkasan', $acaraUtama->id) }}" class="inline-flex items-center gap-1 text-indigo-600 hover:underline font-medium">
+                            <span>Lihat detail progres</span>
+                            <x-icon name="arrow-right" class="w-3 h-3" />
+                        </a>
                     </div>
                 </div>
             </div>
@@ -126,8 +139,7 @@
                             <div class="min-w-0">
                                 <p class="font-bold text-gray-900 truncate">{{ $dl->judul }}</p>
                                 <p class="text-[11px] text-gray-500 mt-0.5">
-                                    <span>{{ $dl->event?->nama_event }}</span>
-                                    <span> • </span>
+                                    <span>{{ $dl->event?->nama_event }}</span>,
                                     <span>Penerima: <strong>{{ $dl->penerima?->nama ?? '-' }}</strong></span>
                                 </p>
                             </div>

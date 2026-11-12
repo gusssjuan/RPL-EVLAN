@@ -37,15 +37,15 @@
 
                 <div class="mt-8 flex items-center gap-6 text-sm text-indigo-200">
                     <div class="flex items-center gap-2">
-                        <span class="w-5 h-5 rounded-full bg-indigo-500/40 flex items-center justify-center text-white text-xs font-bold">✓</span>
+                        <span class="w-5 h-5 rounded-full bg-indigo-500/40 flex items-center justify-center text-white"><x-icon name="check" class="w-3 h-3" /></span>
                         <span>Otomatis H-n</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="w-5 h-5 rounded-full bg-indigo-500/40 flex items-center justify-center text-white text-xs font-bold">✓</span>
+                        <span class="w-5 h-5 rounded-full bg-indigo-500/40 flex items-center justify-center text-white"><x-icon name="check" class="w-3 h-3" /></span>
                         <span>Jobdesk Tim</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="w-5 h-5 rounded-full bg-indigo-500/40 flex items-center justify-center text-white text-xs font-bold">✓</span>
+                        <span class="w-5 h-5 rounded-full bg-indigo-500/40 flex items-center justify-center text-white"><x-icon name="check" class="w-3 h-3" /></span>
                         <span>Vendor Lokal</span>
                     </div>
                 </div>

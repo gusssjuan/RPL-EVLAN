@@ -35,7 +35,8 @@
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex flex-wrap items-center gap-2">
                         <a href="{{ route('acara.ringkasan', $event->id) }}" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200">
-                            {{ $event->category?->ikon ?? '📁' }} {{ $event->nama_event }}
+                            <x-category-icon :kategori="$event->category" class="w-3.5 h-3.5" />
+                            {{ $event->nama_event }}
                         </a>
                         @if ($task->division)
                             <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
@@ -55,7 +56,7 @@
                             {{ $task->status === \App\Enums\StatusTugas::SedangDikerjakan ? 'bg-amber-100 text-amber-800' : '' }}
                             {{ $task->status === \App\Enums\StatusTugas::SudahDiselesaikan ? 'bg-emerald-100 text-emerald-800' : '' }}
                         ">
-                            <span>{{ $task->status->icon() }}</span>
+                            <x-icon :name="$task->status->icon()" class="w-3.5 h-3.5" />
                             <span>{{ $task->status->label() }}</span>
                         </span>
                     @endif
@@ -85,14 +86,16 @@
                     <div>
                         <span class="text-gray-400 block font-medium">Batas Waktu (Deadline):</span>
                         <span class="font-bold mt-1 inline-block {{ $isOverdue ? 'text-red-600' : 'text-gray-900' }}">
-                            📅 {{ $dlDate->isoFormat('dddd, D MMMM Y') }}
+                            <x-icon name="calendar" class="w-3.5 h-3.5 inline" />
+                            {{ $dlDate->isoFormat('dddd, D MMMM Y') }}
                         </span>
                     </div>
 
                     <div>
                         <span class="text-gray-400 block font-medium">Ditugaskan Oleh:</span>
                         <span class="font-bold text-gray-900 mt-1 inline-block">
-                            👑 {{ $task->creator?->nama ?? '-' }}
+                            <x-icon name="crown" class="w-3.5 h-3.5 inline" />
+                            {{ $task->creator?->nama ?? '-' }}
                         </span>
                     </div>
                 </div>
@@ -119,7 +122,8 @@
                             value="belum_dikerjakan"
                             class="px-4 py-2 rounded-[8px] text-xs font-bold transition-colors {{ $task->status === \App\Enums\StatusTugas::BelumDikerjakan ? 'bg-gray-800 text-white shadow-sm' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50' }}"
                         >
-                            ○ Belum dikerjakan
+                            <x-icon name="circle" class="w-3.5 h-3.5" />
+                            Belum dikerjakan
                         </button>
 
                         <button
@@ -128,7 +132,8 @@
                             value="sedang_dikerjakan"
                             class="px-4 py-2 rounded-[8px] text-xs font-bold transition-colors {{ $task->status === \App\Enums\StatusTugas::SedangDikerjakan ? 'bg-amber-500 text-white shadow-sm' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50' }}"
                         >
-                            ◐ Sedang dikerjakan
+                            <x-icon name="circle-dashed" class="w-3.5 h-3.5" />
+                            Sedang dikerjakan
                         </button>
 
                         <button
@@ -137,7 +142,8 @@
                             value="sudah_diselesaikan"
                             class="px-4 py-2 rounded-[8px] text-xs font-bold transition-colors {{ $task->status === \App\Enums\StatusTugas::SudahDiselesaikan ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50' }}"
                         >
-                            ✓ Sudah diselesaikan
+                            <x-icon name="check" class="w-3.5 h-3.5" />
+                            Sudah diselesaikan
                         </button>
                     </form>
                 </div>

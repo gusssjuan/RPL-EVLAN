@@ -54,7 +54,7 @@
                 </button>
             @else
                 <span class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gray-100 text-gray-500 rounded-[8px] text-xs font-semibold cursor-not-allowed" title="Menunggu verifikasi Admin">
-                    <x-icon name="lock-closed" class="w-3.5 h-3.5" />
+                    <x-icon name="lock" class="w-3.5 h-3.5" />
                     <span>Terkunci sampai terverifikasi</span>
                 </span>
             @endif
@@ -90,7 +90,7 @@
 
         @if (! $terverifikasi)
             <div class="p-4 bg-amber-50 border border-amber-200 rounded-[12px] flex items-start gap-2.5">
-                <x-icon name="lock-closed" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <x-icon name="lock" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div class="text-xs text-amber-800">
                     <p class="font-bold">Kelola produk terkunci</p>
                     <p class="mt-0.5">
@@ -107,7 +107,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <x-stat-card title="Total Produk/Jasa" :value="$jumlahTotal" subtext="Seluruh entri katalog" icon="tag" />
             <x-stat-card title="Produk Aktif" :value="$jumlahAktif" subtext="Tampil di direktori vendor" icon="check-circle" iconBg="bg-emerald-50 text-emerald-600" />
-            <x-stat-card title="Status Katalog" :value="$terverifikasi ? 'Terbuka' : 'Terkunci'" subtext="Bergantung status verifikasi" icon="lock-closed" iconBg="bg-amber-50 text-amber-600" />
+            <x-stat-card title="Status Katalog" :value="$terverifikasi ? 'Terbuka' : 'Terkunci'" subtext="Bergantung status verifikasi" icon="lock" iconBg="bg-amber-50 text-amber-600" />
         </div>
 
         <div class="bg-white rounded-[12px] border border-gray-200 shadow-sm overflow-hidden">
@@ -177,7 +177,7 @@
                                                 </form>
                                             @else
                                                 <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-400">
-                                                    <x-icon name="lock-closed" class="w-3.5 h-3.5" />
+                                                    <x-icon name="lock" class="w-3.5 h-3.5" />
                                                     <span>Terkunci</span>
                                                 </span>
                                             @endif

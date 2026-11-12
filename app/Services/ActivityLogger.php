@@ -11,13 +11,13 @@ class ActivityLogger
     /**
      * Catat aktivitas ke activity_logs.
      *
-     * Gaya teks wireframe: "Rina Astuti mengubah status "Membuat rundown acara" → Sedang dikerjakan"
+     * Gaya teks wireframe: "Rina Astuti mengubah status "Membuat rundown acara" menjadi Sedang dikerjakan"
      *
-     * @param  Event       $event     Acara terkait
-     * @param  User        $user      Pengguna yang melakukan aksi
-     * @param  string      $aksi      Jenis aksi (mis. 'buat_tugas', 'ubah_status', 'tambah_anggota', 'buat_divisi', 'hapus_tugas')
-     * @param  string      $deskripsi Teks deskriptif lengkap
-     * @param  array|null  $meta      Data tambahan opsional (JSON)
+     * @param  Event  $event  Acara terkait
+     * @param  User  $user  Pengguna yang melakukan aksi
+     * @param  string  $aksi  Jenis aksi (mis. 'buat_tugas', 'ubah_status', 'tambah_anggota', 'buat_divisi', 'hapus_tugas')
+     * @param  string  $deskripsi  Teks deskriptif lengkap
+     * @param  array|null  $meta  Data tambahan opsional (JSON)
      */
     public static function log(Event $event, User $user, string $aksi, string $deskripsi, ?array $meta = null): ActivityLog
     {
@@ -30,4 +30,3 @@ class ActivityLogger
         ]);
     }
 }
-

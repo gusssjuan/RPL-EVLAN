@@ -1,14 +1,16 @@
 @php
     use App\Enums\KategoriVendor;
 
+    $kategoriEnum = KategoriVendor::tryFrom($vendor->kategori_vendor);
     $meta = match ($vendor->kategori_vendor) {
-        'catering' => ['emoji' => '🍽️', 'bg' => 'bg-orange-50 text-orange-600'],
-        'dekorasi' => ['emoji' => '🎀', 'bg' => 'bg-pink-50 text-pink-600'],
-        'dokumentasi' => ['emoji' => '📷', 'bg' => 'bg-sky-50 text-sky-600'],
-        'sound_system' => ['emoji' => '🔊', 'bg' => 'bg-indigo-50 text-indigo-600'],
-        'perlengkapan_acara' => ['emoji' => '🎪', 'bg' => 'bg-emerald-50 text-emerald-600'],
-        default => ['emoji' => '🏷️', 'bg' => 'bg-gray-100 text-gray-600'],
+        'catering' => 'bg-orange-50 text-orange-600',
+        'dekorasi' => 'bg-pink-50 text-pink-600',
+        'dokumentasi' => 'bg-sky-50 text-sky-600',
+        'sound_system' => 'bg-indigo-50 text-indigo-600',
+        'perlengkapan_acara' => 'bg-emerald-50 text-emerald-600',
+        default => 'bg-gray-100 text-gray-600',
     };
+    $ikonKategori = $kategoriEnum?->icon() ?? 'tag';
 
     $bisaTambahAnggaran = $acaraLeader->isNotEmpty() && $vendor->products->isNotEmpty();
 @endphp
@@ -47,16 +49,13 @@
         <div class="bg-white rounded-[16px] border border-gray-200 shadow-sm p-6">
             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
                 <div class="flex items-start gap-4 min-w-0">
-                    <div class="w-16 h-16 rounded-[14px] {{ $meta['bg'] }} flex items-center justify-center text-3xl shrink-0">
-                        {{ $meta['emoji'] }}
+                    <div class="w-16 h-16 rounded-[14px] {{ $meta }} flex items-center justify-center shrink-0">
+                        <x-icon :name="$ikonKategori" class="w-8 h-8" />
                     </div>
                     <div class="min-w-0">
                         <div class="flex flex-wrap items-center gap-2">
                             <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">{{ $vendor->nama_vendor }}</h1>
-                            <x-badge variant="success">
-                                <span class="font-bold text-[11px] leading-none">✓</span>
-                                <span>Terverifikasi</span>
-                            </x-badge>
+                            <x-status-badge status="terverifikasi" />
                         </div>
                         <p class="mt-1 text-sm font-medium text-indigo-600">{{ $kategoriLabel }}</p>
                         <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 mt-2">
@@ -205,7 +204,7 @@
                             <label for="event_id" class="block text-sm font-semibold text-gray-800 mb-1.5">Acara <span class="text-red-500">*</span></label>
                             <select id="event_id" name="event_id" required class="w-full px-3.5 py-2.5 bg-white border border-gray-300 rounded-[8px] text-sm text-gray-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600">
                                 @foreach ($acaraLeader as $acara)
-                                    <option value="{{ $acara->id }}">{{ $acara->nama_event }} — {{ $acara->tanggal->isoFormat('D MMM Y') }}</option>
+                                    <option value="{{ $acara->id }}">{{ $acara->nama_event }} - {{ $acara->tanggal->isoFormat('D MMM Y') }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -214,7 +213,7 @@
                             <label for="vendor_product_id" class="block text-sm font-semibold text-gray-800 mb-1.5">Produk/Jasa <span class="text-red-500">*</span></label>
                             <select id="vendor_product_id" name="vendor_product_id" required class="w-full px-3.5 py-2.5 bg-white border border-gray-300 rounded-[8px] text-sm text-gray-900 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600">
                                 @foreach ($vendor->products as $produk)
-                                    <option value="{{ $produk->id }}">{{ $produk->nama_produk }} — {{ format_rupiah($produk->harga) }}</option>
+                                    <option value="{{ $produk->id }}">{{ $produk->nama_produk }} - {{ format_rupiah($produk->harga) }}</option>
                                 @endforeach
                             </select>
                         </div>

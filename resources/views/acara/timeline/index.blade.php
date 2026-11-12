@@ -78,7 +78,8 @@
                                     </span>
 
                                     <span class="text-xs font-medium text-gray-500">
-                                        📅 {{ \Carbon\Carbon::parse($item->tanggal)->isoFormat('dddd, D MMMM Y') }}
+                                        <x-icon name="calendar" class="w-3.5 h-3.5 inline" />
+                                        {{ \Carbon\Carbon::parse($item->tanggal)->isoFormat('dddd, D MMMM Y') }}
                                     </span>
 
                                     @if ($item->status_waktu === 'hari_ini')

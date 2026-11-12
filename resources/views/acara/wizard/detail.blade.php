@@ -15,7 +15,7 @@
             <!-- Stepper Bar -->
             <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-2">
                 <a href="{{ route('acara.buat.kategori') }}" class="p-3 bg-white border border-gray-200 rounded-[10px] flex items-center gap-3 hover:bg-gray-50 transition-colors">
-                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                    <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0"><x-icon name="check" class="w-4 h-4" /></span>
                     <div class="min-w-0 hidden sm:block">
                         <p class="text-xs font-bold text-gray-900 truncate">Kategori</p>
                         <p class="text-[10px] text-gray-500 truncate">{{ $category->nama_kategori }}</p>
@@ -43,7 +43,7 @@
         <!-- Card Kategori Terpilih -->
         <div class="bg-indigo-50/60 p-4 rounded-[12px] border border-indigo-100 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <span class="text-2xl">{{ $category->ikon ?? '📁' }}</span>
+                <x-category-icon :kategori="$category" class="w-8 h-8" />
                 <div>
                     <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Kategori Terpilih</span>
                     <p class="text-sm font-bold text-gray-900">{{ $category->nama_kategori }}</p>
@@ -179,11 +179,13 @@
                         href="{{ route('acara.buat.kategori') }}"
                         class="px-4 py-2 border border-gray-300 rounded-[8px] text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                     >
-                        ← Kembali ke Kategori
+                        <x-icon name="arrow-left" class="w-4 h-4" />
+                        Kembali ke Kategori
                     </a>
 
                     <x-button type="submit" variant="primary">
-                        Lanjut ke Rancangan →
+                        Lanjut ke Rancangan
+                        <x-icon name="arrow-right" class="w-4 h-4" />
                     </x-button>
                 </div>
             </form>

@@ -116,7 +116,8 @@
                             <!-- Header Badges -->
                             <div class="flex items-center justify-between gap-2">
                                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-700">
-                                    {{ $item->category?->ikon ?? '📁' }} {{ $item->category?->nama_kategori }}
+                                    <x-category-icon :kategori="$item->category" class="w-3.5 h-3.5" />
+                                    {{ $item->category?->nama_kategori }}
                                 </span>
 
                                 <div class="flex items-center gap-1.5">

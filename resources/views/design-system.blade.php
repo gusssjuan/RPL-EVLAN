@@ -89,9 +89,9 @@
 
                 <x-select name="kategori_id" label="Kategori Acara" :required="true">
                     <option value="">Pilih Kategori...</option>
-                    <option value="1" selected>Seminar 🎤</option>
-                    <option value="2">17 Agustus 🇮🇩</option>
-                    <option value="3">Ulang Tahun 🎂</option>
+                    <option value="1" selected>Seminar</option>
+                    <option value="2">17 Agustus</option>
+                    <option value="3">Ulang Tahun</option>
                 </x-select>
 
                 <x-input

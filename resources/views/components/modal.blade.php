@@ -53,9 +53,7 @@
                 <h3 class="text-lg font-semibold text-gray-900">{{ $title }}</h3>
                 <button type="button" x-on:click="show = false" class="text-gray-400 hover:text-gray-600 rounded-lg p-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <span class="sr-only">Tutup</span>
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <x-icon name="x" class="w-5 h-5" />
                 </button>
             </div>
         @endif

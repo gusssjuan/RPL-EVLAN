@@ -20,5 +20,15 @@ enum KategoriVendor: string
             self::PerlengkapanAcara => 'Perlengkapan Acara',
         };
     }
-}
 
+    public function icon(): string
+    {
+        return match ($this) {
+            self::Catering => 'utensils',
+            self::Dekorasi => 'flower-2',
+            self::Dokumentasi => 'camera',
+            self::SoundSystem => 'speaker',
+            self::PerlengkapanAcara => 'package',
+        };
+    }
+}

@@ -163,13 +163,12 @@
                                 <div class="min-w-0">
                                     <p class="font-bold text-gray-900 truncate">{{ $dl->judul }}</p>
                                     <p class="text-[11px] text-gray-500 mt-0.5">
-                                        <span>{{ $dl->division?->nama_divisi ?? 'Umum' }}</span>
-                                        <span> • </span>
+                                        <span>{{ $dl->division?->nama_divisi ?? 'Umum' }}</span>,
                                         <span>Penerima: <strong>{{ $dl->penerima?->nama ?? '-' }}</strong></span>
                                     </p>
                                 </div>
                                 <span class="px-2 py-0.5 rounded text-[10px] font-bold shrink-0 {{ $isOverdue ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-700' }}">
-                                    @if ($isOverdue)▲ Terlewat @endif {{ $dlDate->isoFormat('D MMM Y') }}
+                                    @if ($isOverdue)<x-icon name="triangle-alert" class="w-3 h-3 inline" /> Terlewat @endif {{ $dlDate->isoFormat('D MMM Y') }}
                                 </span>
                             </div>
                         @empty
@@ -190,7 +189,8 @@
                         </div>
                         <div class="pt-1">
                             <a href="{{ route('acara.checklist.index', $event->id) }}" class="text-xs font-semibold text-indigo-600 hover:underline">
-                                Buka Checklist Kebutuhan →
+                                <span>Buka Checklist Kebutuhan</span>
+                                <x-icon name="arrow-right" class="w-3.5 h-3.5" />
                             </a>
                         </div>
                     </div>
@@ -203,7 +203,8 @@
                         <p class="text-[11px] text-gray-400">Total estimasi pengeluaran vendor & logistik.</p>
                         <div class="pt-1">
                             <a href="{{ route('acara.anggaran', $event->id) }}" class="text-xs font-semibold text-indigo-600 hover:underline">
-                                Lihat Rincian Anggaran →
+                                <span>Lihat Rincian Anggaran</span>
+                                <x-icon name="arrow-right" class="w-3.5 h-3.5" />
                             </a>
                         </div>
                     </div>

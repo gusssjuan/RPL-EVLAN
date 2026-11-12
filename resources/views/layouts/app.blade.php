@@ -55,9 +55,7 @@
                         class="p-2 -mr-2 text-gray-400 hover:text-gray-600 lg:hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 min-h-[40px] min-w-[40px] flex items-center justify-center"
                         aria-label="Tutup navigasi"
                     >
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <x-icon name="x" class="w-5 h-5" />
                     </button>
                 </div>
 
@@ -137,7 +135,7 @@
                         <form method="POST" action="{{ route('logout', [], false) }}">
                             @csrf
                             <button type="submit" class="text-gray-400 hover:text-red-600 p-2 min-h-[40px] min-w-[40px] flex items-center justify-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 transition-colors" title="Keluar" aria-label="Keluar">
-                                <x-icon name="logout" class="w-4 h-4" />
+                                <x-icon name="log-out" class="w-4 h-4" />
                             </button>
                         </form>
                     </div>
@@ -161,9 +159,7 @@
                         class="p-2 -ml-2 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 min-h-[40px] min-w-[40px] flex items-center justify-center"
                         aria-label="Buka menu navigasi samping"
                     >
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
+                        <x-icon name="menu" class="w-6 h-6" />
                     </button>
 
                     <!-- Breadcrumbs / Page Title -->
@@ -248,9 +244,7 @@
                 aria-label="Menu lainnya"
                 :class="{ 'text-indigo-600 font-semibold': moreDrawerOpen }"
             >
-                <svg class="w-5 h-5 mb-0.5 text-gray-400" :class="{ 'text-indigo-600': moreDrawerOpen }" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
+                <x-icon name="menu" class="w-5 h-5 mb-0.5 text-gray-400" :class="{ 'text-indigo-600': moreDrawerOpen }" />
                 <span>Lainnya</span>
             </button>
         </nav>
@@ -289,9 +283,7 @@
                     class="text-gray-400 hover:text-gray-600 p-1 min-h-[40px] min-w-[40px] flex items-center justify-center rounded-md"
                     aria-label="Tutup menu"
                 >
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <x-icon name="x" class="w-5 h-5" />
                 </button>
             </div>
 

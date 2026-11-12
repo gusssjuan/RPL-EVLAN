@@ -108,7 +108,7 @@
                                     value="{{ $cat->id }}"
                                     {{ old('category_id', $template->category_id) == $cat->id ? 'selected' : '' }}
                                 >
-                                    {{ $cat->ikon ?? '📁' }} {{ $cat->nama_kategori }}
+                                    {{ $cat->nama_kategori }}
                                 </option>
                             @endforeach
                         </select>
@@ -394,7 +394,8 @@
             <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur border-t border-gray-200 py-3.5 px-6 z-30 shadow-lg">
                 <div class="max-w-7xl mx-auto flex items-center justify-between">
                     <p class="text-xs text-gray-500 hidden sm:block">
-                        💡 Catatan D-08: Perubahan template tidak mengubah acara lama yang sudah dibuat.
+                        <x-icon name="lightbulb" class="w-3.5 h-3.5 inline" />
+                        Catatan D-08: Perubahan template tidak mengubah acara lama yang sudah dibuat.
                     </p>
                     <div class="flex items-center gap-3 ml-auto">
                         <a href="{{ route('admin.template.index') }}" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors">

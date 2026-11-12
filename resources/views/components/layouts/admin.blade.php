@@ -111,7 +111,7 @@
                     @csrf
                     <button type="submit" class="w-full flex items-center justify-between p-2 rounded-[8px] hover:bg-gray-800 text-gray-300 hover:text-red-400 transition-colors">
                         <span class="text-sm font-medium">Keluar Admin</span>
-                        <x-icon name="logout" class="w-4 h-4" />
+                        <x-icon name="log-out" class="w-4 h-4" />
                     </button>
                 </form>
             </div>
@@ -127,9 +127,7 @@
                         class="p-2 -ml-2 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
                         <span class="sr-only">Buka menu admin</span>
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
+                        <x-icon name="menu" class="w-6 h-6" />
                     </button>
                     <div class="text-sm font-semibold text-gray-800">
                         {{ $title ?? 'Admin Area' }}

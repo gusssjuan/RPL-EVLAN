@@ -116,7 +116,7 @@ class MyTaskController extends Controller
             $event,
             $user,
             'ubah_status',
-            'mengubah status "'.$task->judul.'" → '.$newStatus->label(),
+            'mengubah status "'.$task->judul.'" menjadi '.$newStatus->label(),
             ['task_id' => $task->id, 'old_status' => $oldStatus->value, 'new_status' => $newStatus->value]
         );
 

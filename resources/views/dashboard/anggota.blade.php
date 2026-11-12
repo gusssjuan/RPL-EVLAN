@@ -3,7 +3,7 @@
         <!-- Header -->
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-                Halo, {{ $user->nama }} 👋
+                Halo, {{ $user->nama }}
             </h1>
             <p class="mt-1 text-sm text-gray-500">
                 Pantau tugas prioritas Anda dan koordinasi acara yang sedang Anda ikuti.
@@ -63,7 +63,7 @@
                                 <p class="text-[11px] text-gray-500 mt-0.5">
                                     <span>{{ $tgs->event?->nama_event }}</span>
                                     @if ($tgs->division)
-                                        <span> • Divisi {{ $tgs->division->nama_divisi }}</span>
+                                        <span>, Divisi {{ $tgs->division->nama_divisi }}</span>
                                     @endif
                                 </p>
                             </div>
@@ -111,9 +111,9 @@
                                     </a>
                                 </h3>
                                 <p class="text-[11px] text-gray-500 mt-0.5">
-                                    <span>👑 Ketua: {{ $ev->leader?->nama ?? '-' }}</span>
-                                    <span> • </span>
-                                    <span>📅 {{ $ev->tanggal->isoFormat('D MMM Y') }}</span>
+                                    <span><x-icon name="crown" class="w-3.5 h-3.5 inline" /> Ketua: {{ $ev->leader?->nama ?? '-' }}</span>
+                                    <span>,</span>
+                                    <span><x-icon name="calendar" class="w-3.5 h-3.5 inline" /> {{ $ev->tanggal->isoFormat('D MMM Y') }}</span>
                                 </p>
                             </div>
 

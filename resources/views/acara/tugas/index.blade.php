@@ -23,17 +23,21 @@
                 Semua ({{ $countBelum + $countSedang + $countSelesai }})
             </a>
             <a href="{{ route('acara.tugas.index', array_merge(request()->except('status', 'page'), ['event' => $event->id, 'status' => 'belum_dikerjakan'])) }}" class="px-3 py-1.5 rounded-full text-xs font-semibold {{ request('status') === 'belum_dikerjakan' ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }} transition-colors">
-                ○ Belum ({{ $countBelum }})
+                <x-icon name="circle" class="w-3.5 h-3.5" />
+                Belum ({{ $countBelum }})
             </a>
             <a href="{{ route('acara.tugas.index', array_merge(request()->except('status', 'page'), ['event' => $event->id, 'status' => 'sedang_dikerjakan'])) }}" class="px-3 py-1.5 rounded-full text-xs font-semibold {{ request('status') === 'sedang_dikerjakan' ? 'bg-amber-500 text-white' : 'bg-amber-50 text-amber-700 hover:bg-amber-100' }} transition-colors">
-                ◐ Sedang ({{ $countSedang }})
+                <x-icon name="circle-dashed" class="w-3.5 h-3.5" />
+                Sedang ({{ $countSedang }})
             </a>
             <a href="{{ route('acara.tugas.index', array_merge(request()->except('status', 'page'), ['event' => $event->id, 'status' => 'sudah_diselesaikan'])) }}" class="px-3 py-1.5 rounded-full text-xs font-semibold {{ request('status') === 'sudah_diselesaikan' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100' }} transition-colors">
-                ✓ Selesai ({{ $countSelesai }})
+                <x-icon name="check" class="w-3.5 h-3.5" />
+                Selesai ({{ $countSelesai }})
             </a>
             @if ($countTerlewat > 0)
                 <a href="{{ route('acara.tugas.index', array_merge(request()->except('status', 'page'), ['event' => $event->id, 'status' => 'terlewat'])) }}" class="px-3 py-1.5 rounded-full text-xs font-semibold {{ request('status') === 'terlewat' ? 'bg-red-600 text-white' : 'bg-red-50 text-red-700 hover:bg-red-100' }} transition-colors">
-                    ▲ Terlewat ({{ $countTerlewat }})
+                    <x-icon name="triangle-alert" class="w-3.5 h-3.5" />
+                    Terlewat ({{ $countTerlewat }})
                 </a>
             @endif
         </div>
@@ -98,7 +102,7 @@
                                     <td class="px-5 py-3.5 font-semibold text-gray-900 max-w-[200px] truncate">
                                         <a href="{{ route('tugas.show', $task->id) }}" class="hover:text-indigo-600 transition-colors">{{ $task->judul }}</a>
                                     </td>
-                                    <td class="px-5 py-3.5 text-gray-600">{{ $task->division?->nama_divisi ?? '—' }}</td>
+                                    <td class="px-5 py-3.5 text-gray-600">{{ $task->division?->nama_divisi ?? '-' }}</td>
                                     <td class="px-5 py-3.5">
                                         <div class="flex items-center gap-1.5">
                                             <div class="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[9px] font-bold shrink-0">
@@ -113,13 +117,19 @@
                                     </td>
                                     <td class="px-5 py-3.5 text-center">
                                         @if ($isOverdue)
-                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-800">▲ Terlewat</span>
+                                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-800">
+                                                <x-icon name="triangle-alert" class="w-3 h-3" />
+                                                Terlewat
+                                            </span>
                                         @else
                                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold
                                                 {{ $task->status === \App\Enums\StatusTugas::BelumDikerjakan ? 'bg-gray-100 text-gray-700' : '' }}
                                                 {{ $task->status === \App\Enums\StatusTugas::SedangDikerjakan ? 'bg-amber-100 text-amber-800' : '' }}
                                                 {{ $task->status === \App\Enums\StatusTugas::SudahDiselesaikan ? 'bg-emerald-100 text-emerald-800' : '' }}
-                                            ">{{ $task->status->icon() }} {{ $task->status->label() }}</span>
+                                            ">
+                                                <x-icon :name="$task->status->icon()" class="w-3 h-3" />
+                                                {{ $task->status->label() }}
+                                            </span>
                                         @endif
                                     </td>
                                     <td class="px-5 py-3.5 text-right">
@@ -166,7 +176,7 @@
                                 </label>
                                 <div x-show="fromRec" x-transition class="mt-2">
                                     <select x-on:change="if($event.target.value) { let opt = $event.target.selectedOptions[0]; document.getElementById('judul').value = opt.dataset.judul; document.getElementById('deskripsi').value = opt.dataset.deskripsi || ''; }" class="w-full text-xs rounded-[8px] border-indigo-300 focus:border-indigo-500 focus:ring-indigo-500 py-1.5">
-                                        <option value="">— Pilih rekomendasi —</option>
+                                        <option value="">Pilih rekomendasi</option>
                                         @foreach ($jobdeskRecommendations as $jd)
                                             <option value="{{ $jd->id }}" data-judul="{{ $jd->nama_item }}" data-deskripsi="{{ $jd->deskripsi ?? '' }}">
                                                 [{{ $jd->kelompok }}] {{ $jd->nama_item }}
@@ -191,7 +201,7 @@
                             <div>
                                 <label for="task_division_id" class="block text-xs font-semibold text-gray-700 mb-1">Divisi</label>
                                 <select id="task_division_id" name="division_id" class="w-full text-sm rounded-[8px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">— Tanpa divisi —</option>
+                                    <option value="">Tanpa divisi</option>
                                     @foreach ($event->divisions as $div)
                                         <option value="{{ $div->id }}">{{ $div->nama_divisi }}</option>
                                     @endforeach
@@ -201,7 +211,7 @@
                             <div>
                                 <label for="penerima_id" class="block text-xs font-semibold text-gray-700 mb-1">Penerima <span class="text-red-500">*</span></label>
                                 <select id="penerima_id" name="penerima_id" required class="w-full text-sm rounded-[8px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">— Pilih —</option>
+                                    <option value="">Pilih</option>
                                     @foreach ($pesertaAcara as $p)
                                         <option value="{{ $p->id }}">{{ $p->nama }}</option>
                                     @endforeach

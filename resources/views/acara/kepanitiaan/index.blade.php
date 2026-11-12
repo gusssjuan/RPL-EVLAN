@@ -104,7 +104,7 @@
                             <div>
                                 <label for="division_id" class="block text-xs font-semibold text-gray-700 mb-1">Divisi <span class="text-red-500">*</span></label>
                                 <select id="division_id" name="division_id" required class="w-full text-sm rounded-[8px] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">— Pilih divisi —</option>
+                                    <option value="">Pilih divisi</option>
                                     @foreach ($event->divisions as $div)
                                         <option value="{{ $div->id }}">{{ $div->nama_divisi }}</option>
                                     @endforeach
@@ -162,9 +162,7 @@
                             </div>
                             <div class="flex items-center gap-3 mt-2">
                                 <span class="text-[11px] font-semibold text-gray-500">{{ $divMembers->count() }} Anggota</span>
-                                <span class="text-gray-300">·</span>
                                 <span class="text-[11px] font-semibold text-gray-500">{{ $divTasks->count() }} Tugas</span>
-                                <span class="text-gray-300">·</span>
                                 <span class="text-[11px] font-bold text-indigo-600">{{ $divProgres }}%</span>
                             </div>
                             @if ($divTasks->count() > 0)
