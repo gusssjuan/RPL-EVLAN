@@ -1,0 +1,12 @@
+# Inventaris Emoji dan Simbol Teks EVLAN
+
+Tanggal verifikasi: 2026-11-12
+Ruang lingkup: resources/views, app, database, tests, resources/css, resources/js
+
+Hasil akhir: 0 baris emoji, panah teks, em dash, atau titik tengah sebagai ikon/pemisah.
+
+Verifikasi dijalankan pada 2026-11-12 setelah seluruh view, enum, seeder,
+factory, dan test dibersihkan. Seluruh ikon antarmuka dirender melalui <x-icon>
+berbasis Lucide. Simbol matematika dan tipografi yang tersisa (mis. tanda kali,
+elipsis, rentang en dash, placeholder kata sandi) bukan ikon dan tidak
+dihitung sebagai pelanggaran.
