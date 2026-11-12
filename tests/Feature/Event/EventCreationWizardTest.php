@@ -36,7 +36,7 @@ class EventCreationWizardTest extends TestCase
 
         $this->category = Category::factory()->create([
             'nama_kategori' => 'Seminar Umum',
-            'ikon' => '🎤',
+            'ikon' => 'mic',
         ]);
 
         $this->template = Template::factory()->create([

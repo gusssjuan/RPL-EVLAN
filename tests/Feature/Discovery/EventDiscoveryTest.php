@@ -23,8 +23,8 @@ class EventDiscoveryTest extends TestCase
         parent::setUp();
 
         $this->user = User::factory()->create(['nama' => 'Peserta Umum']);
-        $this->seminar = Category::factory()->create(['nama_kategori' => 'Seminar', 'ikon' => '🎤']);
-        $this->workshop = Category::factory()->create(['nama_kategori' => 'Workshop', 'ikon' => '🛠️']);
+        $this->seminar = Category::factory()->create(['nama_kategori' => 'Seminar', 'ikon' => 'mic']);
+        $this->workshop = Category::factory()->create(['nama_kategori' => 'Workshop', 'ikon' => 'wrench']);
     }
 
     private function buatAcara(array $attributes = []): Event

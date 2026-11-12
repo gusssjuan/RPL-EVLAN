@@ -34,7 +34,7 @@ class ActivityLoggerTest extends TestCase
             $event,
             $user,
             'ubah_status',
-            'Rina Astuti mengubah status "Membuat rundown acara" → Sedang dikerjakan',
+            'Rina Astuti mengubah status "Membuat rundown acara" menjadi Sedang dikerjakan',
             ['task_id' => 12, 'status' => 'sedang_dikerjakan']
         );
 
@@ -43,11 +43,10 @@ class ActivityLoggerTest extends TestCase
             'event_id' => $event->id,
             'user_id' => $user->id,
             'aksi' => 'ubah_status',
-            'deskripsi' => 'Rina Astuti mengubah status "Membuat rundown acara" → Sedang dikerjakan',
+            'deskripsi' => 'Rina Astuti mengubah status "Membuat rundown acara" menjadi Sedang dikerjakan',
         ]);
 
         $this->assertEquals(12, $log->meta['task_id']);
         $this->assertEquals('sedang_dikerjakan', $log->meta['status']);
     }
 }
-

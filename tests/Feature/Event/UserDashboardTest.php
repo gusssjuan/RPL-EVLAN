@@ -19,7 +19,9 @@ class UserDashboardTest extends TestCase
     use RefreshDatabase;
 
     protected User $leader;
+
     protected User $memberOnly;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -64,7 +66,7 @@ class UserDashboardTest extends TestCase
         $response = $this->actingAs($this->leader)->get('/dashboard');
 
         $response->assertStatus(200);
-        $response->assertSee('Halo, Gus Ega 👋');
+        $response->assertSee('Halo, Gus Ega');
         $response->assertSee('Seminar Teknologi 2026');
         $response->assertSee('42%');
         $response->assertSee('Acara Aktif');
@@ -97,10 +99,9 @@ class UserDashboardTest extends TestCase
         $response = $this->actingAs($this->memberOnly)->get('/dashboard');
 
         $response->assertStatus(200);
-        $response->assertSee('Halo, Rina Astuti 👋');
+        $response->assertSee('Halo, Rina Astuti');
         $response->assertSee('Tugas Prioritas Saya');
         $response->assertSee('Tugas Prioritas Rina');
         $response->assertSee('Event Kepanitiaan Rina');
     }
 }
-
