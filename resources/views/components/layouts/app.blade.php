@@ -11,6 +11,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="h-full font-sans antialiased text-gray-900 bg-gray-50">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-indigo-700 focus:rounded-[8px] focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        Lewati ke konten utama
+    </a>
     <div x-data="{ sidebarOpen: false }" class="min-h-full flex flex-col lg:flex-row">
         <!-- Mobile Sidebar Backdrop -->
         <div
@@ -180,11 +183,39 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+            <main id="main-content" class="flex-1 p-4 sm:p-6 lg:p-8 pb-24 lg:pb-8 max-w-7xl w-full mx-auto">
                 {{ $slot }}
             </main>
         </div>
     </div>
+
+    @auth
+        <nav class="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 lg:hidden" aria-label="Navigasi utama ponsel">
+            <p class="sr-only">Navigasi Bawah Ponsel</p>
+            <div class="grid grid-cols-5">
+                <a href="{{ route('dashboard', [], false) }}" class="flex flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium {{ request()->is('dashboard*') ? 'text-indigo-700' : 'text-gray-500' }}">
+                    <x-icon name="circle" class="w-5 h-5" />
+                    <span>Beranda</span>
+                </a>
+                <a href="{{ url('/acara') }}" class="flex flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium {{ request()->is('acara*') && ! request()->is('acara/buat*') ? 'text-indigo-700' : 'text-gray-500' }}">
+                    <x-icon name="calendar" class="w-5 h-5" />
+                    <span>Acara</span>
+                </a>
+                <a href="{{ url('/tugas-saya') }}" class="flex flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium {{ request()->is('tugas*') ? 'text-indigo-700' : 'text-gray-500' }}">
+                    <x-icon name="check-circle" class="w-5 h-5" />
+                    <span>Tugas</span>
+                </a>
+                <a href="{{ url('/vendor') }}" class="flex flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium {{ request()->is('vendor*') ? 'text-indigo-700' : 'text-gray-500' }}">
+                    <x-icon name="briefcase" class="w-5 h-5" />
+                    <span>Vendor</span>
+                </a>
+                <a href="{{ url('/profil') }}" class="flex flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium {{ request()->is('profil*') ? 'text-indigo-700' : 'text-gray-500' }}">
+                    <x-icon name="settings" class="w-5 h-5" />
+                    <span>Lainnya</span>
+                </a>
+            </div>
+        </nav>
+    @endauth
 
     <x-toast />
 </body>
