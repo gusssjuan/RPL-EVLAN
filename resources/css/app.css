@@ -41,3 +41,7 @@
     --radius-card: 12px;
     --radius-modal: 16px;
 }
+
+.icon {
+    stroke-width: 1.75;
+}
