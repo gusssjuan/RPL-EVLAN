@@ -32,28 +32,27 @@ class CategoryManagementTest extends TestCase
     {
         Category::factory()->create([
             'nama_kategori' => 'Pernikahan Tradisional',
-            'ikon' => '💍',
+            'ikon' => 'heart',
         ]);
 
         $response = $this->actingAs($this->admin)->get('/admin/kategori');
 
         $response->assertStatus(200);
         $response->assertSee('Pernikahan Tradisional');
-        $response->assertSee('💍');
     }
 
     public function test_admin_dapat_menambah_kategori_baru(): void
     {
         $response = $this->actingAs($this->admin)->post('/admin/kategori', [
             'nama_kategori' => 'Konser Musik',
-            'ikon' => '🎸',
+            'ikon' => 'mic',
             'deskripsi' => 'Acara panggung hiburan musik live',
         ]);
 
         $response->assertRedirect('/admin/kategori');
         $this->assertDatabaseHas('categories', [
             'nama_kategori' => 'Konser Musik',
-            'ikon' => '🎸',
+            'ikon' => 'mic',
         ]);
     }
 
@@ -76,7 +75,7 @@ class CategoryManagementTest extends TestCase
 
         $response = $this->actingAs($this->admin)->put('/admin/kategori/'.$category->id, [
             'nama_kategori' => 'Workshop Baru',
-            'ikon' => '💡',
+            'ikon' => 'heart',
             'deskripsi' => 'Pelatihan intensif',
         ]);
 
@@ -84,7 +83,7 @@ class CategoryManagementTest extends TestCase
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'nama_kategori' => 'Workshop Baru',
-            'ikon' => '💡',
+            'ikon' => 'heart',
         ]);
     }
 
@@ -120,4 +119,3 @@ class CategoryManagementTest extends TestCase
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
 }
-

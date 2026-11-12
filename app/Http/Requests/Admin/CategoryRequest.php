@@ -26,7 +26,10 @@ class CategoryRequest extends FormRequest
                 'max:100',
                 Rule::unique(Category::class, 'nama_kategori')->ignore($categoryId),
             ],
-            'ikon' => ['nullable', 'string', 'max:8'],
+            'ikon' => ['nullable', 'string', 'max:8', Rule::in(array_values(array_unique(array_merge(
+                array_values(config('ikon.kategori')),
+                [config('ikon.kategori_default')],
+            ))))],
             'deskripsi' => ['nullable', 'string', 'max:500'],
         ];
     }
@@ -35,9 +38,8 @@ class CategoryRequest extends FormRequest
     {
         return [
             'nama_kategori' => 'nama kategori',
-            'ikon' => 'ikon / emoji',
+            'ikon' => 'ikon kategori',
             'deskripsi' => 'deskripsi kategori',
         ];
     }
 }
-

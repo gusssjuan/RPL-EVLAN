@@ -7,7 +7,7 @@
                 return [
                     'id' => $c->id,
                     'nama' => $c->nama_kategori,
-                    'ikon' => $c->ikon ?? '📁',
+                    'ikon' => config('ikon.kategori')[$c->nama_kategori] ?? (is_string($c->ikon) && preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $c->ikon) ? $c->ikon : config('ikon.kategori_default', 'tag')),
                     'deskripsi' => $c->deskripsi,
                     'has_template' => (bool)$tmpl,
                     'template_nama' => $tmpl?->nama_template,
@@ -93,9 +93,9 @@
                             >
                                 <div>
                                     <div class="flex items-center justify-between">
-                                        <span class="text-3xl">{{ $cat->ikon ?? '📁' }}</span>
+                                        <x-category-icon :kategori="$cat" class="w-8 h-8" />
                                         <template x-if="selectedId == {{ $cat->id }}">
-                                            <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">✓</span>
+                                            <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold"><x-icon name="check" class="w-3 h-3" /></span>
                                         </template>
                                     </div>
                                     <h3 class="text-base font-bold text-gray-900 mt-3">{{ $cat->nama_kategori }}</h3>
@@ -120,7 +120,12 @@
                 <!-- Kolom Kanan: Pratinjau Template Aktif (S10 Panel Kanan) -->
                 <div class="lg:col-span-5 bg-white p-6 rounded-[16px] border border-gray-200 shadow-sm space-y-5 sticky top-6">
                     <div class="flex items-center gap-3 border-b border-gray-100 pb-4">
-                        <span class="text-3xl" x-text="current?.ikon"></span>
+                        <template x-if="current?.ikon === 'mic'"><x-icon name="mic" class="w-8 h-8" /></template>
+                        <template x-if="current?.ikon === 'flag'"><x-icon name="flag" class="w-8 h-8" /></template>
+                        <template x-if="current?.ikon === 'cake'"><x-icon name="cake" class="w-8 h-8" /></template>
+                        <template x-if="current?.ikon === 'heart'"><x-icon name="heart" class="w-8 h-8" /></template>
+                        <template x-if="current?.ikon === 'users'"><x-icon name="users" class="w-8 h-8" /></template>
+                        <template x-if="!['mic', 'flag', 'cake', 'heart', 'users'].includes(current?.ikon)"><x-icon name="tag" class="w-8 h-8" /></template>
                         <div>
                             <span class="text-[11px] font-bold text-indigo-600 uppercase tracking-wider">Pratinjau Template</span>
                             <h3 class="text-lg font-bold text-gray-900" x-text="current?.template_nama || current?.nama"></h3>
@@ -170,7 +175,8 @@
 
                     <div class="pt-4 border-t border-gray-100 flex justify-end">
                         <x-button type="submit" variant="primary" class="w-full py-2.5">
-                            Lanjut ke Detail Acara →
+                            Lanjut ke Detail Acara
+                            <x-icon name="arrow-right" class="w-4 h-4" />
                         </x-button>
                     </div>
                 </div>

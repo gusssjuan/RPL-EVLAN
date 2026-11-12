@@ -14,8 +14,7 @@ class CategoryFactory extends Factory
         return [
             'nama_kategori' => fake()->unique()->words(2, true),
             'deskripsi' => fake()->sentence(),
-            'ikon' => fake()->randomElement(['🎤', '🎂', '💍', '🤝', '🇮🇩']),
+            'ikon' => fake()->randomElement(['mic', 'cake', 'heart', 'users', 'flag']),
         ];
     }
 }
-

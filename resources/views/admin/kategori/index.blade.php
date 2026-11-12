@@ -11,7 +11,7 @@
                 this.isEdit = false;
                 this.actionUrl = '{{ route('admin.kategori.store') }}';
                 this.nama = '';
-                this.ikon = '🎤';
+                this.ikon = 'tag';
                 this.deskripsi = '';
                 this.modalOpen = true;
             },
@@ -19,7 +19,8 @@
                 this.isEdit = true;
                 this.actionUrl = '{{ url('/admin/kategori') }}/' + cat.id;
                 this.nama = cat.nama_kategori;
-                this.ikon = cat.ikon || '';
+                const ikonValid = ['mic', 'flag', 'cake', 'heart', 'users', 'tag'];
+                this.ikon = ikonValid.includes(cat.ikon) ? cat.ikon : 'tag';
                 this.deskripsi = cat.deskripsi || '';
                 this.modalOpen = true;
             }
@@ -90,7 +91,7 @@
                         @forelse ($categories as $cat)
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="py-3.5 px-4 text-center text-xl">
-                                    {{ $cat->ikon ?? '📁' }}
+                                    <x-category-icon :kategori="$cat" class="w-5 h-5 mx-auto" />
                                 </td>
                                 <td class="py-3.5 px-4 font-bold text-gray-900">
                                     {{ $cat->nama_kategori }}
@@ -195,14 +196,16 @@
                         <div class="grid grid-cols-4 gap-3">
                             <div class="col-span-1">
                                 <label class="block text-sm font-semibold text-gray-800 mb-1.5">Ikon</label>
-                                <input
-                                    type="text"
+                                <select
                                     name="ikon"
                                     x-model="ikon"
-                                    placeholder="🎤"
-                                    maxlength="8"
-                                    class="w-full text-center text-xl py-2 px-2 bg-white border border-gray-300 rounded-[8px] focus:outline-none focus:ring-1 focus:ring-indigo-600"
+                                    class="w-full py-2.5 px-2 bg-white border border-gray-300 rounded-[8px] text-sm focus:outline-none focus:ring-1 focus:ring-indigo-600"
                                 >
+                                    @foreach (collect(config('ikon.kategori'))->unique() as $ikon)
+                                        <option value="{{ $ikon }}">{{ $ikon }}</option>
+                                    @endforeach
+                                    <option value="tag">tag</option>
+                                </select>
                             </div>
                             <div class="col-span-3">
                                 <label class="block text-sm font-semibold text-gray-800 mb-1.5">
