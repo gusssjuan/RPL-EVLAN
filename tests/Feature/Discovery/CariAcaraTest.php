@@ -4,7 +4,6 @@ namespace Tests\Feature\Discovery;
 
 use App\Models\Category;
 use App\Models\Event;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -63,8 +62,8 @@ class CariAcaraTest extends TestCase
 
     public function test_filter_berdasarkan_kategori(): void
     {
-        $kategoriA = Category::factory()->create(['nama' => 'Pendidikan']);
-        $kategoriB = Category::factory()->create(['nama' => 'Hiburan']);
+        $kategoriA = Category::factory()->create(['nama_kategori' => 'Pendidikan']);
+        $kategoriB = Category::factory()->create(['nama_kategori' => 'Hiburan']);
 
         Event::factory()->publik()->create([
             'nama_event' => 'Seminar Pendidikan Nasional',
@@ -132,4 +131,3 @@ class CariAcaraTest extends TestCase
         $response->assertSee('Tidak ada acara yang cocok');
     }
 }
-

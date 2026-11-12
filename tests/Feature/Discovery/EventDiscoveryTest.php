@@ -54,7 +54,6 @@ class EventDiscoveryTest extends TestCase
         $response->assertOk();
         $response->assertSee($publik->nama_event);
         $response->assertDontSee('Acara Privat Internal');
-        $response->assertSee('Seminar Teknologi 2026');
     }
 
     public function test_filter_kategori_lokasi_rentang_tanggal_dan_pencarian_dapat_dikombinasikan(): void

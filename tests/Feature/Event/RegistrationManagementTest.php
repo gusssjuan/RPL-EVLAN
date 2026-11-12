@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Event;
 
+use App\Enums\JenisNotifikasi;
 use App\Enums\StatusPendaftaran;
 use App\Models\Event;
 use App\Models\EventRegistration;
-use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,14 +21,14 @@ class RegistrationManagementTest extends TestCase
             'leader_id' => $leader->id,
         ]);
 
-        $pendaftar = User::factory()->create(['name' => 'Budi Santoso']);
+        $pendaftar = User::factory()->create(['nama' => 'Budi Santoso']);
         EventRegistration::factory()->create([
             'event_id' => $event->id,
             'user_id' => $pendaftar->id,
             'status' => StatusPendaftaran::Menunggu,
         ]);
 
-        $response = $this->actingAs($leader)->get(route('acara.show', $event));
+        $response = $this->actingAs($leader)->get(route('acara.ringkasan', $event));
 
         $response->assertStatus(200);
         $response->assertSee('Daftar Pendaftar');
@@ -62,8 +62,9 @@ class RegistrationManagementTest extends TestCase
         $this->assertNotNull($reg->fresh()->decided_at);
 
         // Memastikan notifikasi dibuat untuk pendaftar
-        $this->assertDatabaseHas('notifications', [
+        $this->assertDatabaseHas('app_notifications', [
             'user_id' => $pendaftar->id,
+            'jenis' => JenisNotifikasi::Pendaftaran->value,
         ]);
     }
 
@@ -96,8 +97,9 @@ class RegistrationManagementTest extends TestCase
         $this->assertNotNull($reg->fresh()->decided_at);
 
         // Memastikan notifikasi penolakan dibuat untuk pendaftar
-        $this->assertDatabaseHas('notifications', [
+        $this->assertDatabaseHas('app_notifications', [
             'user_id' => $pendaftar->id,
+            'jenis' => JenisNotifikasi::Pendaftaran->value,
         ]);
     }
 
