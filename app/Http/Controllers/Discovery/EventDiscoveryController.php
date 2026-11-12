@@ -11,6 +11,7 @@ use App\Models\EventRegistration;
 use App\Services\EventRegistrationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class EventDiscoveryController extends Controller
@@ -85,19 +86,25 @@ class EventDiscoveryController extends Controller
         abort_unless($event->is_publik, 404);
 
         $user = $request->user();
+        abort_if($user !== null && ! $user->isUser(), 403);
 
         $event->load(['category', 'leader'])
             ->loadCount([
                 'registrations as diterima_count' => fn ($q) => $q->where('status', 'diterima'),
             ]);
 
-        $pendaftaranSaya = $event->registrations()
-            ->where('user_id', $user->id)
-            ->first();
+        $pendaftaranSaya = null;
+        $alasanTidakBisaDaftar = null;
 
-        $alasanTidakBisaDaftar = $pendaftaranSaya
-            ? null
-            : $registrationService->alasanTidakBisaDaftar($event, $user);
+        if ($user !== null) {
+            $pendaftaranSaya = $event->registrations()
+                ->where('user_id', $user->id)
+                ->first();
+
+            $alasanTidakBisaDaftar = $pendaftaranSaya
+                ? null
+                : $registrationService->alasanTidakBisaDaftar($event, $user);
+        }
 
         return view('cari-acara.show', compact(
             'event',
@@ -113,11 +120,21 @@ class EventDiscoveryController extends Controller
     ): RedirectResponse {
         abort_unless($event->is_publik, 404);
 
-        $registrationService->daftar($event, $request->user(), $request->validated());
+        try {
+            $registrationService->daftar($event, $request->user(), $request->validated());
+        } catch (ValidationException $exception) {
+            $pesan = collect($exception->errors())->flatten()->first() ?? 'Pendaftaran belum dapat diproses.';
+
+            return back()
+                ->withErrors($exception->errors())
+                ->with('peringatan', $pesan)
+                ->with('error', $pesan);
+        }
 
         return redirect()
             ->route('cari-acara.show', $event)
-            ->with('status', 'Pendaftaran berhasil dikirim. Menunggu konfirmasi ketua acara.');
+            ->with('status', 'Pendaftaran berhasil dikirim. Menunggu konfirmasi ketua acara.')
+            ->with('sukses', 'Pendaftaran berhasil dikirim. Menunggu konfirmasi ketua acara.');
     }
 
     public function batalkan(
@@ -135,10 +152,20 @@ class EventDiscoveryController extends Controller
         $registration->setRelation('event', $event);
         $this->authorize('cancel', $registration);
 
-        $registrationService->batalkan($registration);
+        try {
+            $registrationService->batalkan($registration);
+        } catch (ValidationException $exception) {
+            $pesan = collect($exception->errors())->flatten()->first() ?? 'Pendaftaran tidak dapat dibatalkan.';
+
+            return back()
+                ->withErrors($exception->errors())
+                ->with('peringatan', $pesan)
+                ->with('error', $pesan);
+        }
 
         return redirect()
             ->route('cari-acara.show', $event)
-            ->with('status', 'Pendaftaran Anda berhasil dibatalkan.');
+            ->with('status', 'Pendaftaran Anda berhasil dibatalkan.')
+            ->with('sukses', 'Pendaftaran Anda berhasil dibatalkan.');
     }
 }

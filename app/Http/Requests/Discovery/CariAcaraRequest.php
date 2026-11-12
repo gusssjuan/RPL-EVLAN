@@ -8,13 +8,15 @@ class CariAcaraRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->isUser() ?? false;
+        return $this->user() === null || $this->user()->isUser();
     }
 
     protected function prepareForValidation(): void
     {
+        $kataKunci = $this->input('cari', $this->input('q'));
+
         $this->merge([
-            'cari' => filled($this->input('cari')) ? trim((string) $this->input('cari')) : null,
+            'cari' => filled($kataKunci) ? trim((string) $kataKunci) : null,
             'kategori' => filled($this->input('kategori')) && $this->input('kategori') !== 'semua'
                 ? $this->input('kategori')
                 : null,

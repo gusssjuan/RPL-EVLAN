@@ -49,6 +49,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
+// Penemuan Acara (T9.1) — dapat dilihat tamu; peran non-user ditolak controller
+Route::get('/cari-acara', [EventDiscoveryController::class, 'index'])->name('cari-acara.index');
+Route::get('/cari-acara/{event}', [EventDiscoveryController::class, 'show'])->name('cari-acara.show');
+
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -60,10 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/notifikasi/baca-semua', [NotificationController::class, 'bacaSemua'])->name('notifikasi.baca-semua');
     Route::post('/notifikasi/{notification}/baca', [NotificationController::class, 'baca'])->name('notifikasi.baca');
 
-    // Penemuan & Pendaftaran Acara (T9.1, T9.2) — hanya pengguna
+    // Pendaftaran Acara (T9.2) — hanya pengguna
     Route::middleware('role:user')->group(function () {
-        Route::get('/cari-acara', [EventDiscoveryController::class, 'index'])->name('cari-acara.index');
-        Route::get('/cari-acara/{event}', [EventDiscoveryController::class, 'show'])->name('cari-acara.show');
         Route::post('/cari-acara/{event}/daftar', [EventDiscoveryController::class, 'daftar'])->name('cari-acara.daftar');
         Route::delete('/cari-acara/{event}/daftar', [EventDiscoveryController::class, 'batalkan'])->name('cari-acara.daftar.batal');
     });

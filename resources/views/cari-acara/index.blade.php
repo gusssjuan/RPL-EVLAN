@@ -18,7 +18,7 @@
     <div class="space-y-6" x-data="{ memuat: false }">
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-gray-900">Cari Acara</h1>
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900">Temukan Acara Menarik</h1>
                 <p class="mt-1 text-sm text-gray-500">
                     Temukan acara publik yang terbuka untuk peserta dan lihat detailnya.
                 </p>
@@ -142,7 +142,7 @@
         </div>
 
         <div x-show="!memuat">
-            @if (! $adaAcara)
+            @if (! $adaAcara && ! $adaFilter)
                 <x-empty-state
                     title="Belum ada acara publik"
                     description="Saat ini belum ada acara yang dipublikasikan. Silakan kembali lagi nanti."
