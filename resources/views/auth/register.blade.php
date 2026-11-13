@@ -6,7 +6,7 @@
     title="Buat akun"
     image="register"
     image-alt="Dua orang menyiapkan catatan acara"
-    tagline="Satu akun untuk memimpin acara atau jadi anggota panitia."
+    tagline="Bergabung Bersama Kami Dan Mulai Rencanakan Kegiatan Anda."
     :image-width="1112"
     :image-height="1112"
 >
@@ -38,7 +38,7 @@
                         class="peer sr-only"
                     >
                     <span class="flex min-h-11 items-center justify-center rounded-control px-2 text-center text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900 peer-checked:bg-surface peer-checked:font-semibold peer-checked:text-primary-700 peer-focus-visible:ring-2 peer-focus-visible:ring-primary-600 peer-focus-visible:ring-offset-2">
-                        Pengguna (Ketua/Anggota)
+                        Pengguna Biasa
                     </span>
                 </label>
 

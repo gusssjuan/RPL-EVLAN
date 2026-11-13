@@ -1,5 +1,5 @@
 <x-layouts.landing title="EVLAN - Perencanaan acara dari H-60 sampai hari H">
-    <section class="bg-neutral-50">
+    <section class="bg-neutral-50 pt-8">
         <div class="mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
             <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
                 <div class="min-w-0 lg:col-span-5">
@@ -13,18 +13,18 @@
 
                     <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
                         <a
-                            href="{{ route('register') }}"
-                            class="inline-flex min-h-11 items-center justify-center rounded-control bg-primary-600 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+                            href="{{ route('login') }}"
+                            class="inline-flex min-h-11 items-center justify-center rounded-control bg-amber-500 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
                         >
-                            Buat akun gratis
+                            Mulai Kegiatan
                         </a>
 
-                        <p class="text-sm text-neutral-600">
-                            Sudah punya akun?
-                            <a href="{{ route('login') }}" class="font-medium text-primary-600 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2">
-                                Masuk
-                            </a>
-                        </p>
+                        <a
+                            href="#cari-kegiatan"
+                            class="inline-flex min-h-11 items-center justify-center rounded-control bg-primary-600 px-5 py-2.5 text-base font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+                        >
+                            Cari Kegiatan
+                        </a>
                     </div>
                 </div>
 
@@ -78,19 +78,19 @@
         </div>
     </section>
 
-    <section id="cara-kerja" class="scroll-mt-20 border-t border-neutral-200 bg-neutral-50">
+    <section id="cara-kerja" class="scroll-mt-20 border-t border-neutral-200 bg-primary-600">
         <div class="mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
-            <h2 class="judul-h2 text-neutral-900">Cara kerjanya</h2>
+            <h2 class="judul-h2 text-neutral-200">Cara kerjanya</h2>
 
             <ol class="mt-10 max-w-[45rem]">
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
                     <div class="flex shrink-0 flex-col items-center">
-                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">01</span>
+                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-200 sm:text-[2.5rem] sm:leading-[2.75rem]">01</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
                     <div class="min-w-0 flex-1 pt-1">
-                        <h3 class="font-display text-lg font-semibold text-neutral-900">Pilih kategori acara</h3>
-                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
+                        <h3 class="font-display text-lg font-semibold text-neutral-200">Pilih kategori acara</h3>
+                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-200">
                             Seminar, wedding, 17 Agustus, ulang tahun, atau gathering. Kebutuhan, timeline, dan struktur panitia untuk kategori itu langsung terlihat.
                         </p>
                     </div>
@@ -98,12 +98,12 @@
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
                     <div class="flex shrink-0 flex-col items-center">
-                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">02</span>
+                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-200 sm:text-[2.5rem] sm:leading-[2.75rem]">02</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
                     <div class="min-w-0 flex-1 pt-1">
-                        <h3 class="font-display text-lg font-semibold text-neutral-900">Isi detail acara</h3>
-                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
+                        <h3 class="font-display text-lg font-semibold text-neutral-200">Isi detail acara</h3>
+                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-200">
                             Nama, tanggal, lokasi, dan jumlah peserta. Checklist dan timeline H-n dihitung dari tanggal acara.
                         </p>
                     </div>
@@ -111,12 +111,12 @@
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
                     <div class="flex shrink-0 flex-col items-center">
-                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">03</span>
+                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-200 sm:text-[2.5rem] sm:leading-[2.75rem]">03</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
                     <div class="min-w-0 flex-1 pt-1">
-                        <h3 class="font-display text-lg font-semibold text-neutral-900">Bentuk kepanitiaan</h3>
-                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
+                        <h3 class="font-display text-lg font-semibold text-neutral-200">Bentuk kepanitiaan</h3>
+                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-200">
                             Tambah divisi, undang anggota lewat email, lalu bagikan tugas lengkap dengan deadline.
                         </p>
                     </div>
@@ -124,12 +124,12 @@
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
                     <div class="flex shrink-0 flex-col items-center">
-                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">04</span>
+                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-200 sm:text-[2.5rem] sm:leading-[2.75rem]">04</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
                     <div class="min-w-0 flex-1 pt-1">
-                        <h3 class="font-display text-lg font-semibold text-neutral-900">Pantau progres</h3>
-                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
+                        <h3 class="font-display text-lg font-semibold text-neutral-200">Pantau progres</h3>
+                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-200">
                             Anggota memperbarui status tugasnya. Ketua melihat progres tiap divisi dan tugas yang sudah lewat deadline.
                         </p>
                     </div>
@@ -137,11 +137,11 @@
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
                     <div class="flex shrink-0 flex-col items-center">
-                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">05</span>
+                        <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-200 sm:text-[2.5rem] sm:leading-[2.75rem]">05</span>
                     </div>
                     <div class="min-w-0 flex-1 pt-1">
-                        <h3 class="font-display text-lg font-semibold text-neutral-900">Atur anggaran dan cari vendor</h3>
-                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
+                        <h3 class="font-display text-lg font-semibold text-neutral-200">Atur anggaran dan cari vendor</h3>
+                        <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-200">
                             Hitung estimasi biaya dari jumlah dan harga satuan, lalu lihat vendor terverifikasi untuk catering, dekorasi, dokumentasi, dan sound system.
                         </p>
                     </div>
@@ -150,7 +150,7 @@
         </div>
     </section>
 
-    <section id="contoh-hasil" class="scroll-mt-20 border-t border-neutral-200 bg-surface">
+    <section id="cari-kegiatan" class="scroll-mt-20 border-t border-neutral-200 bg-surface">
         <div class="mx-auto grid w-full max-w-[72rem] gap-10 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-12">
             <div class="min-w-0 lg:col-span-4">
                 <h2 class="judul-h2 text-neutral-900">Contoh timeline untuk seminar pada 12 Desember 2026</h2>

@@ -32,6 +32,8 @@
                 <x-logo variant="white" size="lg" />
             </a>
 
+            <p class="m-4 max-w-[34ch] text-4xl font-semibold text-white">{{ $tagline }}</p>
+
             <div class="flex min-h-0 flex-1 items-center justify-center py-8">
                 <picture>
                     <source
@@ -50,8 +52,6 @@
                     >
                 </picture>
             </div>
-
-            <p class="max-w-[34ch] text-base leading-6 text-white">{{ $tagline }}</p>
         </aside>
 
         <main id="konten" tabindex="-1" class="flex min-h-svh flex-col bg-neutral-50 px-5 py-10 focus:outline-none sm:px-8 lg:justify-center lg:px-12">

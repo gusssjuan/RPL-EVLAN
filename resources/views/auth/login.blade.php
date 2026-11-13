@@ -2,7 +2,7 @@
     title="Masuk"
     image="login"
     image-alt="Dua orang membahas rencana acara di meja"
-    tagline="Checklist, timeline, dan tugas panitia dalam satu tempat."
+    tagline="Rencanakan Dan Jalankan Kegiatan Bersama Evlan"
     :image-width="1264"
     :image-height="1264"
 >

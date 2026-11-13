@@ -21,7 +21,7 @@
         Lewati ke konten utama
     </a>
 
-    <header class="border-b border-neutral-200 bg-neutral-50">
+    <header class="border-b border-neutral-200 bg-neutral-50 z-80 fixed w-full">
         <div class="mx-auto flex min-h-16 w-full max-w-[72rem] flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-2 sm:px-8">
             <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center rounded-control focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2">
                 <x-logo variant="purple" />
@@ -29,7 +29,7 @@
 
             <nav aria-label="Navigasi utama" class="hidden items-center gap-7 text-sm font-medium text-neutral-600 lg:flex">
                 <a href="#cara-kerja" class="transition-colors hover:text-primary-700">Cara kerja</a>
-                <a href="#contoh-hasil" class="transition-colors hover:text-primary-700">Contoh hasil</a>
+                <a href="#cari-kegiatan" class="transition-colors hover:text-primary-700">Cari kegiatan</a>
                 <a href="#tujuan" class="transition-colors hover:text-primary-700">Tujuan</a>
                 <a href="#untuk-siapa" class="transition-colors hover:text-primary-700">Untuk siapa</a>
             </nav>
