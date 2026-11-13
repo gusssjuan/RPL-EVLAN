@@ -275,6 +275,23 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
 - **Status saat ini**: **PHASE 10 SELESAI PENUH**.
 - **Untuk sesi berikutnya**: **Phase 11 — NFR, Hardening, Pengujian, Dokumentasi (T11.1 s/d T11.5)** dengan **Checkpoint Review wajib setelah T11.1**.
 
+### Sesi 2026-11-13 (Sesi 14) — Redesign halaman publik (landing, login, register)
+
+- **Branch**: `redesign/halaman-publik` (dibuat dari `staging`).
+- **Langkah 1 — data aset** (diukur dengan `getimagesize`):
+  | Berkas | Ukuran | Ukuran berkas | Catatan |
+  |---|---|---|---|
+  | `public/images/hero.png` | 1200×800 (3:2) | 326 KB | > 300 KB, dibuat WebP |
+  | `public/images/tujuan.png` | 2400×1800 (4:3) | 1057 KB | > 300 KB, dibuat WebP |
+  | `public/images/login.png` | 1264×1264 (1:1) | 1409 KB | > 300 KB, transparan, dibuat WebP |
+  | `public/images/register.png` | 1112×1112 (1:1) | 625 KB | > 300 KB, transparan, dibuat WebP |
+  | `public/images/logo/purple.svg` | 264×262 | < 1 KB | SVG, lambang "e" tanpa tulisan |
+  | `public/images/logo/white.svg` | 159×158 | < 1 KB | SVG, lambang "e" tanpa tulisan |
+  - Peringatan: tiga gambar persegi/4:3 berukuran > 400 KB; `login.png` paling besar (1,4 MB). Semua sudah dibuatkan versi WebP `-640`/`-1280` (PNG asli dipertahankan).
+  - Teks tertanam: `hero.png`, `tujuan.png` memuat wordmark "Evlan" di dalam gambar; tidak dipakai sebagai satu-satunya judul halaman.
+  - `alt` yang dipakai berasal dari pengamatan gambar (bukan generik).
+- **Langkah 1c — warna merek**: `scripts/logo-color.php public/images/logo/purple.svg` → `#4F46E5`, kontras **6,29:1** terhadap putih (lolos teks normal). Detail keputusan: `agents/DECISIONS.md` L-012…L-014.
+
 ### Sesi 2026-11-12 (Sesi 13) — Agent
 - **Dikerjakan**:
   - Redesign ikon seluruh antarmuka: emoji dan ikon SVG mentah diganti Lucide outline melalui komponen tunggal `<x-icon>`.
