@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth;
 
 use App\Enums\RoleName;
-use App\Enums\StatusAkun;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -27,7 +26,7 @@ class AuthenticationTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertStatus(200);
-        $response->assertSee('Masuk ke Akun Anda');
+        $response->assertSee('Masuk ke EVLAN');
     }
 
     public function test_login_sukses_pengguna_diarahkan_ke_dashboard(): void
@@ -94,6 +93,20 @@ class AuthenticationTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
+    public function test_halaman_login_menampilkan_banner_generik_dan_mempertahankan_email(): void
+    {
+        app()->setLocale('id');
+
+        $page = $this->followingRedirects()->from('/login')->post('/login', [
+            'email' => 'tidak-terdaftar@evlan.test',
+            'password' => 'salah123',
+        ]);
+
+        $page->assertOk();
+        $page->assertSee('Email atau kata sandi yang Anda masukkan salah.');
+        $page->assertSee('value="tidak-terdaftar@evlan.test"', false);
+    }
+
     public function test_kata_sandi_salah_ditolak(): void
     {
         $user = User::factory()->create([
@@ -138,4 +151,3 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect('/');
     }
 }
-

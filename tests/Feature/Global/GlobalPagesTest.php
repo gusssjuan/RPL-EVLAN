@@ -28,9 +28,10 @@ class GlobalPagesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('EVLAN');
-        $response->assertSee('Rencanakan Acara Lebih');
-        $response->assertSee('Template Otomatis');
-        $response->assertSee('Jelajahi Acara Publik');
+        $response->assertSee('Dari H-60 sampai hari H, semua panitia tahu tugasnya.');
+        $response->assertSee('Cara kerjanya');
+        $response->assertSee('Contoh timeline untuk seminar pada 12 Desember 2026');
+        $response->assertSee('Buat akun gratis');
         $response->assertSee('Lewati ke konten utama');
     }
 
@@ -78,4 +79,3 @@ class GlobalPagesTest extends TestCase
         $response->assertSee('Lainnya');
     }
 }
-
