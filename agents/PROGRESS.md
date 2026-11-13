@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Redesign ikon Lucide selesai; Phase 11 — NFR, Hardening, Pengujian, Dokumentasi tetap menjadi phase berikutnya |
-| Task terakhir selesai | Redesign ikon Lucide (seluruh tampilan; di luar penomoran phase) |
-| Task sedang dikerjakan | Verifikasi akhir, dokumentasi, dan commit branch `redesign/ikon` |
-| Branch aktif | `redesign/ikon` |
-| Commit terakhir | `853098c` — redesign ikon dan dokumentasi selesai |
-| Hasil `php artisan test` terakhir | **203 passed (631 assertions)** — assertion emoji dihapus |
-| Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js, 1.82s) |
-| Terakhir diperbarui | 2026-11-12, Sesi 13 |
+| Phase aktif | Redesign halaman publik (landing, login, register) selesai; Phase 11 — NFR, Hardening, Pengujian, Dokumentasi tetap menjadi phase berikutnya |
+| Task terakhir selesai | Redesign halaman publik (di luar penomoran phase) |
+| Task sedang dikerjakan | Serah-terima branch `redesign/halaman-publik` |
+| Branch aktif | `redesign/halaman-publik` |
+| Commit terakhir | `8ed31a9` (kode) + commit dokumentasi Sesi 14 |
+| Hasil `php artisan test` terakhir | **208 passed (707 assertions)** |
+| Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js, 4.26s) |
+| Terakhir diperbarui | 2026-11-13, Sesi 14 |
 
 ---
 
@@ -274,6 +274,69 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
   - Membuat skrip `commit_phase_10.bat` untuk 5 commit terstruktur.
 - **Status saat ini**: **PHASE 10 SELESAI PENUH**.
 - **Untuk sesi berikutnya**: **Phase 11 — NFR, Hardening, Pengujian, Dokumentasi (T11.1 s/d T11.5)** dengan **Checkpoint Review wajib setelah T11.1**.
+
+### Sesi 2026-11-13 (Sesi 14) — Redesign halaman publik (landing, login, register)
+
+- **Branch**: `redesign/halaman-publik` (dibuat dari `staging`).
+- **Langkah 1 — data aset** (diukur dengan `getimagesize`):
+  | Berkas | Ukuran | Ukuran berkas | Catatan |
+  |---|---|---|---|
+  | `public/images/hero.png` | 1200×800 (3:2) | 326 KB | > 300 KB, dibuat WebP |
+  | `public/images/tujuan.png` | 2400×1800 (4:3) | 1057 KB | > 300 KB, dibuat WebP |
+  | `public/images/login.png` | 1264×1264 (1:1) | 1409 KB | > 300 KB, transparan, dibuat WebP |
+  | `public/images/register.png` | 1112×1112 (1:1) | 625 KB | > 300 KB, transparan, dibuat WebP |
+  | `public/images/logo/purple.svg` | 264×262 | < 1 KB | SVG, lambang "e" tanpa tulisan |
+  | `public/images/logo/white.svg` | 159×158 | < 1 KB | SVG, lambang "e" tanpa tulisan |
+  - Peringatan: tiga gambar persegi/4:3 berukuran > 400 KB; `login.png` paling besar (1,4 MB). Semua sudah dibuatkan versi WebP `-640`/`-1280` (PNG asli dipertahankan).
+  - Teks tertanam: `hero.png`, `tujuan.png` memuat wordmark "Evlan" di dalam gambar; tidak dipakai sebagai satu-satunya judul halaman.
+  - `alt` yang dipakai berasal dari pengamatan gambar (bukan generik).
+- **Langkah 1c — warna merek**: `scripts/logo-color.php public/images/logo/purple.svg` → `#4F46E5`, kontras **6,29:1** terhadap putih (lolos teks normal). Detail keputusan: `agents/DECISIONS.md` L-012…L-014.
+
+- **Langkah 2 — token, font, komponen**:
+  - Token di `resources/css/app.css`: `primary-50/600/700`, `sidebar`, `surface`, `neutral`; radius `--radius-control: 8px`, `--radius-card: 10px`, `--radius-panel: 16px`; `.judul-h1`/`.judul-h2` memakai `clamp()` dan `Bricolage Grotesque Variable`.
+  - Font `Bricolage Grotesque Variable` + `Instrument Sans Variable` via `@fontsource-variable/*`; plugin bunny dihapus dari `vite.config.js`.
+  - Komponen publik: `x-logo` (gambar SVG + wordmark), `x-input`, `x-password-input`, `x-select`, `x-button`, `x-alert`; layout `x-layouts.landing` dan `x-layouts.auth` (dua panel, sidebar `lg:sticky lg:h-svh`).
+- **Langkah 3 — landing** (`resources/views/welcome.blade.php`):
+  - Urutan: hero → masalah → cara kerja → contoh timeline → tujuan → untuk siapa → CTA → footer (footer di layout).
+  - Hero: H1 "Dari H-60 sampai hari H, semua panitia tahu tugasnya.", satu CTA utama + tautan masuk, `fetchpriority="high"` pada gambar hero, `sizes="(min-width:1024px) 58vw, 100vw"`.
+  - Contoh timeline memakai chip H- yang bisa wrap (tanpa scroll horizontal), tanggal `tabular-nums`.
+  - Bagian tujuan dan contoh timeline memakai `<picture>` WebP responsif.
+- **Langkah 4 — login** (`resources/views/auth/login.blade.php`):
+  - Banner galat generik `role="alert"` berisi "Email atau kata sandi tidak cocok. Silakan coba lagi."; email tetap terisi; toggle tampil/sandi; status "Memproses…" saat submit.
+- **Langkah 5 — register** (`resources/views/auth/register.blade.php`):
+  - Radio `name="tipe"` asli (`user`/`vendor`), `?tipe=vendor` memilih vendor; field vendor `disabled` saat user dan `required` saat vendor lewat Alpine (`x-bind`).
+  - Catatan verifikasi: field vendor yang tersembunyi tidak mengirim nilai; saat vendor aktif, field wajib terisi.
+- **Langkah 6 — responsif**: dicek via Edge headless + CDP pada 320/360/390/768/1024/1280/1440/1920 untuk `/`, `/login`, `/register`, `/register?tipe=vendor`: **0 horizontal overflow**; header 320 tetap muat (logo + Masuk + Daftar).
+- **Langkah 7 — aksesibilitas**:
+  - Skip link "Lewati ke konten utama" di landing dan auth; `focus-visible:ring-*` pada tautan/tombol/input; badge/status tetap ikon + label.
+  - Kontras teks abu di atas `neutral-50` minimal `neutral-600`; tombol primer putih di `primary-600` (6,29:1).
+  - `prefers-reduced-motion` mematikan transisi (`app.css`).
+  - `alt` spesifik: hero "Dua panitia berdiskusi di depan papan nama EVLAN"; tujuan "Dua panitia memberi tos di depan papan bertuliskan Evlan"; login "Dua orang membahas rencana acara di meja"; register "Dua orang menyiapkan catatan acara". Tidak ada `alt` generik.
+  - **Zoom teks 200%** (root font-size 2×) di 320 dan 1440: semula landing meluap 503 px; diperbaiki dengan header `flex-wrap`, `min-w-0` pada item grid, `overflow-wrap:anywhere` khusus body layout publik, dan radio tipe akun `flex-wrap` + `min-w-32`. Hasil akhir **semua halaman 320/1440 tanpa luapan**; label radio tetap terbaca (turun satu kolom saat zoom).
+- **Langkah 8 — test**:
+  - Baru: `tests/Feature/PublicPages/PublicPagesMarkupTest.php` (markup dasar, satu gambar prioritas + tautan masuk/daftar, `?tipe=vendor`).
+  - Test banner login memakai `followingRedirects()` + `app()->setLocale('id')`; test registrasi memastikan validasi mempertahankan `tipe`, nama, email, dan nama vendor.
+  - `php artisan test`: **208 passed (707 assertions)**. Catatan lingkungan: `.env` lokal memakai `APP_LOCALE=en` sehingga pesan `auth.failed` di server lokal berbahasa Inggris; `.env.example` tetap `id` dan `.env` tidak diubah.
+- **Langkah 9 — audit & build**:
+  - `bash scripts/design-audit.sh` pada 11 berkas yang diubah: **0 FAIL**.
+  - `npm run build` (via Windows): sukses; CSS 92,71 kB, JS 54,32 kB.
+  - Audit penuh `resources/views/components` + `layouts` masih gagal karena utang visual lama (bukan berkas redesain ini); dicatat sebagai di luar scope di L-016.
+- **Checklist manual**:
+  - [x] Tidak ada scroll horizontal 320–1920.
+  - [x] Header 320 tidak pecah/terpotong.
+  - [x] Hero teks dulu, baru gambar, di ponsel.
+  - [x] Timeline contoh menumpuk di ponsel, bukan tabel sempit.
+  - [x] Panel gambar login hilang di bawah `lg`; banner galat + email tetap.
+  - [x] Tab user menyembunyikan field vendor; submit user tanpa data vendor berhasil; validasi mempertahankan isian.
+  - [x] `?tipe=vendor` memilih tab vendor dan field wajib.
+  - [x] Urutan fokus dimulai dari skip link; cincin fokus terlihat.
+  - [x] Zoom teks 200% di 320/1440 tanpa luapan.
+  - [x] `alt` bermakna; tidak ada `alt` generik.
+- **Commit**: `21418c8` aset, `eca06fc` token/komponen, `ebd52fd` landing, `ec4f25a` login, `964b8ec` register, `a9ed86c` test, `2cc9c16` kontras/field vendor, `8ed31a9` zoom 200%.
+- **Sisa/catatan**:
+  - `/` tidak mengarahkan pengguna yang sudah login ke dasbor (perilaku lama; tidak diubah agar route/controller tetap).
+  - Audit desain direktori penuh masih FAIL karena komponen/layout lama; lihat L-016.
+  - `.env` lokal `APP_LOCALE=en`; jangan diubah. Untuk melihat pesan Indonesia, set `APP_LOCALE=id` di lingkungan lokal masing-masing.
 
 ### Sesi 2026-11-12 (Sesi 13) — Agent
 - **Dikerjakan**:

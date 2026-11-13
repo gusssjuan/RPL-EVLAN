@@ -1,70 +1,77 @@
-<x-layouts.guest title="Masuk">
+<x-layouts.auth
+    title="Masuk"
+    image="login"
+    image-alt="Dua orang membahas rencana acara di meja"
+    tagline="Rencanakan Dan Jalankan Kegiatan Bersama Evlan"
+    :image-width="1264"
+    :image-height="1264"
+>
     <div>
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">
-            Masuk ke Akun Anda
-        </h2>
-        <p class="mt-2 text-sm text-gray-500">
-            Masukkan email dan kata sandi untuk mengakses akun EVLAN Anda.
-        </p>
+        <h1 class="font-display text-3xl font-semibold leading-tight tracking-tight text-neutral-900">Masuk ke EVLAN</h1>
+        <p class="mt-2 text-base text-neutral-600">Lanjutkan menyiapkan acara Anda.</p>
     </div>
 
     @if (session('status'))
-        <div class="mt-4 p-3 bg-emerald-50 border border-emerald-200 rounded-[8px] text-xs font-medium text-emerald-800 flex items-center gap-2">
-            <x-icon name="check-circle" class="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>{{ session('status') }}</span>
-        </div>
+        <x-alert variant="success" class="mt-6">{{ session('status') }}</x-alert>
     @endif
 
-    <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
+    @if ($errors->any())
+        <x-alert variant="error" class="mt-6">{{ $errors->first() }}</x-alert>
+    @endif
+
+    <form method="POST" action="{{ route('login') }}" class="mt-8 space-y-5" x-data="{ mengirim: false }" x-on:submit="mengirim = true">
         @csrf
 
         <x-input
             name="email"
             type="email"
-            label="Alamat Email"
+            label="Email"
             placeholder="nama@email.com"
-            value="{{ old('email') }}"
+            autocomplete="email"
+            inputmode="email"
+            :value="old('email')"
             required
-            autofocus
+            :show-error="false"
         />
 
-        <x-input
+        <x-password-input
             name="password"
-            type="password"
-            label="Kata Sandi"
-            placeholder="••••••••"
+            label="Kata sandi"
+            placeholder="Kata sandi Anda"
+            autocomplete="current-password"
             required
-        />
+        >
+            <x-slot:labelRight>
+                @if (Route::has('password.request'))
+                    <a
+                        href="{{ route('password.request') }}"
+                        class="text-sm font-medium text-primary-600 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+                    >
+                        Lupa kata sandi?
+                    </a>
+                @endif
+            </x-slot:labelRight>
+        </x-password-input>
 
-        <div class="flex items-center justify-between text-sm">
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                    type="checkbox"
-                    name="remember"
-                    class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4"
-                >
-                <span class="text-gray-600 text-xs sm:text-sm">Ingat saya</span>
-            </label>
+        <label class="flex min-h-11 cursor-pointer select-none items-center gap-2.5">
+            <input
+                type="checkbox"
+                name="remember"
+                class="h-4 w-4 rounded-sm border-neutral-300 text-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+            >
+            <span class="text-sm text-neutral-600">Ingat saya</span>
+        </label>
 
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}" class="text-xs sm:text-sm font-semibold text-indigo-600 hover:text-indigo-800 hover:underline">
-                    Lupa kata sandi?
-                </a>
-            @endif
-        </div>
-
-        <div class="pt-2">
-            <x-button type="submit" variant="primary" class="w-full py-2.5">
-                Masuk
-            </x-button>
-        </div>
+        <x-button type="submit" variant="primary" class="w-full" x-bind:disabled="mengirim">
+            <span x-show="! mengirim">Masuk</span>
+            <span x-show="mengirim" x-cloak>Memproses...</span>
+        </x-button>
     </form>
 
-    <div class="mt-8 text-center text-sm text-gray-500">
-        Belum memiliki akun?
-        <a href="{{ route('register') }}" class="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline">
-            Daftar sekarang
+    <p class="mt-8 text-sm text-neutral-600">
+        Belum punya akun?
+        <a href="{{ route('register') }}" class="font-medium text-primary-600 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2">
+            Daftar
         </a>
-    </div>
-</x-layouts.guest>
-
+    </p>
+</x-layouts.auth>

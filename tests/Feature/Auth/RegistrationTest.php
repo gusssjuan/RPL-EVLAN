@@ -7,7 +7,6 @@ use App\Enums\StatusAkun;
 use App\Enums\StatusVerifikasi;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Vendor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,7 +28,7 @@ class RegistrationTest extends TestCase
         $response = $this->get('/register');
 
         $response->assertStatus(200);
-        $response->assertSee('Buat Akun Baru');
+        $response->assertSee('Buat akun EVLAN');
     }
 
     public function test_registrasi_pengguna_sukses(): void
@@ -118,6 +117,25 @@ class RegistrationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_galat_validasi_mempertahankan_jenis_akun_dan_nilai(): void
+    {
+        $response = $this->post('/register', [
+            'tipe' => 'vendor',
+            'nama' => 'Pemilik Usaha',
+            'email' => 'bukan-email',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertSessionHasErrors(['email', 'nama_vendor', 'kategori_vendor', 'alamat', 'kontak']);
+
+        $page = $this->get('/register');
+
+        $this->assertMatchesRegularExpression('/<input[^>]*name="tipe"[^>]*value="vendor"[^>]*checked/', $page->getContent());
+        $page->assertSee('value="Pemilik Usaha"', false);
+        $page->assertSee('value="bukan-email"', false);
+    }
+
     public function test_registrasi_vendor_membutuhkan_data_usaha(): void
     {
         $response = $this->post('/register', [
@@ -133,4 +151,3 @@ class RegistrationTest extends TestCase
         $this->assertGuest();
     }
 }
-
