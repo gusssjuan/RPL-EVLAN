@@ -298,7 +298,7 @@
         <div class="mx-auto flex w-full max-w-[72rem] flex-col gap-6 px-5 py-14 sm:px-8 md:flex-row md:items-center md:justify-between md:py-20">
             <div>
                 <h2 class="judul-h2 text-white">Mulai dari acara berikutnya</h2>
-                <p class="mt-3 max-w-[52ch] text-base leading-7 text-white/80">Buat akun, pilih kategori, dan lihat checklist serta timeline acara Anda.</p>
+                <p class="mt-3 max-w-[52ch] text-base leading-7 text-white">Buat akun, pilih kategori, dan lihat checklist serta timeline acara Anda.</p>
             </div>
 
             <a

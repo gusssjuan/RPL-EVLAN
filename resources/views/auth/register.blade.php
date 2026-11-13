@@ -119,7 +119,6 @@
                     placeholder="Nama usaha atau bisnis Anda"
                     x-bind:required="tipe === 'vendor'"
                     x-bind:disabled="tipe !== 'vendor'"
-                    @if ($tipeAwal !== 'vendor') disabled @endif
                 />
 
                 <x-select
@@ -127,7 +126,6 @@
                     label="Kategori vendor"
                     x-bind:required="tipe === 'vendor'"
                     x-bind:disabled="tipe !== 'vendor'"
-                    @if ($tipeAwal !== 'vendor') disabled @endif
                 >
                     <option value="">Pilih kategori vendor</option>
                     @foreach (\App\Enums\KategoriVendor::cases() as $kat)
@@ -146,7 +144,6 @@
                         placeholder="Alamat usaha Anda"
                         x-bind:required="tipe === 'vendor'"
                         x-bind:disabled="tipe !== 'vendor'"
-                        @if ($tipeAwal !== 'vendor') disabled @endif
                         @if ($errors->has('alamat')) aria-invalid="true" aria-describedby="alamat-error" @endif
                         class="block min-h-11 w-full rounded-control border bg-surface px-3.5 py-2.5 text-base text-neutral-900 placeholder:text-neutral-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 {{ $errors->has('alamat') ? 'border-bahaya-600' : 'border-neutral-200' }}"
                     >{{ old('alamat') }}</textarea>
@@ -169,7 +166,6 @@
                     :value="old('kontak')"
                     x-bind:required="tipe === 'vendor'"
                     x-bind:disabled="tipe !== 'vendor'"
-                    @if ($tipeAwal !== 'vendor') disabled @endif
                 />
             </div>
 
