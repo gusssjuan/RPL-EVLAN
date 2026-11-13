@@ -2,7 +2,7 @@
     <section class="bg-neutral-50">
         <div class="mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
             <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-                <div class="lg:col-span-5">
+                <div class="min-w-0 lg:col-span-5">
                     <h1 class="judul-h1 text-neutral-900">
                         Dari H-60 sampai hari H, semua panitia tahu tugasnya.
                     </h1>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-7">
+                <div class="min-w-0 lg:col-span-7">
                     <picture>
                         <source
                             type="image/webp"
@@ -52,11 +52,11 @@
 
     <section class="border-t border-neutral-200 bg-surface">
         <div class="mx-auto grid w-full max-w-[72rem] gap-8 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-12">
-            <div class="lg:col-span-4">
+            <div class="min-w-0 lg:col-span-4">
                 <h2 class="judul-h2 text-neutral-900">Persiapan acara sering tercecer di banyak tempat</h2>
             </div>
 
-            <div class="grid gap-8 sm:grid-cols-2 sm:gap-0 sm:divide-x sm:divide-neutral-200 lg:col-span-8">
+            <div class="grid min-w-0 gap-8 sm:grid-cols-2 sm:gap-0 sm:divide-x sm:divide-neutral-200 lg:col-span-8">
                 <div class="sm:pr-8">
                     <h3 class="text-sm font-semibold text-neutral-900">Sekarang</h3>
                     <ul class="mt-4 list-disc space-y-3 pl-5 text-base leading-7 text-neutral-600 marker:text-neutral-400">
@@ -84,11 +84,11 @@
 
             <ol class="mt-10 max-w-[45rem]">
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
-                    <div class="flex flex-col items-center">
+                    <div class="flex shrink-0 flex-col items-center">
                         <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">01</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
-                    <div class="pt-1">
+                    <div class="min-w-0 flex-1 pt-1">
                         <h3 class="font-display text-lg font-semibold text-neutral-900">Pilih kategori acara</h3>
                         <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
                             Seminar, wedding, 17 Agustus, ulang tahun, atau gathering. Kebutuhan, timeline, dan struktur panitia untuk kategori itu langsung terlihat.
@@ -97,11 +97,11 @@
                 </li>
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
-                    <div class="flex flex-col items-center">
+                    <div class="flex shrink-0 flex-col items-center">
                         <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">02</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
-                    <div class="pt-1">
+                    <div class="min-w-0 flex-1 pt-1">
                         <h3 class="font-display text-lg font-semibold text-neutral-900">Isi detail acara</h3>
                         <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
                             Nama, tanggal, lokasi, dan jumlah peserta. Checklist dan timeline H-n dihitung dari tanggal acara.
@@ -110,11 +110,11 @@
                 </li>
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
-                    <div class="flex flex-col items-center">
+                    <div class="flex shrink-0 flex-col items-center">
                         <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">03</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
-                    <div class="pt-1">
+                    <div class="min-w-0 flex-1 pt-1">
                         <h3 class="font-display text-lg font-semibold text-neutral-900">Bentuk kepanitiaan</h3>
                         <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
                             Tambah divisi, undang anggota lewat email, lalu bagikan tugas lengkap dengan deadline.
@@ -123,11 +123,11 @@
                 </li>
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
-                    <div class="flex flex-col items-center">
+                    <div class="flex shrink-0 flex-col items-center">
                         <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">04</span>
                         <span class="mt-3 w-0.5 flex-1 bg-neutral-200" aria-hidden="true"></span>
                     </div>
-                    <div class="pt-1">
+                    <div class="min-w-0 flex-1 pt-1">
                         <h3 class="font-display text-lg font-semibold text-neutral-900">Pantau progres</h3>
                         <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
                             Anggota memperbarui status tugasnya. Ketua melihat progres tiap divisi dan tugas yang sudah lewat deadline.
@@ -136,10 +136,10 @@
                 </li>
 
                 <li class="flex gap-5 pb-10 last:pb-0 sm:gap-7">
-                    <div class="flex flex-col items-center">
+                    <div class="flex shrink-0 flex-col items-center">
                         <span class="font-display text-[2rem] font-semibold leading-[2.25rem] tabular-nums text-neutral-900 sm:text-[2.5rem] sm:leading-[2.75rem]">05</span>
                     </div>
-                    <div class="pt-1">
+                    <div class="min-w-0 flex-1 pt-1">
                         <h3 class="font-display text-lg font-semibold text-neutral-900">Atur anggaran dan cari vendor</h3>
                         <p class="mt-2 max-w-[62ch] text-base leading-7 text-neutral-600">
                             Hitung estimasi biaya dari jumlah dan harga satuan, lalu lihat vendor terverifikasi untuk catering, dekorasi, dokumentasi, dan sound system.
@@ -152,12 +152,12 @@
 
     <section id="contoh-hasil" class="scroll-mt-20 border-t border-neutral-200 bg-surface">
         <div class="mx-auto grid w-full max-w-[72rem] gap-10 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-12">
-            <div class="lg:col-span-4">
+            <div class="min-w-0 lg:col-span-4">
                 <h2 class="judul-h2 text-neutral-900">Contoh timeline untuk seminar pada 12 Desember 2026</h2>
                 <p class="mt-4 max-w-[62ch] text-base leading-7 text-neutral-600">Dihitung otomatis dari tanggal acara. Ini data contoh.</p>
             </div>
 
-            <ol class="lg:col-span-8">
+            <ol class="min-w-0 lg:col-span-8">
                 <li class="border-b border-neutral-200 py-4 first:pt-0">
                     <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
                         <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-60</span>
@@ -216,7 +216,7 @@
             <h2 class="judul-h2 text-neutral-900">Yang dibantu EVLAN</h2>
 
             <div class="mt-10 grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
-                <div class="lg:col-span-5">
+                <div class="min-w-0 lg:col-span-5">
                     <picture>
                         <source
                             type="image/webp"
@@ -235,28 +235,28 @@
                     </picture>
                 </div>
 
-                <ol class="space-y-5 lg:col-span-7">
-                    <li class="grid grid-cols-[2rem_1fr] gap-3">
+                <ol class="min-w-0 space-y-5 lg:col-span-7">
+                    <li class="grid grid-cols-[auto_1fr] gap-2">
                         <span class="font-display text-lg font-semibold tabular-nums text-primary-700">1</span>
                         <p class="text-base leading-7 text-neutral-900">Merancang acara berdasarkan kategori dan kebutuhan yang sesuai.</p>
                     </li>
-                    <li class="grid grid-cols-[2rem_1fr] gap-3">
+                    <li class="grid grid-cols-[auto_1fr] gap-2">
                         <span class="font-display text-lg font-semibold tabular-nums text-primary-700">2</span>
                         <p class="text-base leading-7 text-neutral-900">Memakai template perencanaan, jadi tidak perlu membuat rencana dari awal.</p>
                     </li>
-                    <li class="grid grid-cols-[2rem_1fr] gap-3">
+                    <li class="grid grid-cols-[auto_1fr] gap-2">
                         <span class="font-display text-lg font-semibold tabular-nums text-primary-700">3</span>
                         <p class="text-base leading-7 text-neutral-900">Membagi jobdesk ke tiap divisi atau anggota panitia.</p>
                     </li>
-                    <li class="grid grid-cols-[2rem_1fr] gap-3">
+                    <li class="grid grid-cols-[auto_1fr] gap-2">
                         <span class="font-display text-lg font-semibold tabular-nums text-primary-700">4</span>
                         <p class="text-base leading-7 text-neutral-900">Memantau progres pekerjaan lewat status tugas.</p>
                     </li>
-                    <li class="grid grid-cols-[2rem_1fr] gap-3">
+                    <li class="grid grid-cols-[auto_1fr] gap-2">
                         <span class="font-display text-lg font-semibold tabular-nums text-primary-700">5</span>
                         <p class="text-base leading-7 text-neutral-900">Melihat vendor yang menyediakan kebutuhan acara.</p>
                     </li>
-                    <li class="grid grid-cols-[2rem_1fr] gap-3">
+                    <li class="grid grid-cols-[auto_1fr] gap-2">
                         <span class="font-display text-lg font-semibold tabular-nums text-primary-700">6</span>
                         <p class="text-base leading-7 text-neutral-900">Memperkirakan anggaran dan menyiapkan kebutuhan acara.</p>
                     </li>
@@ -270,7 +270,7 @@
             <h2 class="judul-h2 text-neutral-900">Untuk siapa</h2>
 
             <div class="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-12">
-                <ul class="list-disc space-y-3 pl-5 text-base leading-7 text-neutral-900 marker:text-neutral-400">
+                <ul class="min-w-0 list-disc space-y-3 pl-5 text-base leading-7 text-neutral-900 marker:text-neutral-400">
                     <li>Mahasiswa dan organisasi kampus</li>
                     <li>Komunitas</li>
                     <li>Event organizer pemula</li>
@@ -278,7 +278,7 @@
                     <li>Siapa saja yang ingin membuat acara</li>
                 </ul>
 
-                <div class="border-t border-neutral-200 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+                <div class="min-w-0 border-t border-neutral-200 pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
                     <h3 class="font-display text-lg font-semibold text-neutral-900">Punya usaha penyedia kebutuhan acara?</h3>
                     <p class="mt-3 max-w-[62ch] text-base leading-7 text-neutral-600">
                         Daftar sebagai vendor. Setelah diverifikasi Admin, usaha Anda tampil di pencarian vendor. Transaksi dilakukan langsung dengan penyelenggara, di luar EVLAN.
@@ -296,7 +296,7 @@
 
     <section class="bg-sidebar">
         <div class="mx-auto flex w-full max-w-[72rem] flex-col gap-6 px-5 py-14 sm:px-8 md:flex-row md:items-center md:justify-between md:py-20">
-            <div>
+            <div class="min-w-0">
                 <h2 class="judul-h2 text-white">Mulai dari acara berikutnya</h2>
                 <p class="mt-3 max-w-[52ch] text-base leading-7 text-white">Buat akun, pilih kategori, dan lihat checklist serta timeline acara Anda.</p>
             </div>

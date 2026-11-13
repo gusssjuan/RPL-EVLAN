@@ -13,7 +13,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-svh bg-neutral-50 font-sans text-neutral-900 antialiased">
+<body class="min-h-svh bg-neutral-50 font-sans text-neutral-900 antialiased [overflow-wrap:anywhere]">
     <a
         href="#konten"
         class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-primary-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
@@ -22,7 +22,7 @@
     </a>
 
     <header class="border-b border-neutral-200 bg-neutral-50">
-        <div class="mx-auto flex h-16 w-full max-w-[72rem] items-center justify-between gap-3 px-4 sm:px-8">
+        <div class="mx-auto flex min-h-16 w-full max-w-[72rem] flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-2 sm:px-8">
             <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center rounded-control focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2">
                 <x-logo variant="purple" />
             </a>

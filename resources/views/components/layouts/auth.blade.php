@@ -18,7 +18,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-neutral-50 font-sans text-neutral-900 antialiased">
+<body class="bg-neutral-50 font-sans text-neutral-900 antialiased [overflow-wrap:anywhere]">
     <a
         href="#konten"
         class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-primary-600 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"

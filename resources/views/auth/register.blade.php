@@ -27,8 +27,8 @@
         <fieldset>
             <legend class="sr-only">Jenis akun</legend>
 
-            <div class="grid grid-cols-2 gap-1 rounded-control border border-neutral-200 bg-neutral-100 p-1">
-                <label class="cursor-pointer">
+            <div class="flex flex-wrap gap-1 rounded-control border border-neutral-200 bg-neutral-100 p-1">
+                <label class="min-w-32 flex-1 cursor-pointer">
                     <input
                         type="radio"
                         name="tipe"
@@ -42,7 +42,7 @@
                     </span>
                 </label>
 
-                <label class="cursor-pointer">
+                <label class="min-w-32 flex-1 cursor-pointer">
                     <input
                         type="radio"
                         name="tipe"
