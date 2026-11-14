@@ -10,14 +10,14 @@
 
 | Item | Nilai |
 |---|---|
-| Phase aktif | Redesign halaman publik (landing, login, register) selesai; Phase 11 — NFR, Hardening, Pengujian, Dokumentasi tetap menjadi phase berikutnya |
-| Task terakhir selesai | Redesign halaman publik (di luar penomoran phase) |
+| Phase aktif | Landing menampilkan kegiatan publik terbaru dan animasi scroll; Phase 11 — NFR, Hardening, Pengujian, Dokumentasi tetap menjadi phase berikutnya |
+| Task terakhir selesai | Section kegiatan terbuka + animasi scroll pada landing (di luar penomoran phase) |
 | Task sedang dikerjakan | Serah-terima branch `redesign/halaman-publik` |
 | Branch aktif | `redesign/halaman-publik` |
-| Commit terakhir | `8ed31a9` (kode) + commit dokumentasi Sesi 14 |
-| Hasil `php artisan test` terakhir | **208 passed (707 assertions)** |
-| Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js, 4.26s) |
-| Terakhir diperbarui | 2026-11-13, Sesi 14 |
+| Commit terakhir | `9629e41` (kode) + commit dokumentasi Sesi 15 |
+| Hasil `php artisan test` terakhir | **211 passed (723 assertions)** |
+| Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js, 6.32s) |
+| Terakhir diperbarui | 2026-11-14, Sesi 15 |
 
 ---
 
@@ -274,6 +274,31 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
   - Membuat skrip `commit_phase_10.bat` untuk 5 commit terstruktur.
 - **Status saat ini**: **PHASE 10 SELESAI PENUH**.
 - **Untuk sesi berikutnya**: **Phase 11 — NFR, Hardening, Pengujian, Dokumentasi (T11.1 s/d T11.5)** dengan **Checkpoint Review wajib setelah T11.1**.
+
+### Sesi 2026-11-14 (Sesi 15) — Kegiatan terbuka dan animasi scroll
+
+- **Permintaan pemilik proyek**: ganti section "Contoh timeline" pada landing dengan daftar kegiatan yang bersifat terbuka; tambahkan animasi scroll agar UX lebih menarik.
+- **Data**:
+  - Route `/` tetap; closure diganti `LandingController` (invokable).
+  - Query: `Event::publik()` yang `tanggal >= hari ini`, urut tanggal lalu `id`, `limit(3)`, eager load `category` + `leader`, dan `withCount` pendaftaran `diterima`.
+  - Status per baris dihitung dari `pendaftaran_dibuka`, `batas_pendaftaran`, dan `kuota` vs jumlah diterima.
+- **Tampilan**:
+  - Section `#cari-kegiatan` menjadi "Kegiatan terbuka yang bisa Anda ikuti" dengan daftar bergaya rundown, bukan kartu statistik.
+  - Tiap baris: chip H-n `aksen-500`, tanggal `tabular-nums`, kategori + ikon, nama kegiatan, lokasi, penyelenggara, status pendaftaran (ikon + label + warna), dan tautan detail. Seluruh baris dapat diklik.
+  - Tautan "Lihat semua kegiatan" ke `cari-acara.index`; keadaan kosong menampilkan kalimat dan tombol "Mulai kegiatan".
+- **Animasi scroll**:
+  - Kelas `.animasi-scroll` pada bagian setelah hero memakai `animation-timeline: view()` dengan opacity + translate 20 px, `animation-range: entry 5% entry 40%`.
+  - Hanya aktif bila `prefers-reduced-motion: no-preference` dan browser mendukung scroll timeline; tanpa dukungan, konten tetap terlihat.
+  - Diuji via CDP: normal sebelum scroll `opacity: 0`, setelah masuk viewport `opacity: 1`; mode reduced-motion `animation: none`, `opacity: 1`.
+  - Pengecualian aturan skill dicatat di `DECISIONS.md` L-017.
+- **Verifikasi**:
+  - Screenshot Edge headless 1440/390 (`kegiatan-1440.png`, `kegiatan-390.png`): layout daftar rapi, tanpa overflow.
+  - Zoom teks 200% di 320/1440 untuk landing, login, register: tanpa luapan.
+  - Audit berkas landing: **0 FAIL**.
+  - `php artisan test`: **211 passed (723 assertions)**; `npm run build`: sukses, CSS 93,64 kB.
+  - Data uji sementara untuk screenshot (`Uji Tampilan ...`) sudah dihapus dari DB lokal.
+- **Test**: `LandingKegiatanTest` (3 test) mencakup publik/terdekat/maksimal tiga, status pendaftaran, dan keadaan kosong; `PublicPagesMarkupTest` memakai `RefreshDatabase`; assertion `GlobalPagesTest` diselaraskan dengan judul section baru.
+- **Sisa**: audit direktori penuh masih FAIL karena utang visual lama (L-016).
 
 ### Sesi 2026-11-13 (Sesi 14) — Redesign halaman publik (landing, login, register)
 
