@@ -42,7 +42,7 @@
                             alt="Dua pasangan panitia berdiskusi di depan papan nama EVLAN"
                             fetchpriority="high"
                             decoding="async"
-                            class="h-auto w-full rounded-panel border border-neutral-200"
+                            class="h-auto w-full rounded-panel"
                         >
                     </picture>
                 </div>
@@ -51,7 +51,7 @@
     </section>
 
     <section class="border-t border-neutral-200 bg-surface">
-        <div class="mx-auto grid w-full max-w-[72rem] gap-8 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-12">
+        <div class="animasi-scroll mx-auto grid w-full max-w-[72rem] gap-8 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-12">
             <div class="min-w-0 lg:col-span-4">
                 <h2 class="judul-h2 text-neutral-900">Persiapan acara sering tercecer di banyak tempat</h2>
             </div>
@@ -79,7 +79,7 @@
     </section>
 
     <section id="cara-kerja" class="scroll-mt-20 border-t border-neutral-200 bg-primary-600">
-        <div class="mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
+        <div class="animasi-scroll mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
             <h2 class="judul-h2 text-neutral-200">Cara kerjanya</h2>
 
             <ol class="mt-10 max-w-[45rem]">
@@ -151,68 +151,103 @@
     </section>
 
     <section id="cari-kegiatan" class="scroll-mt-20 border-t border-neutral-200 bg-surface">
-        <div class="mx-auto grid w-full max-w-[72rem] gap-10 px-5 py-14 sm:px-8 md:py-20 lg:grid-cols-12 lg:gap-12">
-            <div class="min-w-0 lg:col-span-4">
-                <h2 class="judul-h2 text-neutral-900">Contoh timeline untuk seminar pada 12 Desember 2026</h2>
-                <p class="mt-4 max-w-[62ch] text-base leading-7 text-neutral-600">Dihitung otomatis dari tanggal acara. Ini data contoh.</p>
+        <div class="animasi-scroll mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div class="min-w-0">
+                    <h2 class="judul-h2 text-neutral-900">Kegiatan terbuka yang bisa Anda ikuti</h2>
+                    <p class="mt-3 max-w-[62ch] text-base leading-7 text-neutral-600">
+                        Acara publik terdekat dari penyelenggara lain. Buka detail untuk melihat jadwal, lokasi, dan pendaftaran.
+                    </p>
+                </div>
+
+                @if ($kegiatan->isNotEmpty())
+                    <a
+                        href="{{ route('cari-acara.index') }}"
+                        class="inline-flex min-h-11 items-center rounded-control text-sm font-medium text-primary-700 underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+                    >
+                        Lihat semua kegiatan
+                    </a>
+                @endif
             </div>
 
-            <ol class="min-w-0 lg:col-span-8">
-                <li class="border-b border-neutral-200 py-4 first:pt-0">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-60</span>
-                        <time datetime="2026-10-13" class="text-sm tabular-nums text-neutral-600">Sel, 13 Okt 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Membuat konsep dan proposal</span>
-                    </div>
-                </li>
-                <li class="border-b border-neutral-200 py-4">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-45</span>
-                        <time datetime="2026-10-28" class="text-sm tabular-nums text-neutral-600">Rab, 28 Okt 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Konfirmasi narasumber dan moderator</span>
-                    </div>
-                </li>
-                <li class="border-b border-neutral-200 py-4">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-30</span>
-                        <time datetime="2026-11-12" class="text-sm tabular-nums text-neutral-600">Kam, 12 Nov 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Publikasi dan persiapan vendor</span>
-                    </div>
-                </li>
-                <li class="border-b border-neutral-200 py-4">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-7</span>
-                        <time datetime="2026-12-05" class="text-sm tabular-nums text-neutral-600">Sab, 5 Des 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Final checking</span>
-                    </div>
-                </li>
-                <li class="border-b border-neutral-200 py-4">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-3</span>
-                        <time datetime="2026-12-09" class="text-sm tabular-nums text-neutral-600">Rab, 9 Des 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Gladi bersih</span>
-                    </div>
-                </li>
-                <li class="border-b border-neutral-200 py-4">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">H-1</span>
-                        <time datetime="2026-12-11" class="text-sm tabular-nums text-neutral-600">Jum, 11 Des 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Persiapan lokasi</span>
-                    </div>
-                </li>
-                <li class="py-4 last:pb-0">
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:grid sm:grid-cols-[5.5rem_9.5rem_1fr] sm:items-center">
-                        <span class="inline-flex w-fit items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold text-neutral-900">Hari H</span>
-                        <time datetime="2026-12-12" class="text-sm tabular-nums text-neutral-600">Sab, 12 Des 2026</time>
-                        <span class="w-full text-base text-neutral-900 sm:w-auto">Pelaksanaan acara</span>
-                    </div>
-                </li>
-            </ol>
+            @if ($kegiatan->isEmpty())
+                <div class="mt-10 border-t border-neutral-200 py-10">
+                    <p class="max-w-[62ch] text-base leading-7 text-neutral-600">
+                        Belum ada kegiatan terbuka saat ini. Anda bisa mulai menyusun acara sendiri.
+                    </p>
+                    <a
+                        href="{{ route('login') }}"
+                        class="mt-4 inline-flex min-h-11 items-center justify-center rounded-control bg-primary-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
+                    >
+                        Mulai kegiatan
+                    </a>
+                </div>
+            @else
+                <ol class="mt-10 border-t border-neutral-200">
+                    @foreach ($kegiatan as $event)
+                        @php
+                            $kuotaPenuh = $event->kuota !== null && $event->diterima_count >= $event->kuota;
+                            $batasLewat = $event->batas_pendaftaran && $event->batas_pendaftaran->lt(today());
+                            $pendaftaranTerbuka = $event->pendaftaran_dibuka && ! $kuotaPenuh && ! $batasLewat;
+
+                            $status = $pendaftaranTerbuka
+                                ? ['label' => 'Pendaftaran dibuka', 'icon' => 'circle-check', 'class' => 'text-sukses-600']
+                                : ($kuotaPenuh
+                                    ? ['label' => 'Kuota penuh', 'icon' => 'users', 'class' => 'text-bahaya-600']
+                                    : ['label' => 'Pendaftaran ditutup', 'icon' => 'clock', 'class' => 'text-neutral-600']);
+                        @endphp
+
+                        <li class="border-b border-neutral-200">
+                            <a
+                                href="{{ route('cari-acara.show', $event) }}"
+                                class="group -mx-3 grid gap-4 rounded-control px-3 py-6 transition-colors hover:bg-neutral-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 sm:grid-cols-[6rem_1fr_auto] sm:items-center sm:gap-6"
+                            >
+                                <div class="flex items-center gap-3 sm:block">
+                                    <span class="inline-flex items-center rounded-full bg-aksen-500 px-2.5 py-1 text-sm font-semibold tabular-nums text-neutral-900">
+                                        {{ $event->hari_menuju }}
+                                    </span>
+                                    <time datetime="{{ $event->tanggal->toDateString() }}" class="text-sm tabular-nums text-neutral-600 sm:mt-2 sm:block">
+                                        {{ $event->tanggal->locale('id')->isoFormat('D MMM Y') }}
+                                    </time>
+                                </div>
+
+                                <div class="min-w-0">
+                                    <p class="flex items-center gap-1.5 text-sm text-neutral-600">
+                                        <x-category-icon :kategori="$event->category" class="h-4 w-4 shrink-0" />
+                                        <span>{{ $event->category?->nama_kategori }}</span>
+                                    </p>
+                                    <h3 class="mt-1 font-display text-lg font-semibold leading-6 text-neutral-900 transition-colors group-hover:text-primary-700">
+                                        {{ $event->nama_event }}
+                                    </h3>
+                                    <p class="mt-2 flex min-w-0 items-center gap-1.5 text-sm text-neutral-600">
+                                        <x-icon name="map-pin" class="h-4 w-4 shrink-0" />
+                                        <span class="truncate">{{ $event->lokasi }}</span>
+                                    </p>
+                                    @if ($event->penyelenggara)
+                                        <p class="mt-1 flex min-w-0 items-center gap-1.5 text-sm text-neutral-600">
+                                            <x-icon name="building-2" class="h-4 w-4 shrink-0" />
+                                            <span class="truncate">{{ $event->penyelenggara }}</span>
+                                        </p>
+                                    @endif
+                                </div>
+
+                                <div class="flex flex-wrap items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-center">
+                                    <span class="inline-flex items-center gap-1.5 text-sm font-medium {{ $status['class'] }}">
+                                        <x-icon :name="$status['icon']" class="h-4 w-4 shrink-0" />
+                                        <span>{{ $status['label'] }}</span>
+                                    </span>
+                                    <span class="text-sm font-medium text-primary-700 group-hover:underline">Lihat kegiatan</span>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                </ol>
+            @endif
         </div>
     </section>
 
     <section id="tujuan" class="scroll-mt-20 border-t border-neutral-200 bg-neutral-50">
-        <div class="mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
+        <div class="animasi-scroll mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
             <h2 class="judul-h2 text-neutral-900">Yang dibantu EVLAN</h2>
 
             <div class="mt-10 grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
@@ -266,7 +301,7 @@
     </section>
 
     <section id="untuk-siapa" class="scroll-mt-20 border-t border-neutral-200 bg-surface">
-        <div class="mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
+        <div class="animasi-scroll mx-auto w-full max-w-[72rem] px-5 py-14 sm:px-8 md:py-20">
             <h2 class="judul-h2 text-neutral-900">Untuk siapa</h2>
 
             <div class="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-12">
@@ -295,7 +330,7 @@
     </section>
 
     <section class="bg-sidebar">
-        <div class="mx-auto flex w-full max-w-[72rem] flex-col gap-6 px-5 py-14 sm:px-8 md:flex-row md:items-center md:justify-between md:py-20">
+        <div class="animasi-scroll mx-auto flex w-full max-w-[72rem] flex-col gap-6 px-5 py-14 sm:px-8 md:flex-row md:items-center md:justify-between md:py-20">
             <div class="min-w-0">
                 <h2 class="judul-h2 text-white">Mulai dari acara berikutnya</h2>
                 <p class="mt-3 max-w-[52ch] text-base leading-7 text-white">Buat akun, pilih kategori, dan lihat checklist serta timeline acara Anda.</p>

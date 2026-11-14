@@ -22,6 +22,7 @@ use App\Http\Controllers\Event\TaskController;
 use App\Http\Controllers\Event\TimelineController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventHistoryController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Vendor\VendorDashboardController;
@@ -30,9 +31,7 @@ use App\Http\Controllers\Vendor\VendorProfileController;
 use App\Http\Controllers\Vendor\VendorSearchController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', LandingController::class);
 
 // Guest Auth Routes
 Route::middleware('guest')->group(function () {

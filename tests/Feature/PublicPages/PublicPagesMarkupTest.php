@@ -2,10 +2,13 @@
 
 namespace Tests\Feature\PublicPages;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PublicPagesMarkupTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_halaman_publik_memakai_markup_dasar_yang_benar(): void
     {
         foreach (['/', '/login', '/register'] as $url) {

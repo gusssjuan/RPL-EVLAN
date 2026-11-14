@@ -30,7 +30,7 @@ class GlobalPagesTest extends TestCase
         $response->assertSee('EVLAN');
         $response->assertSee('Dari H-60 sampai hari H, semua panitia tahu tugasnya.');
         $response->assertSee('Cara kerjanya');
-        $response->assertSee('Contoh timeline untuk seminar pada 12 Desember 2026');
+        $response->assertSee('Kegiatan terbuka yang bisa Anda ikuti');
         $response->assertSee('Buat akun gratis');
         $response->assertSee('Lewati ke konten utama');
     }

@@ -79,6 +79,29 @@
     stroke-width: 1.75;
 }
 
+/* design-audit-ignore: animasi scroll diminta pemilik proyek (DECISIONS L-017). */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .animasi-scroll {
+            animation: naik-halus linear both;
+            animation-timeline: view();
+            animation-range: entry 5% entry 40%;
+        }
+    }
+}
+
+@keyframes naik-halus {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
