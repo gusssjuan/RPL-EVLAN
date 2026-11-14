@@ -12,9 +12,9 @@
 |---|---|
 | Phase aktif | Landing menampilkan kegiatan publik terbaru dan animasi scroll; Phase 11 — NFR, Hardening, Pengujian, Dokumentasi tetap menjadi phase berikutnya |
 | Task terakhir selesai | Section kegiatan terbuka + animasi scroll pada landing (di luar penomoran phase) |
-| Task sedang dikerjakan | Serah-terima branch `redesign/halaman-publik` |
-| Branch aktif | `redesign/halaman-publik` |
-| Commit terakhir | `9629e41` (kode) + commit dokumentasi Sesi 15 |
+| Task sedang dikerjakan | Serah-terima perubahan landing di `main` |
+| Branch aktif | `main` (branch `redesign/halaman-publik` sudah di-merge lewat PR #1) |
+| Commit terakhir | `9629e41` (kode) + dokumentasi Sesi 15 di `main` |
 | Hasil `php artisan test` terakhir | **211 passed (723 assertions)** |
 | Hasil `npm run build` terakhir | Sukses (Vite + Tailwind v4 + Alpine.js, 6.32s) |
 | Terakhir diperbarui | 2026-11-14, Sesi 15 |
@@ -298,7 +298,7 @@ Checkpoint: agent berhenti setelah T1.1, T4.3, dan T11.1 sampai ada "OK" di sini
   - `php artisan test`: **211 passed (723 assertions)**; `npm run build`: sukses, CSS 93,64 kB.
   - Data uji sementara untuk screenshot (`Uji Tampilan ...`) sudah dihapus dari DB lokal.
 - **Test**: `LandingKegiatanTest` (3 test) mencakup publik/terdekat/maksimal tiga, status pendaftaran, dan keadaan kosong; `PublicPagesMarkupTest` memakai `RefreshDatabase`; assertion `GlobalPagesTest` diselaraskan dengan judul section baru.
-- **Sisa**: audit direktori penuh masih FAIL karena utang visual lama (L-016).
+- **Sisa**: audit direktori penuh masih FAIL karena utang visual lama (L-016). Perubahan sesi ini berada di `main` setelah branch `redesign/halaman-publik` di-merge (PR #1).
 
 ### Sesi 2026-11-13 (Sesi 14) — Redesign halaman publik (landing, login, register)
 
