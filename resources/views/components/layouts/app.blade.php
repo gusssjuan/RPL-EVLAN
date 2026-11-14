@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" href="{{ asset('images/logo/purple.svg') }}" type="image/svg">
     <title>{{ $title ?? 'EVLAN' }} - Event Planner Organizer</title>
 
     <!-- Scripts and Styles -->
@@ -37,13 +37,9 @@
             <div>
                 <!-- Brand / Logo -->
                 <div class="h-16 flex items-center px-6 border-b border-gray-100 gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-extrabold text-lg shadow-sm">
-                        E
-                    </div>
-                    <div>
-                        <span class="text-lg font-black tracking-tight text-gray-900">EVLAN</span>
-                        <span class="block text-[10px] font-medium text-gray-400 uppercase tracking-wider -mt-1">Event Planner</span>
-                    </div>
+                   <a href="{{ url('/') }}" class="inline-flex shrink-0 items-center rounded-control focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2">
+                        <x-logo variant="purple" />
+                    </a>
                 </div>
 
                 <!-- Navigation Links -->
